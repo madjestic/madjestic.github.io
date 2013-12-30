@@ -8,11 +8,15 @@
 	<meta name="author" content>
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - Home123</title>
+        <title>My Hakyll Blog - Haskell Gems</title>
 
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="../css/bootstrap.css">
+
+	<!-- Code syntax highlighting CSS -->
+	<link rel="stylesheet" href="../css/syntax.css">
+
 
     </head>
 
@@ -50,17 +54,38 @@
 
 		    <!-- content -->
 		    <div class="starter-template">
-			<!-- <h1>Home123</h1> -->
+			<!-- <h1>Haskell Gems</h1> -->
 		    </div>
 		    <div>
 			<p class="small"><div class="info">
-    Posted on December 13, 2013
+    Posted on December 30, 2013
     
 </div>
 
-<h1 id="overview">Overview</h1>
-<p>Hakyll is a <a href="http://haskell.org">Haskell</a> library for generating static sites, mostly aimed at small-to-medium sites and personal blogs. It is written in a very confugurable way and uses and <a href="http://xmonad.org">xmonad</a>-like DSL for configuration.</p>
-<p>Integration with <a href="http://johnmacfarlane.net/pandoc/">pandoc</a> gives us markdown…</p>
+<h2 id="examples-of-beautiful-haskell-code">Examples of beautiful haskell code</h2>
+<p><br /><br />``` haskell module Main where</p>
+<p>import System.IO</p>
+<p>main = readFile “input.txt” &gt;&gt;= print.length.lines ```<br /><br />## [Lazy Pattern Matching]</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE NoMonomorphismRestriction #-}</span>
+<span class="ot">{-# LANGUAGE FlexibleInstances #-}</span>
+<span class="ot">{-# LANGUAGE GADTs #-}</span>
+
+<span class="kw">class</span> <span class="dt">Foo</span> a <span class="kw">where</span> 
+<span class="ot">    foo ::</span> a 
+
+<span class="kw">instance</span> a <span class="fu">~</span> <span class="dt">Int</span> <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="kw">where</span> 
+    foo k <span class="fu">=</span> k
+
+<span class="kw">instance</span> (a <span class="fu">~</span> <span class="dt">Int</span>, b <span class="fu">~</span> <span class="dt">Int</span>) <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="kw">where</span> 
+    foo k l <span class="fu">=</span> k<span class="fu">+</span>l
+
+<span class="kw">instance</span> (a <span class="fu">~</span> <span class="dt">String</span>) <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> <span class="dt">String</span>) <span class="kw">where</span> 
+    foo k <span class="fu">=</span> k
+
+<span class="co">-- | usage: </span>
+<span class="co">-- | foo 1 :: Int</span>
+<span class="co">-- | foo 1 2 :: Int</span>
+<span class="co">-- | foo &quot;bar&quot;:: String</span></code></pre>
 </p>
 		    </div>
 		    <!-- /content -->

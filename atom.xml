@@ -216,10 +216,15 @@ onDisplay</code></pre>
     
 </div>
 
-<h2 id="examples-of-beautiful-haskell-code">Examples of beautiful haskell code</h2>
-<p><br /><br />``` haskell module Main where</p>
-<p>import System.IO</p>
-<p>main = readFile “input.txt” &gt;&gt;= print.length.lines ```<br /><br />## [Lazy Pattern Matching]</p>
+<h3 id="examples-of-beautiful-haskell-code">Examples of beautiful haskell code</h3>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+<span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="kw">import </span><span class="dt">System.IO</span>
+
+main <span class="fu">=</span> readFile <span class="st">&quot;input.txt&quot;</span> <span class="fu">&gt;&gt;=</span> print<span class="fu">.</span>length<span class="fu">.</span>lines</code></pre>
+<p><br /></p>
+<h3 id="lazy-pattern-matching">[Lazy Pattern Matching]</h3>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE NoMonomorphismRestriction #-}</span>
 <span class="ot">{-# LANGUAGE FlexibleInstances #-}</span>
 <span class="ot">{-# LANGUAGE GADTs #-}</span>

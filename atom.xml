@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>A blog on Mathematics and Haskell</title>
+    <link href="http://healthycooking.example.com/atom.xml" rel="self" />
+    <link href="http://healthycooking.example.com" />
+    <id>http://healthycooking.example.com/atom.xml</id>
+    <author>
+        <name>Vladimir Lopatin</name>
+        <email>madjestic13@gmail.com</email>
+    </author>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <entry>
+    <title>Post-Post Modern OpenGL in Haskell 3</title>
+    <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html" />
+    <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html</id>
+    <published>2013-12-30T00:00:00Z</published>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on December 30, 2013
+    
+</div>
+
+<h2 id="post-post-modern-opengl-in-haskell-3-wip">Post-Post Modern OpenGL in Haskell 3 (WIP)</h2>
+<p><br /><br />We continue with introducing basic vertex/fragment shader support, vertex buffer array object.</p>
+<p>Parts of the code and module LoadShaders taken from <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">svenpanne GLUT example files</a></p>
+<p>The code was modified in order to exclude GLUT dependencies.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
+<span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
+<span class="kw">import </span><span class="dt">Control.Monad</span>
+<span class="kw">import </span><span class="dt">LoadShaders</span>
+<span class="kw">import </span><span class="dt">Foreign.Marshal.Array</span>
+<span class="kw">import </span><span class="dt">Foreign.Ptr</span>
+<span class="kw">import </span><span class="dt">Foreign.Storable</span>
+
+
+<span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ptr</span> b
+bufferOffset <span class="fu">=</span> plusPtr nullPtr <span class="fu">.</span> fromIntegral
+
+
+<span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
+
+
+<span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
+initResources <span class="fu">=</span> <span class="kw">do</span>
+  triangles <span class="ot">&lt;-</span> genObjectName
+  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
+
+  <span class="kw">let</span> vertices <span class="fu">=</span> [
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
+      numVertices <span class="fu">=</span> length vertices
+
+  arrayBuffer <span class="ot">&lt;-</span> genObjectName
+  bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
+    <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
+    bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)
+
+  program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
+
+  <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
+      vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
+  vertexAttribPointer vPosition <span class="fu">$=</span>
+    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
+  vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span>
+
+  return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)
+
+                    
+<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+resizeWindow size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="fu">=</span>
+    <span class="kw">do</span>
+      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
+      GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
+      GL.loadIdentity
+      GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span>
+
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+  GLFW.initialize
+  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
+  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
+  GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
+  descriptor <span class="ot">&lt;-</span> initResources
+  onDisplay descriptor
+  GLFW.closeWindow
+  GLFW.terminate
+
+
+<span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span> triangles firstIndex numVertices) <span class="fu">=</span> <span class="kw">do</span>
+  GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
+  GL.clear [<span class="dt">ColorBuffer</span>]
+  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
+  drawArrays <span class="dt">Triangles</span> firstIndex numVertices
+  GLFW.swapBuffers
+
+  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
+  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre>
+]]></summary>
+</entry>
+<entry>
+    <title>Post-Post Modern OpenGL in Haskell 2</title>
+    <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html" />
+    <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html</id>
+    <published>2013-12-30T00:00:00Z</published>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on December 30, 2013
+    
+</div>
+
+<h2 id="post-post-modern-opengl-in-haskell-2">Post-Post Modern OpenGL in Haskell 2</h2>
+<p><br /><br />We continue with introduction of 2 new functions:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<p>and</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
+  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
+<span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
+<span class="kw">import </span><span class="dt">Control.Monad</span>
+
+
+<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+resizeWindow <span class="fu">=</span>
+  \ size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="ot">-&gt;</span>
+    <span class="kw">do</span>
+      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
+      GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
+      GL.loadIdentity
+      GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span>
+
+  
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+  GLFW.initialize
+  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
+  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
+  GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
+  onDisplay
+  GLFW.closeWindow
+  GLFW.terminate
+
+
+<span class="ot">onDisplay ::</span> <span class="dt">IO</span> ()
+onDisplay <span class="fu">=</span> <span class="kw">do</span>
+  GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
+  GL.clear [<span class="dt">ColorBuffer</span>]
+  GLFW.swapBuffers
+
+  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
+  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> 
+    onDisplay</code></pre>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on git</a></p>
+]]></summary>
+</entry>
+<entry>
+    <title>Post-Post Modern OpenGL in Haskell</title>
+    <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html" />
+    <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html</id>
+    <published>2013-12-30T00:00:00Z</published>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on December 30, 2013
+    
+</div>
+
+<h2 id="post-post-modern-opengl-in-haskell">Post-Post Modern OpenGL in Haskell</h2>
+<p><br /><br />For a while my goal was to learn the basics of OpenGL, sufficient for following the <a href="http://www.cs.yale.edu/homes/hudak/SOE/">Haskell School of Expression</a> and just enough to cover the humble requirements of my theoretic graphics application. A side goal is to keep the code base as compact and modern as possible, but not avoiding completely the benefitsof using some syntactic sugar, convenience functions and wrappers, provided by some modern graphics frameworks.</p>
+<p>Why not using <a href="http://gloss.ouroborus.net/">GLOSS</a>, some, including myself a while ago, would ask? Though gloss seems to be maturing up and gaining momentum, it has a number of issues: 1) <a href="http://gloss.ouroborus.net/">GLOSS</a> is doing too much for what I need; 2) The code base of gloss was, last time I checked, together with all the dependencies that it is fetching, around 130MB. I feel that 130MB of various dependencies is too much for drawing simple shapes that I need. 3) Gloss is HUGE and has multiple dependencies, not all of which are well maintained and necessarily up to date, which may cause dependency conflicts in your code-base. That happened to me in the past, and I intend not to put myself in the same situation without a good reason any time soon.</p>
+<p>On the way towards this goal, I managed to get through first steps, thanks to <a href="http://www.arcadianvisions.com/blog/?p=388">Postmodern Haskell and OpenGL: Introducing vinyl-gl</a>, but there are a few problems with it: 1) Anthony’s code is relying on <a href="http://hackage.haskell.org/package/GLUT">GLUT</a>. The general consensus at the moment is that <a href="http://en.wikipedia.org/wiki/OpenGL_Utility_Toolkit">GLUT is a legacy package</a>, which contradicts my goal of keeping the code base fresh. 2) Anthony’s latest tutorial goals further digress from my goals by putting an accent on using Anthony’s personal <a href="http://hackage.haskell.org/package/vinyl-gl">vynil-gl</a> utility library. My goal is to learn OpenGL, not to use any personal utility libraries, unless it is necessary. 3) The tutorial is failing at the most crucial aspect of a tutorial: gradual increase of complexity – developing more complex examples, based on simpler examples. Instead, <a href="http://www.arcadianvisions.com/blog/?p=388">the second tutorial</a> seems to be disconnected from <a href="http://www.arcadianvisions.com/blog/?p=224">the first</a>. 4) Most important: due to outdated dependencies that Anthony is using in his code, none of his examples compile out of the box and require poking around, which is very frustrating when you hardly know what you are doing and don’t really know if it is your graphics card, or your code, or something else is broken.</p>
+<p>Hopefully that explains my decision to come up with my own set of examples and, possibly, turn in into a set of mini-tutorials, that some other adventurous soul may find useful in the future:</p>
+<p>Here’s the very first OpenGL Hello World in Haskell. It is using GLFW library as a dependency, instead of GLUT, for the reasons, mentioned above:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
+<span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
+
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+GLFW.initialize
+GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
+GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
+onDisplay
+GLFW.closeWindow
+GLFW.terminate
+
+<span class="ot">onDisplay ::</span> <span class="dt">IO</span> ()
+onDisplay <span class="fu">=</span> <span class="kw">do</span>
+GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
+GL.clear [<span class="dt">ColorBuffer</span>]
+GLFW.swapBuffers
+onDisplay</code></pre>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on git</a></p>
+<p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
+<p>For now, signing off.</p>
+]]></summary>
+</entry>
+<entry>
+    <title>Haskell Gems</title>
+    <link href="http://healthycooking.example.com/posts/2013-12-30-haskell-gems.html" />
+    <id>http://healthycooking.example.com/posts/2013-12-30-haskell-gems.html</id>
+    <published>2013-12-30T00:00:00Z</published>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on December 30, 2013
+    
+</div>
+
+<h2 id="examples-of-beautiful-haskell-code">Examples of beautiful haskell code</h2>
+<p><br /><br />``` haskell module Main where</p>
+<p>import System.IO</p>
+<p>main = readFile “input.txt” &gt;&gt;= print.length.lines ```<br /><br />## [Lazy Pattern Matching]</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE NoMonomorphismRestriction #-}</span>
+<span class="ot">{-# LANGUAGE FlexibleInstances #-}</span>
+<span class="ot">{-# LANGUAGE GADTs #-}</span>
+
+<span class="kw">class</span> <span class="dt">Foo</span> a <span class="kw">where</span> 
+<span class="ot">    foo ::</span> a 
+
+<span class="kw">instance</span> a <span class="fu">~</span> <span class="dt">Int</span> <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="kw">where</span> 
+    foo k <span class="fu">=</span> k
+
+<span class="kw">instance</span> (a <span class="fu">~</span> <span class="dt">Int</span>, b <span class="fu">~</span> <span class="dt">Int</span>) <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="kw">where</span> 
+    foo k l <span class="fu">=</span> k<span class="fu">+</span>l
+
+<span class="kw">instance</span> (a <span class="fu">~</span> <span class="dt">String</span>) <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> <span class="dt">String</span>) <span class="kw">where</span> 
+    foo k <span class="fu">=</span> k
+
+<span class="co">-- | usage: </span>
+<span class="co">-- | foo 1 :: Int</span>
+<span class="co">-- | foo 1 2 :: Int</span>
+<span class="co">-- | foo &quot;bar&quot;:: String</span></code></pre>
+]]></summary>
+</entry>
+<entry>
+    <title>fmap versus recursion</title>
+    <link href="http://healthycooking.example.com/posts/2013-12-30-fmap-vs-recursion.html" />
+    <id>http://healthycooking.example.com/posts/2013-12-30-fmap-vs-recursion.html</id>
+    <published>2013-12-30T00:00:00Z</published>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on December 30, 2013
+    
+</div>
+
+<h2 id="fmap-vs.recursion">fmap vs. recursion</h2>
+<p><br /><br />A):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
+mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
+mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
+	<span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
+        subLeaves (t<span class="fu">:</span>ts)
+            <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts
+			<span class="fu">|</span> otherwise <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts
+                                      </code></pre>
+<p>B):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre>
+<p><br /> The idea was to create a function that would walk through a tree-like data structure and do some stuff to it. First I spent 2 evenings designing (or understanding rather) a recursive patter-matching function. The evening I was able to compile it <em>and</em> produce the expected result – I felt quite content with myself…</p>
+<p>C):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
+mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
+mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
+    <span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
+        subLeaves (t<span class="fu">:</span>ts)
+            <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts
+			<span class="fu">|</span> otherwise <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts
+                <span class="kw">where</span> label    <span class="fu">=</span> rootLabel t</code></pre>
+<p>Just look at the awe-inspiring complexity of it!.. How is it even possible that my humble mind was able to grasp that? Then I revisited some of the related source-code inside Data.Tree module:</p>
+<p>D):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Tree</span> <span class="kw">where</span>
+    fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre>
+<p>… So much for the awesome complexity. It turned out the the solution B) is functionally equivalent to A) and has additional benefit of being so much more concise and easy to re-factor into, say, this:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f ts) (map (fmap f) ts)</code></pre>
+<p>(This function will recursively operate on ts (pattern-matched to subForest members), rather than on the x (rootLabel), as in the function above, without loosing readability – ain’t that just peachy?):</p>
+<p>Further example of the same principle:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are roughly equivalent:</span>
+<span class="co">-- A:</span>
+<span class="ot">gamma ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
+gamma t k <span class="fu">=</span> <span class="dt">Node</span> a forest 
+           <span class="kw">where</span> a      <span class="fu">=</span> (\[x, y] <span class="ot">-&gt;</span> x<span class="fu">*</span>y) <span class="fu">$</span> map read <span class="fu">$</span> map rootLabel [t,k]
+                 forest <span class="fu">=</span> (multIntForests (subForest t) (subForest k)) 
+
+<span class="ot">multIntTrees ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
+multIntTrees <span class="fu">=</span> gamma
+ 
+
+<span class="ot">multIntForests ::</span> [<span class="dt">Tree</span> <span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">String</span>]<span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">Int</span>]
+multIntForests [] _ <span class="fu">=</span> []
+multIntForests _ [] <span class="fu">=</span> []
+multIntForests (t<span class="fu">:</span>ts) (k<span class="fu">:</span>ks) <span class="fu">=</span> gamma t k <span class="fu">:</span> multIntForests ts ks 
+
+
+<span class="co">-- B:</span>
+delta f (<span class="dt">Node</span> a ts) (<span class="dt">Node</span> b ks) <span class="fu">=</span> (<span class="dt">Node</span> (f a b) (zipWith (delta f) ts ks))</code></pre>
+<p>… And more examples:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are equivalent:</span>
+<span class="co">-- A:</span>
+<span class="co">-- Aquire a tree with the number of sub-nodes as a value of the rootLabel:</span>
+<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
+members (<span class="dt">Node</span> x [])  <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> <span class="st">&quot;0&quot;</span>, subForest <span class="fu">=</span> []}
+members (<span class="dt">Node</span> x ts0) <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> (show <span class="fu">$</span> length ts0), subForest <span class="fu">=</span> subNodes ts0}
+     <span class="kw">where</span> subNodes []     <span class="fu">=</span> []
+           subNodes [t]    <span class="fu">=</span> members t <span class="fu">:</span> []
+           subNodes (t<span class="fu">:</span>ts) <span class="fu">=</span> (members t)<span class="fu">:</span> subNodes ts
+
+<span class="co">-- B:</span>
+<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
+members <span class="fu">=</span> fmap length</code></pre>
+]]></summary>
+</entry>
+
+</feed>

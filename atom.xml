@@ -8,8 +8,59 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2013-12-30T00:00:00Z</updated>
+    <updated>2014-02-09T00:00:00Z</updated>
     <entry>
+    <title>Gems on the road</title>
+    <link href="http://healthycooking.example.com/posts/2014-02-09-gems-on-the-road.html" />
+    <id>http://healthycooking.example.com/posts/2014-02-09-gems-on-the-road.html</id>
+    <published>2014-02-09T00:00:00Z</published>
+    <updated>2014-02-09T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on February  9, 2014
+    
+</div>
+
+<h3 id="little-things-i-found-on-the-way">Little things I found on the way</h3>
+<p><br /><br /> The English mathematician G.H. Hardy in the middle of delivering a lecture, Hardy arrived at a point in his argument where he said, “It is now obvious that….” Here he stopped, fell silent, and stood motionless with furrowed brow for a few seconds. Then he walked out of the lecture hall. Twenty minutes later he returned, smiling, and began, “Yes, it is obvious that….”</p>
+<p><a href="http://www.amazon.co.uk/Prime-Obsession-Bernhard-Greatest-Mathematics/dp/0452285259/ref=sr_1_1?ie=UTF8&amp;qid=1391968788&amp;sr=8-1&amp;keywords=Prime+Obsession">Prime Obsession, p.55</a></p>
+]]></summary>
+</entry>
+<entry>
+    <title>Finding Prime Factorisation</title>
+    <link href="http://healthycooking.example.com/posts/2014-02-07-finding-prime-factorisation.html" />
+    <id>http://healthycooking.example.com/posts/2014-02-07-finding-prime-factorisation.html</id>
+    <published>2014-02-07T00:00:00Z</published>
+    <updated>2014-02-07T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on February  7, 2014
+    
+</div>
+
+<h2 id="finding-prime-factorisation">Finding Prime Factorisation</h2>
+<p><br /><br />Here’s a small textbook excercise that I decided to turn into a haskell program:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | factorize1 function is an interface to factorize function</span>
+<span class="ot">factorize1 ::</span> (<span class="dt">Integral</span> b, <span class="dt">RealFrac</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [b]
+factorize1 n <span class="fu">=</span> map round <span class="fu">$</span> factorize n <span class="dv">2</span>
+
+<span class="co">-- | factorize requires an index k (since we can&#39;t use variables)</span>
+<span class="ot">factorize ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> [a]
+factorize n k
+          <span class="fu">|</span> k <span class="fu">&gt;=</span> n <span class="fu">=</span> n <span class="fu">:</span> []
+          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k          <span class="fu">=</span> k <span class="fu">:</span> factorize (n<span class="fu">/</span>k) k
+          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k <span class="fu">==</span> <span class="dt">False</span> <span class="fu">=</span> factorize n (k<span class="fu">+</span><span class="dv">1</span>)</code></pre>
+<p><br /><br /> And a small supporting function that returns True if the product is a full number, and False otherwise</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumber <span class="fu">=</span> fromInteger <span class="fu">$</span> round (n<span class="fu">/</span>m)
+                    <span class="kw">in</span> (n<span class="fu">/</span>m) <span class="fu">==</span> fullNumber</code></pre>
+<p><br /><br />Example output:</p>
+<pre><code>&gt; factorize1 1000645
+[5,29,67,103]
+</code></pre>
+<p><br /><br />Hope you enjoyed it as I did :)</p>
+<p><a href="https://github.com/madjestic/TinyMath">source files on GitHub</a></p>
+]]></summary>
+</entry>
+<entry>
     <title>Post-Post Modern OpenGL in Haskell 3</title>
     <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html" />
     <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html</id>
@@ -20,10 +71,53 @@
     
 </div>
 
-<h2 id="post-post-modern-opengl-in-haskell-3-wip">Post-Post Modern OpenGL in Haskell 3 (WIP)</h2>
+<h2 id="post-post-modern-opengl-in-haskell-3">Post-Post Modern OpenGL in Haskell 3</h2>
 <p><br /><br />We continue with introducing basic vertex/fragment shader support, vertex buffer array object.</p>
+<p>In this tutorial we are finally going to draw our first triangles and, as we are going to see, it adds a chunk of complexity to our code - in fact enough to feel that there could be another tutorial in-between tutorial01 and tutorial02 as there’s a noticable spike between the two at the moment. For now - fasten your seat-belts - we are going for a ride!</p>
 <p>Parts of the code and module LoadShaders taken from <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">svenpanne GLUT example files</a></p>
-<p>The code was modified in order to exclude GLUT dependencies.</p>
+<p>The code was modified in order to exclude GLUT dependencies.<br /><br />The main addition on top what we have done in previous tutorials is the initRsources function, that is doing the following things:</p>
+<ol style="list-style-type: decimal">
+<li>Generates and binds an object name “triangles” to a VertexArrayObject:</li>
+</ol>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
+initResources <span class="fu">=</span> <span class="kw">do</span>
+  triangles <span class="ot">&lt;-</span> genObjectName
+  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles</code></pre>
+<p><br /><br />2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> vertices <span class="fu">=</span> [
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
+<p><br /><br />3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot">&lt;-</span> genObjectName
+  bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
+    <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
+    bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</code></pre>
+<p><br /><br />4) Gives and index and initializes a pointer to the memory address that conains the vertices positions.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
+      vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
+  vertexAttribPointer vPosition <span class="fu">$=</span>
+    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
+  vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span></code></pre>
+<p><br />That makes this data accessible in the vertex shader:</p>
+<pre class="glsl"><code>layout(location = 0) in vec4 vPosition;</code></pre>
+<p><br /><br />5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
+
+<span class="fu">...</span>
+
+ program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
+
+  return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)</code></pre>
+<p>Phew! That was quite a mouthfull. A similar program in C++ could still run without GLSL shading part. Unfortunately it does not work with this example. If there’s a way - one day this tutorial may be split into two separate ones.</p>
+<p><br /><br />Here’s the whole program:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
 <span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
@@ -62,16 +156,16 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
     <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
     bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)
 
-  program <span class="ot">&lt;-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
-  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
-
   <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
       vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
   vertexAttribPointer vPosition <span class="fu">$=</span>
     (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
   vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span>
+
+  program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
 
   return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)
 
@@ -107,6 +201,7 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
 
   p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
   unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre>
+<p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on git</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the next tutorial we are going to expand our example with vertex colors.</p>
 ]]></summary>
 </entry>
 <entry>
@@ -122,45 +217,75 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
 
 <h2 id="post-post-modern-opengl-in-haskell-2">Post-Post Modern OpenGL in Haskell 2</h2>
 <p><br /><br />We continue with introduction of 2 new functions:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
-<p>and</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
-  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">GLFW.WindowSizeCallback</span>
+resizeWindow win w h <span class="fu">=</span>
+    <span class="kw">do</span>
+      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, <span class="dt">GL.Size</span> (fromIntegral w) (fromIntegral h))
+      GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
+      GL.loadIdentity
+      GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span></code></pre>
+<p>This function adds a callback script for resizing the window, telling OpenGL to reload the context in case the window size was changed.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">keyPressed ::</span> <span class="dt">GLFW.KeyCallback</span> 
+keyPressed win <span class="dt">GLFW.Key&#39;Escape</span> _ <span class="dt">GLFW.KeyState&#39;Pressed</span> _ <span class="fu">=</span> shutdown win
+keyPressed _   _               _ _                     _ <span class="fu">=</span> return ()</code></pre>
+<p>This function closes the main window whenever the Esc.Key is pressed.</p>
+<p>Now the whole program:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
 <span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
 <span class="kw">import </span><span class="dt">Control.Monad</span>
+<span class="kw">import </span><span class="dt">System.Exit</span> ( exitWith, <span class="dt">ExitCode</span>(..) )
 
 
-<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
-resizeWindow <span class="fu">=</span>
-  \ size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="ot">-&gt;</span>
+<span class="ot">resizeWindow ::</span> <span class="dt">GLFW.WindowSizeCallback</span>
+resizeWindow win w h <span class="fu">=</span>
     <span class="kw">do</span>
-      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
+      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, <span class="dt">GL.Size</span> (fromIntegral w) (fromIntegral h))
       GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
       GL.loadIdentity
       GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span>
 
-  
+
+<span class="ot">keyPressed ::</span> <span class="dt">GLFW.KeyCallback</span> 
+keyPressed win <span class="dt">GLFW.Key&#39;Escape</span> _ <span class="dt">GLFW.KeyState&#39;Pressed</span> _ <span class="fu">=</span> shutdown win
+keyPressed _   _               _ _                     _ <span class="fu">=</span> return ()
+
+
+<span class="ot">shutdown ::</span> <span class="dt">GLFW.WindowCloseCallback</span>
+shutdown win <span class="fu">=</span> <span class="kw">do</span>
+  GLFW.destroyWindow win
+  GLFW.terminate
+  _ <span class="ot">&lt;-</span> exitWith <span class="dt">ExitSuccess</span>
+  return ()
+
+
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> <span class="kw">do</span>
-  GLFW.initialize
-  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
-  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
-  GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
-  onDisplay
-  GLFW.closeWindow
-  GLFW.terminate
+   GLFW.init
+   GLFW.defaultWindowHints
+   <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
+   GLFW.makeContextCurrent (<span class="dt">Just</span> win)
+   GLFW.setWindowSizeCallback win (<span class="dt">Just</span> resizeWindow)
+   GLFW.setKeyCallback win (<span class="dt">Just</span> keyPressed)
+   GLFW.setWindowCloseCallback win (<span class="dt">Just</span> shutdown)
+   onDisplay win
+   GLFW.destroyWindow win
+   GLFW.terminate
 
 
-<span class="ot">onDisplay ::</span> <span class="dt">IO</span> ()
-onDisplay <span class="fu">=</span> <span class="kw">do</span>
+<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+onDisplay win <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
-  GLFW.swapBuffers
-
-  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
-  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> 
-    onDisplay</code></pre>
+  GLFW.swapBuffers win
+  
+  forever <span class="fu">$</span> <span class="kw">do</span>
+     GLFW.pollEvents
+     onDisplay win
+     </code></pre>
+<div class="figure">
+<img src="../images/tutorial00.png" />
+</div>
+<p>The program opens the same window as in the <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">previous tutorial</a>, but now it reacts to basic events: if the window is resized or Escape key pressed.</p>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on git</a></p>
 ]]></summary>
 </entry>
@@ -180,29 +305,32 @@ onDisplay <span class="fu">=</span> <span class="kw">do</span>
 <p>Why not using <a href="http://gloss.ouroborus.net/">GLOSS</a>, some, including myself a while ago, would ask? Though gloss seems to be maturing up and gaining momentum, it has a number of issues: 1) <a href="http://gloss.ouroborus.net/">GLOSS</a> is doing too much for what I need; 2) The code base of gloss was, last time I checked, together with all the dependencies that it is fetching, around 130MB. I feel that 130MB of various dependencies is too much for drawing simple shapes that I need. 3) Gloss is HUGE and has multiple dependencies, not all of which are well maintained and necessarily up to date, which may cause dependency conflicts in your code-base. That happened to me in the past, and I intend not to put myself in the same situation without a good reason any time soon.</p>
 <p>On the way towards this goal, I managed to get through first steps, thanks to <a href="http://www.arcadianvisions.com/blog/?p=388">Postmodern Haskell and OpenGL: Introducing vinyl-gl</a>, but there are a few problems with it: 1) Anthony’s code is relying on <a href="http://hackage.haskell.org/package/GLUT">GLUT</a>. The general consensus at the moment is that <a href="http://en.wikipedia.org/wiki/OpenGL_Utility_Toolkit">GLUT is a legacy package</a>, which contradicts my goal of keeping the code base fresh. 2) Anthony’s latest tutorial goals further digress from my goals by putting an accent on using Anthony’s personal <a href="http://hackage.haskell.org/package/vinyl-gl">vynil-gl</a> utility library. My goal is to learn OpenGL, not to use any personal utility libraries, unless it is necessary. 3) The tutorial is failing at the most crucial aspect of a tutorial: gradual increase of complexity – developing more complex examples, based on simpler examples. Instead, <a href="http://www.arcadianvisions.com/blog/?p=388">the second tutorial</a> seems to be disconnected from <a href="http://www.arcadianvisions.com/blog/?p=224">the first</a>. 4) Most important: due to outdated dependencies that Anthony is using in his code, none of his examples compile out of the box and require poking around, which is very frustrating when you hardly know what you are doing and don’t really know if it is your graphics card, or your code, or something else is broken.</p>
 <p>Hopefully that explains my decision to come up with my own set of examples and, possibly, turn in into a set of mini-tutorials, that some other adventurous soul may find useful in the future:</p>
-<p>Here’s the very first OpenGL Hello World in Haskell. It is using GLFW library as a dependency, instead of GLUT, for the reasons, mentioned above:</p>
+<p>Here’s the very first OpenGL Hello World in Haskell. It is using <a href="http://hackage.haskell.org/package/GLFW-b">GLFW-b</a> library as a odependency, instead of GLUT, for the reasons, mentioned above:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
 <span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
 
-
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> <span class="kw">do</span>
-GLFW.initialize
-GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
-GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
-onDisplay
-GLFW.closeWindow
-GLFW.terminate
+  GLFW.init
+  GLFW.defaultWindowHints
+  <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
+  GLFW.makeContextCurrent (<span class="dt">Just</span> win)
+  onDisplay win
+  GLFW.destroyWindow win
+  GLFW.terminate
 
-<span class="ot">onDisplay ::</span> <span class="dt">IO</span> ()
-onDisplay <span class="fu">=</span> <span class="kw">do</span>
-GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
-GL.clear [<span class="dt">ColorBuffer</span>]
-GLFW.swapBuffers
-onDisplay</code></pre>
+<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+onDisplay win <span class="fu">=</span> <span class="kw">do</span>
+  GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
+  GL.clear [<span class="dt">ColorBuffer</span>]
+  GLFW.swapBuffers win
+  onDisplay win</code></pre>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on git</a></p>
 <p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>
+<div class="figure">
+<img src="../images/tutorial00.png" />
+</div>
 ]]></summary>
 </entry>
 <entry>

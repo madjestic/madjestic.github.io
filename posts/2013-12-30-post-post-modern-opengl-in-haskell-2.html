@@ -67,45 +67,75 @@
 
 <h2 id="post-post-modern-opengl-in-haskell-2">Post-Post Modern OpenGL in Haskell 2</h2>
 <p><br /><br />We continue with introduction of 2 new functions:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
-<p>and</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
-  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">GLFW.WindowSizeCallback</span>
+resizeWindow win w h <span class="fu">=</span>
+    <span class="kw">do</span>
+      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, <span class="dt">GL.Size</span> (fromIntegral w) (fromIntegral h))
+      GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
+      GL.loadIdentity
+      GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span></code></pre>
+<p>This function adds a callback script for resizing the window, telling OpenGL to reload the context in case the window size was changed.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">keyPressed ::</span> <span class="dt">GLFW.KeyCallback</span> 
+keyPressed win <span class="dt">GLFW.Key'Escape</span> _ <span class="dt">GLFW.KeyState'Pressed</span> _ <span class="fu">=</span> shutdown win
+keyPressed _   _               _ _                     _ <span class="fu">=</span> return ()</code></pre>
+<p>This function closes the main window whenever the Esc.Key is pressed.</p>
+<p>Now the whole program:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
 <span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
 <span class="kw">import </span><span class="dt">Control.Monad</span>
+<span class="kw">import </span><span class="dt">System.Exit</span> ( exitWith, <span class="dt">ExitCode</span>(..) )
 
 
-<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
-resizeWindow <span class="fu">=</span>
-  \ size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="ot">-&gt;</span>
+<span class="ot">resizeWindow ::</span> <span class="dt">GLFW.WindowSizeCallback</span>
+resizeWindow win w h <span class="fu">=</span>
     <span class="kw">do</span>
-      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
+      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, <span class="dt">GL.Size</span> (fromIntegral w) (fromIntegral h))
       GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
       GL.loadIdentity
       GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span>
 
-  
+
+<span class="ot">keyPressed ::</span> <span class="dt">GLFW.KeyCallback</span> 
+keyPressed win <span class="dt">GLFW.Key'Escape</span> _ <span class="dt">GLFW.KeyState'Pressed</span> _ <span class="fu">=</span> shutdown win
+keyPressed _   _               _ _                     _ <span class="fu">=</span> return ()
+
+
+<span class="ot">shutdown ::</span> <span class="dt">GLFW.WindowCloseCallback</span>
+shutdown win <span class="fu">=</span> <span class="kw">do</span>
+  GLFW.destroyWindow win
+  GLFW.terminate
+  _ <span class="ot">&lt;-</span> exitWith <span class="dt">ExitSuccess</span>
+  return ()
+
+
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> <span class="kw">do</span>
-  GLFW.initialize
-  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
-  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
-  GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
-  onDisplay
-  GLFW.closeWindow
-  GLFW.terminate
+   GLFW.init
+   GLFW.defaultWindowHints
+   <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
+   GLFW.makeContextCurrent (<span class="dt">Just</span> win)
+   GLFW.setWindowSizeCallback win (<span class="dt">Just</span> resizeWindow)
+   GLFW.setKeyCallback win (<span class="dt">Just</span> keyPressed)
+   GLFW.setWindowCloseCallback win (<span class="dt">Just</span> shutdown)
+   onDisplay win
+   GLFW.destroyWindow win
+   GLFW.terminate
 
 
-<span class="ot">onDisplay ::</span> <span class="dt">IO</span> ()
-onDisplay <span class="fu">=</span> <span class="kw">do</span>
+<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+onDisplay win <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
-  GLFW.swapBuffers
-
-  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
-  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> 
-    onDisplay</code></pre>
+  GLFW.swapBuffers win
+  
+  forever <span class="fu">$</span> <span class="kw">do</span>
+     GLFW.pollEvents
+     onDisplay win
+     </code></pre>
+<div class="figure">
+<img src="../images/tutorial00.png" />
+</div>
+<p>The program opens the same window as in the <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">previous tutorial</a>, but now it reacts to basic events: if the window is resized or Escape key pressed.</p>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on git</a></p>
 </p>
 		    </div>

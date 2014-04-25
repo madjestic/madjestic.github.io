@@ -65,10 +65,53 @@
     
 </div>
 
-<h2 id="post-post-modern-opengl-in-haskell-3-wip">Post-Post Modern OpenGL in Haskell 3 (WIP)</h2>
+<h2 id="post-post-modern-opengl-in-haskell-3">Post-Post Modern OpenGL in Haskell 3</h2>
 <p><br /><br />We continue with introducing basic vertex/fragment shader support, vertex buffer array object.</p>
+<p>In this tutorial we are finally going to draw our first triangles and, as we are going to see, it adds a chunk of complexity to our code - in fact enough to feel that there could be another tutorial in-between tutorial01 and tutorial02 as there’s a noticable spike between the two at the moment. For now - fasten your seat-belts - we are going for a ride!</p>
 <p>Parts of the code and module LoadShaders taken from <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">svenpanne GLUT example files</a></p>
-<p>The code was modified in order to exclude GLUT dependencies.</p>
+<p>The code was modified in order to exclude GLUT dependencies.<br /><br />The main addition on top what we have done in previous tutorials is the initRsources function, that is doing the following things:</p>
+<ol style="list-style-type: decimal">
+<li>Generates and binds an object name “triangles” to a VertexArrayObject:</li>
+</ol>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
+initResources <span class="fu">=</span> <span class="kw">do</span>
+  triangles <span class="ot">&lt;-</span> genObjectName
+  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles</code></pre>
+<p><br /><br />2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> vertices <span class="fu">=</span> [
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
+<p><br /><br />3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot">&lt;-</span> genObjectName
+  bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
+    <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
+    bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</code></pre>
+<p><br /><br />4) Gives and index and initializes a pointer to the memory address that conains the vertices positions.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
+      vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
+  vertexAttribPointer vPosition <span class="fu">$=</span>
+    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
+  vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span></code></pre>
+<p><br />That makes this data accessible in the vertex shader:</p>
+<pre class="glsl"><code>layout(location = 0) in vec4 vPosition;</code></pre>
+<p><br /><br />5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
+
+<span class="fu">...</span>
+
+ program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
+
+  return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)</code></pre>
+<p>Phew! That was quite a mouthfull. A similar program in C++ could still run without GLSL shading part. Unfortunately it does not work with this example. If there’s a way - one day this tutorial may be split into two separate ones.</p>
+<p><br /><br />Here’s the whole program:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
 <span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
@@ -107,16 +150,16 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
     <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
     bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)
 
-  program <span class="ot">&lt;-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
-  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
-
   <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
       vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
   vertexAttribPointer vPosition <span class="fu">$=</span>
     (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
   vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span>
+
+  program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
 
   return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)
 
@@ -152,6 +195,7 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
 
   p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
   unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre>
+<p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on git</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the next tutorial we are going to expand our example with vertex colors.</p>
 </p>
 		    </div>
 		    <!-- /content -->

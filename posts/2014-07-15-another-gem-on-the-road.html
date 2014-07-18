@@ -8,7 +8,7 @@
 	<meta name="author" content>
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - maths and hacks</title>
+        <title>My Hakyll Blog - A little gem I found on the way.</title>
 
         <link href="../css/default.css" rel="stylesheet" type="text/css">
 
@@ -38,7 +38,7 @@
 		</div>
 		<div class="collapse navbar-collapse">
 		    <ul class="nav navbar-nav">
-			<li class="active"><a href="./">Home</a></li>
+			<li class="active"><a href="../">Home</a></li>
 			<li><a href="#about">About</a></li>
 			<li><a href="#contact">Contact</a></li>
 		    </ul>
@@ -52,63 +52,56 @@
 
 		<div class="col-xs-12 col-sm-10">
 		    <head>
-  			<a href="./"><img width="100%" src="./images/turtles_sponge_header.jpg" /></a>
+  			<a href="../"><img width="100%" src="../images/turtles_sponge_header.jpg" /></a>
 		    </head>
 
 		    <!-- content -->
 		    <div class="starter-template">
-			<!-- <h1>maths and hacks</h1> -->
+			<!-- <h1>A little gem I found on the way.</h1> -->
 		    </div>
 		    <div>
-			<p class="small"><h2>Welcome</h2>
+			<p class="small"><div class="info">
+    Posted on July 15, 2014
+    
+</div>
 
-<p>Welcome to my blog!</p>
-
-<p>I've reproduced a list of recent posts here for your reading pleasure:</p>
-
-<h2>Posts</h2>
-<ul>
-    
-        <li>
-            <a href="./posts/2014-07-15-another-gem-on-the-road.html">A little gem I found on the way.</a> - July 15, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2014-05-22-product-rule.html">Product Rule</a> - May 22, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2014-02-09-gems-on-the-road.html">Gems on the road</a> - February  9, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2014-02-07-finding-prime-factorisation.html">Finding Prime Factorisation</a> - February  7, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Post-Post Modern OpenGL in Haskell 3</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Post-Post Modern OpenGL in Haskell 2</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">Post-Post Modern OpenGL in Haskell</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-haskell-gems.html">Haskell Gems</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-fmap-vs-recursion.html">fmap versus recursion</a> - December 30, 2013
-        </li>
-    
-</ul>
-
-
-<p>…or you can find more in the <a href="./archive.html">archives</a>.
+<h2 id="free-game"><a href="https://github.com/fumieval/free-game">free-game</a></h2>
+<p>A little gem I found on the way and wish to share with everybody who is in a similar situation.<br /><br /></p>
+<p>It’s minimal, here’s the list of dependencies:</p>
+<pre><code>    array >= 0.4,
+    base == 4.*,
+    colors == 0.1.*,
+    containers >= 0.4,
+    control-bool,
+    directory >= 1.0,
+    filepath >= 1.3,
+    free >= 4.6.1 && < 5,
+    freetype2 >= 0.1,
+    GLFW-b >= 1.3 && <2,
+    hashable >= 1.2,
+    JuicyPixels,
+    JuicyPixels-util == 0.1.*,
+    linear >= 1.0 && < 2,
+    mtl >= 2.1,
+    OpenGL == 2.9.*,
+    OpenGLRaw == 1.4.*,
+    random == 1.*,
+    reflection == 1.*,
+    template-haskell,
+    transformers >= 0.3,
+    vector >= 0.9 && <0.12,
+    void >= 0.5,
+    boundingboxes >= 0.2 && < 0.4,
+    lens >= 3.8 && < 5</code></pre>
+<p><br /></p>
+<p>Here’s, for comparison sake, the list of dependencies for NGL:</p>
+<pre><code>	base == 4.*,
+	GLFW-b >= 1.3 && <2,	
+	OpenGL == 2.9.*,
+	OpenGLRaw == 1.4.*,
+	bytestring >= 0.10.0.2</code></pre>
+<p>The total amount of lines of code of Free-Game is 1727 lines (including white-space). Pretty impressive for a code base that supports:</p>
+<p>draw primitives (lines and shapes)<br />textures<br />animation<br />anti-aliasing and filtering<br />font-rendering<br />input-handling (user-event system)<br /><br /> All in brought to you in about 100Kb of code, by <a href="https://github.com/fumieval">Fumiaki Kinoshita</a></p>
 </p>
 		    </div>
 		    <!-- /content -->

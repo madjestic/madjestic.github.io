@@ -8,8 +8,76 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2014-02-09T00:00:00Z</updated>
+    <updated>2014-07-15T00:00:00Z</updated>
     <entry>
+    <title>A little gem I found on the way.</title>
+    <link href="http://healthycooking.example.com/posts/2014-07-15-another-gem-on-the-road.html" />
+    <id>http://healthycooking.example.com/posts/2014-07-15-another-gem-on-the-road.html</id>
+    <published>2014-07-15T00:00:00Z</published>
+    <updated>2014-07-15T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on July 15, 2014
+    
+</div>
+
+<h2 id="free-game"><a href="https://github.com/fumieval/free-game">free-game</a></h2>
+<p>A little gem I found on the way and wish to share with everybody who is in a similar situation.<br /><br /></p>
+<h3 id="free-game-gives-you-a-world-so-that-you-can-create-games-easily.">“free-game gives you a world so that you can create games easily.”</h3>
+<p><br /><br /> If you, like me, have been looking for a graphics library and you are obsessive-compulsive about minimalism and bloat-ware, than chances are, <a href="/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">like me</a>, you can’t stand the idea of relying on <a href="http://gloss.ouroborus.net/">GLOSS</a> as a graphical backend of your project, than you may be delighted to find out that there’s something out there that is small, fresh, readable, that may be just enough for whatever graphics project you may have in mind: <a href="https://github.com/fumieval/free-game">free-game</a><br /><br /> <img src="../images/free_game_demo.png" /><br /><br /> It’s minimal, here’s the list of dependencies:</p>
+<pre><code>    array &gt;= 0.4,
+    base == 4.*,
+    colors == 0.1.*,
+    containers &gt;= 0.4,
+    control-bool,
+    directory &gt;= 1.0,
+    filepath &gt;= 1.3,
+    free &gt;= 4.6.1 &amp;&amp; &lt; 5,
+    freetype2 &gt;= 0.1,
+    GLFW-b &gt;= 1.3 &amp;&amp; &lt;2,
+    hashable &gt;= 1.2,
+    JuicyPixels,
+    JuicyPixels-util == 0.1.*,
+    linear &gt;= 1.0 &amp;&amp; &lt; 2,
+    mtl &gt;= 2.1,
+    OpenGL == 2.9.*,
+    OpenGLRaw == 1.4.*,
+    random == 1.*,
+    reflection == 1.*,
+    template-haskell,
+    transformers &gt;= 0.3,
+    vector &gt;= 0.9 &amp;&amp; &lt;0.12,
+    void &gt;= 0.5,
+    boundingboxes &gt;= 0.2 &amp;&amp; &lt; 0.4,
+    lens &gt;= 3.8 &amp;&amp; &lt; 5</code></pre>
+<p><br /></p>
+<p>Here’s, for comparison sake, the list of dependencies for <a href="https://github.com/madjestic/NGL">NGL</a>:</p>
+<pre><code>	base == 4.*,
+	GLFW-b &gt;= 1.3 &amp;&amp; &lt;2,	
+	OpenGL == 2.9.*,
+	OpenGLRaw == 1.4.*,
+	bytestring &gt;= 0.10.0.2</code></pre>
+<p>(yes it’s less, but <a href="https://github.com/madjestic/NGL">NGL</a> is not doing anything besides drawing <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial06">colorful triangles</a>, yet )</p>
+<p>The total amount of lines of code of Free-Game is 1727 lines (including white-space). Pretty impressive tight code base that supports:</p>
+<p>drawing primitives (lines and shapes)<br />textures<br />animation<br />anti-aliasing and filtering<br />font-rendering<br />input-handling (user-event system)<br /><br /> All in tight 100Kb of code, brought to you by <a href="https://github.com/fumieval">Fumiaki Kinoshita</a></p>
+]]></summary>
+</entry>
+<entry>
+    <title>Product Rule</title>
+    <link href="http://healthycooking.example.com/posts/2014-05-22-product-rule.html" />
+    <id>http://healthycooking.example.com/posts/2014-05-22-product-rule.html</id>
+    <published>2014-05-22T00:00:00Z</published>
+    <updated>2014-05-22T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on May 22, 2014
+    
+</div>
+
+<h3 id="mst124-playing-with-product-rule.">MST124, playing with Product Rule.</h3>
+<p><br /><br /> Things are becoming obvious.</p>
+<p><br /><br /><img src="../images/product_rule.png" /></p>
+]]></summary>
+</entry>
+<entry>
     <title>Gems on the road</title>
     <link href="http://healthycooking.example.com/posts/2014-02-09-gems-on-the-road.html" />
     <id>http://healthycooking.example.com/posts/2014-02-09-gems-on-the-road.html</id>

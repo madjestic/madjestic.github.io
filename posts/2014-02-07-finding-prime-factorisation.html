@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52989677-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,21 +78,21 @@
 <h2 id="finding-prime-factorisation">Finding Prime Factorisation</h2>
 <p><br /><br />Here’s a small textbook excercise that I decided to turn into a haskell program:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | factorize1 function is an interface to factorize function</span>
-<span class="ot">factorize1 ::</span> (<span class="dt">Integral</span> b, <span class="dt">RealFrac</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [b]
+<span class="ot">factorize1 ::</span> (<span class="dt">Integral</span> b, <span class="dt">RealFrac</span> a) <span class="ot">=></span> a <span class="ot">-></span> [b]
 factorize1 n <span class="fu">=</span> map round <span class="fu">$</span> factorize n <span class="dv">2</span>
 
 <span class="co">-- | factorize requires an index k (since we can't use variables)</span>
-<span class="ot">factorize ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> [a]
+<span class="ot">factorize ::</span> <span class="dt">RealFrac</span> a <span class="ot">=></span> a <span class="ot">-></span> a <span class="ot">-></span> [a]
 factorize n k
-          <span class="fu">|</span> k <span class="fu">&gt;=</span> n <span class="fu">=</span> n <span class="fu">:</span> []
+          <span class="fu">|</span> k <span class="fu">>=</span> n <span class="fu">=</span> n <span class="fu">:</span> []
           <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k          <span class="fu">=</span> k <span class="fu">:</span> factorize (n<span class="fu">/</span>k) k
           <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k <span class="fu">==</span> <span class="dt">False</span> <span class="fu">=</span> factorize n (k<span class="fu">+</span><span class="dv">1</span>)</code></pre>
 <p><br /><br /> And a small supporting function that returns True if the product is a full number, and False otherwise</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=></span> a <span class="ot">-></span> a <span class="ot">-></span> <span class="dt">Bool</span>
 isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumber <span class="fu">=</span> fromInteger <span class="fu">$</span> round (n<span class="fu">/</span>m)
                     <span class="kw">in</span> (n<span class="fu">/</span>m) <span class="fu">==</span> fullNumber</code></pre>
 <p><br /><br />Example output:</p>
-<pre><code>&gt; factorize1 1000645
+<pre><code>> factorize1 1000645
 [5,29,67,103]
 </code></pre>
 <p><br /><br />Hope you enjoyed it as I did :)</p>

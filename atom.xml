@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>A blog on Mathematics and Haskell</title>
-    <link href="http://healthycooking.example.com/atom.xml" rel="self" />
-    <link href="http://healthycooking.example.com" />
-    <id>http://healthycooking.example.com/atom.xml</id>
+    <link href="madjestic.github.io/atom.xml/atom.xml" rel="self" />
+    <link href="madjestic.github.io/atom.xml" />
+    <id>madjestic.github.io/atom.xml/atom.xml</id>
     <author>
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
@@ -11,8 +11,8 @@
     <updated>2014-07-15T00:00:00Z</updated>
     <entry>
     <title>A little gem I found on the way.</title>
-    <link href="http://healthycooking.example.com/posts/2014-07-15-another-gem-on-the-road.html" />
-    <id>http://healthycooking.example.com/posts/2014-07-15-another-gem-on-the-road.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2014-07-15-another-gem-on-the-road.html" />
+    <id>madjestic.github.io/atom.xml/posts/2014-07-15-another-gem-on-the-road.html</id>
     <published>2014-07-15T00:00:00Z</published>
     <updated>2014-07-15T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -63,8 +63,8 @@
 </entry>
 <entry>
     <title>Product Rule</title>
-    <link href="http://healthycooking.example.com/posts/2014-05-22-product-rule.html" />
-    <id>http://healthycooking.example.com/posts/2014-05-22-product-rule.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2014-05-22-product-rule.html" />
+    <id>madjestic.github.io/atom.xml/posts/2014-05-22-product-rule.html</id>
     <published>2014-05-22T00:00:00Z</published>
     <updated>2014-05-22T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -79,8 +79,8 @@
 </entry>
 <entry>
     <title>Gems on the road</title>
-    <link href="http://healthycooking.example.com/posts/2014-02-09-gems-on-the-road.html" />
-    <id>http://healthycooking.example.com/posts/2014-02-09-gems-on-the-road.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2014-02-09-gems-on-the-road.html" />
+    <id>madjestic.github.io/atom.xml/posts/2014-02-09-gems-on-the-road.html</id>
     <published>2014-02-09T00:00:00Z</published>
     <updated>2014-02-09T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -95,8 +95,8 @@
 </entry>
 <entry>
     <title>Finding Prime Factorisation</title>
-    <link href="http://healthycooking.example.com/posts/2014-02-07-finding-prime-factorisation.html" />
-    <id>http://healthycooking.example.com/posts/2014-02-07-finding-prime-factorisation.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2014-02-07-finding-prime-factorisation.html" />
+    <id>madjestic.github.io/atom.xml/posts/2014-02-07-finding-prime-factorisation.html</id>
     <published>2014-02-07T00:00:00Z</published>
     <updated>2014-02-07T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -130,8 +130,8 @@ isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumb
 </entry>
 <entry>
     <title>Post-Post Modern OpenGL in Haskell 3</title>
-    <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html" />
-    <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html" />
+    <id>madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html</id>
     <published>2013-12-30T00:00:00Z</published>
     <updated>2013-12-30T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -274,8 +274,8 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
 </entry>
 <entry>
     <title>Post-Post Modern OpenGL in Haskell 2</title>
-    <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html" />
-    <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html" />
+    <id>madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html</id>
     <published>2013-12-30T00:00:00Z</published>
     <updated>2013-12-30T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -359,8 +359,8 @@ onDisplay win <span class="fu">=</span> <span class="kw">do</span>
 </entry>
 <entry>
     <title>Post-Post Modern OpenGL in Haskell</title>
-    <link href="http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html" />
-    <id>http://healthycooking.example.com/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html" />
+    <id>madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html</id>
     <published>2013-12-30T00:00:00Z</published>
     <updated>2013-12-30T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -403,8 +403,8 @@ onDisplay win <span class="fu">=</span> <span class="kw">do</span>
 </entry>
 <entry>
     <title>Haskell Gems</title>
-    <link href="http://healthycooking.example.com/posts/2013-12-30-haskell-gems.html" />
-    <id>http://healthycooking.example.com/posts/2013-12-30-haskell-gems.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-haskell-gems.html" />
+    <id>madjestic.github.io/atom.xml/posts/2013-12-30-haskell-gems.html</id>
     <published>2013-12-30T00:00:00Z</published>
     <updated>2013-12-30T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">
@@ -445,8 +445,8 @@ main <span class="fu">=</span> readFile <span class="st">&quot;input.txt&quot;</
 </entry>
 <entry>
     <title>fmap versus recursion</title>
-    <link href="http://healthycooking.example.com/posts/2013-12-30-fmap-vs-recursion.html" />
-    <id>http://healthycooking.example.com/posts/2013-12-30-fmap-vs-recursion.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-fmap-vs-recursion.html" />
+    <id>madjestic.github.io/atom.xml/posts/2013-12-30-fmap-vs-recursion.html</id>
     <published>2013-12-30T00:00:00Z</published>
     <updated>2013-12-30T00:00:00Z</updated>
     <summary type="html"><![CDATA[<div class="info">

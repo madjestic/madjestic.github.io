@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52989677-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -104,7 +114,7 @@ keyPressed _   _               _ _                     _ <span class="fu">=</spa
 shutdown win <span class="fu">=</span> <span class="kw">do</span>
   GLFW.destroyWindow win
   GLFW.terminate
-  _ <span class="ot">&lt;-</span> exitWith <span class="dt">ExitSuccess</span>
+  _ <span class="ot"><-</span> exitWith <span class="dt">ExitSuccess</span>
   return ()
 
 
@@ -112,7 +122,7 @@ shutdown win <span class="fu">=</span> <span class="kw">do</span>
 main <span class="fu">=</span> <span class="kw">do</span>
    GLFW.init
    GLFW.defaultWindowHints
-   <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
+   <span class="dt">Just</span> win <span class="ot"><-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">"GLFW Demo"</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
    GLFW.makeContextCurrent (<span class="dt">Just</span> win)
    GLFW.setWindowSizeCallback win (<span class="dt">Just</span> resizeWindow)
    GLFW.setKeyCallback win (<span class="dt">Just</span> keyPressed)
@@ -122,7 +132,7 @@ main <span class="fu">=</span> <span class="kw">do</span>
    GLFW.terminate
 
 
-<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-></span> <span class="dt">IO</span> ()
 onDisplay win <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]

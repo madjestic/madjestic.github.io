@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52989677-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -75,7 +85,7 @@
 </ol>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
 initResources <span class="fu">=</span> <span class="kw">do</span>
-  triangles <span class="ot">&lt;-</span> genObjectName
+  triangles <span class="ot"><-</span> genObjectName
   bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles</code></pre>
 <p><br /><br />2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> vertices <span class="fu">=</span> [
@@ -86,9 +96,9 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
         <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
         <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
 <p><br /><br />3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot">&lt;-</span> genObjectName
+<pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot"><-</span> genObjectName
   bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
-  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-></span> <span class="kw">do</span>
     <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
     bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</code></pre>
 <p><br /><br />4) Gives and index and initializes a pointer to the memory address that conains the vertices positions.</p>
@@ -104,9 +114,9 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
 
 <span class="fu">...</span>
 
- program <span class="ot">&lt;-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+ program <span class="ot"><-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.vert"</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.frac"</span>)]
   currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
 
   return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)</code></pre>
@@ -123,7 +133,7 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
 <span class="kw">import </span><span class="dt">Foreign.Storable</span>
 
 
-<span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ptr</span> b
+<span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=></span> a <span class="ot">-></span> <span class="dt">Ptr</span> b
 bufferOffset <span class="fu">=</span> plusPtr nullPtr <span class="fu">.</span> fromIntegral
 
 
@@ -132,7 +142,7 @@ bufferOffset <span class="fu">=</span> plusPtr nullPtr <span class="fu">.</span>
 
 <span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
 initResources <span class="fu">=</span> <span class="kw">do</span>
-  triangles <span class="ot">&lt;-</span> genObjectName
+  triangles <span class="ot"><-</span> genObjectName
   bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
 
   <span class="kw">let</span> vertices <span class="fu">=</span> [
@@ -144,9 +154,9 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
         <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
       numVertices <span class="fu">=</span> length vertices
 
-  arrayBuffer <span class="ot">&lt;-</span> genObjectName
+  arrayBuffer <span class="ot"><-</span> genObjectName
   bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
-  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-></span> <span class="kw">do</span>
     <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
     bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)
 
@@ -156,15 +166,15 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
     (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
   vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span>
 
-  program <span class="ot">&lt;-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
+  program <span class="ot"><-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.vert"</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.frac"</span>)]
   currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
 
   return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)
 
                     
-<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-></span> <span class="dt">IO</span> ()
 resizeWindow size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="fu">=</span>
     <span class="kw">do</span>
       GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
@@ -177,15 +187,15 @@ resizeWindow size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) 
 main <span class="fu">=</span> <span class="kw">do</span>
   GLFW.initialize
   GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
-  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
+  GLFW.windowTitle <span class="fu">$=</span> <span class="st">"GLFW Demo"</span>
   GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
-  descriptor <span class="ot">&lt;-</span> initResources
+  descriptor <span class="ot"><-</span> initResources
   onDisplay descriptor
   GLFW.closeWindow
   GLFW.terminate
 
 
-<span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+<span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-></span> <span class="dt">IO</span> ()
 onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span> triangles firstIndex numVertices) <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
@@ -193,7 +203,7 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
   drawArrays <span class="dt">Triangles</span> firstIndex numVertices
   GLFW.swapBuffers
 
-  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
+  p <span class="ot"><-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
   unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre>
 <p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on git</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the next tutorial we are going to expand our example with vertex colors.</p>
 </p>

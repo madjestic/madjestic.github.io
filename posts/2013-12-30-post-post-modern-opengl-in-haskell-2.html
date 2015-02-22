@@ -8,7 +8,7 @@
 	<meta name="author" content>
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - Post-Post Modern OpenGL in Haskell 2</title>
+        <title>My Hakyll Blog - Haskell OpenGL Tutorial: Resizing main window, key-events.</title>
 
         <link href="../css/default.css" rel="stylesheet" type="text/css">
 
@@ -67,7 +67,7 @@
 
 		    <!-- content -->
 		    <div class="starter-template">
-			<!-- <h1>Post-Post Modern OpenGL in Haskell 2</h1> -->
+			<!-- <h1>Haskell OpenGL Tutorial: Resizing main window, key-events.</h1> -->
 		    </div>
 		    <div>
 			<p class="small"><div class="info">
@@ -75,7 +75,7 @@
     
 </div>
 
-<h2 id="post-post-modern-opengl-in-haskell-2">Post-Post Modern OpenGL in Haskell 2</h2>
+<h2 id="haskell-opengl-tutorial-resizing-main-window-key-events.">Haskell OpenGL Tutorial: Resizing main window, key-events.</h2>
 <p><br /><br />We continue with introduction of 2 new functions:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">GLFW.WindowSizeCallback</span>
 resizeWindow win w h <span class="fu">=</span>
@@ -114,7 +114,7 @@ keyPressed _   _               _ _                     _ <span class="fu">=</spa
 shutdown win <span class="fu">=</span> <span class="kw">do</span>
   GLFW.destroyWindow win
   GLFW.terminate
-  _ <span class="ot"><-</span> exitWith <span class="dt">ExitSuccess</span>
+  _ <span class="ot">&lt;-</span> exitWith <span class="dt">ExitSuccess</span>
   return ()
 
 
@@ -122,7 +122,7 @@ shutdown win <span class="fu">=</span> <span class="kw">do</span>
 main <span class="fu">=</span> <span class="kw">do</span>
    GLFW.init
    GLFW.defaultWindowHints
-   <span class="dt">Just</span> win <span class="ot"><-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">"GLFW Demo"</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
+   <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
    GLFW.makeContextCurrent (<span class="dt">Just</span> win)
    GLFW.setWindowSizeCallback win (<span class="dt">Just</span> resizeWindow)
    GLFW.setKeyCallback win (<span class="dt">Just</span> keyPressed)
@@ -132,7 +132,7 @@ main <span class="fu">=</span> <span class="kw">do</span>
    GLFW.terminate
 
 
-<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-></span> <span class="dt">IO</span> ()
+<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 onDisplay win <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
@@ -144,9 +144,10 @@ onDisplay win <span class="fu">=</span> <span class="kw">do</span>
      </code></pre>
 <div class="figure">
 <img src="../images/tutorial00.png" />
+
 </div>
 <p>The program opens the same window as in the <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">previous tutorial</a>, but now it reacts to basic events: if the window is resized or Escape key pressed.</p>
-<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on git</a></p>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on GitHub</a><br />next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: drawing 2 triangles.</a> 	<br />previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">Post-Post Modern OpenGL in Haskell</a></p>
 </p>
 		    </div>
 		    <!-- /content -->

@@ -8,7 +8,7 @@
 	<meta name="author" content>
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - Post-Post Modern OpenGL in Haskell 3</title>
+        <title>My Hakyll Blog - Haskell OpenGL Tutorial: drawing 2 triangles.</title>
 
         <link href="../css/default.css" rel="stylesheet" type="text/css">
 
@@ -67,7 +67,7 @@
 
 		    <!-- content -->
 		    <div class="starter-template">
-			<!-- <h1>Post-Post Modern OpenGL in Haskell 3</h1> -->
+			<!-- <h1>Haskell OpenGL Tutorial: drawing 2 triangles.</h1> -->
 		    </div>
 		    <div>
 			<p class="small"><div class="info">
@@ -75,7 +75,7 @@
     
 </div>
 
-<h2 id="post-post-modern-opengl-in-haskell-3">Post-Post Modern OpenGL in Haskell 3</h2>
+<h2 id="haskell-opengl-tutorial-drawing-2-triangles.">Haskell OpenGL Tutorial: drawing 2 triangles.</h2>
 <p><br /><br />We continue with introducing basic vertex/fragment shader support, vertex buffer array object.</p>
 <p>In this tutorial we are finally going to draw our first triangles and, as we are going to see, it adds a chunk of complexity to our code - in fact enough to feel that there could be another tutorial in-between tutorial01 and tutorial02 as there’s a noticable spike between the two at the moment. For now - fasten your seat-belts - we are going for a ride!</p>
 <p>Parts of the code and module LoadShaders taken from <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">svenpanne GLUT example files</a></p>
@@ -85,20 +85,20 @@
 </ol>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
 initResources <span class="fu">=</span> <span class="kw">do</span>
-  triangles <span class="ot"><-</span> genObjectName
+  triangles <span class="ot">&lt;-</span> genObjectName
   bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles</code></pre>
 <p><br /><br />2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> vertices <span class="fu">=</span> [
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>) (<span class="fu">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="fu">-</span><span class="fl">0.90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="fu">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
 <p><br /><br />3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot"><-</span> genObjectName
+<pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot">&lt;-</span> genObjectName
   bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
-  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-></span> <span class="kw">do</span>
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
     <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
     bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</code></pre>
 <p><br /><br />4) Gives and index and initializes a pointer to the memory address that conains the vertices positions.</p>
@@ -108,15 +108,15 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
     (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
   vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span></code></pre>
 <p><br />That makes this data accessible in the vertex shader:</p>
-<pre class="glsl"><code>layout(location = 0) in vec4 vPosition;</code></pre>
+<pre class="sourceCode glsl"><code class="sourceCode glsl"><span class="fu">layout</span>(location = <span class="dv">0</span>) <span class="dt">in</span> <span class="dt">vec4</span> vPosition;</code></pre>
 <p><br /><br />5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
 
 <span class="fu">...</span>
 
- program <span class="ot"><-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.vert"</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.frac"</span>)]
+ program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
   currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
 
   return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)</code></pre>
@@ -133,7 +133,7 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
 <span class="kw">import </span><span class="dt">Foreign.Storable</span>
 
 
-<span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=></span> a <span class="ot">-></span> <span class="dt">Ptr</span> b
+<span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ptr</span> b
 bufferOffset <span class="fu">=</span> plusPtr nullPtr <span class="fu">.</span> fromIntegral
 
 
@@ -142,21 +142,21 @@ bufferOffset <span class="fu">=</span> plusPtr nullPtr <span class="fu">.</span>
 
 <span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
 initResources <span class="fu">=</span> <span class="kw">do</span>
-  triangles <span class="ot"><-</span> genObjectName
+  triangles <span class="ot">&lt;-</span> genObjectName
   bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
 
   <span class="kw">let</span> vertices <span class="fu">=</span> [
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>) (<span class="fu">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="fu">-</span><span class="fl">0.90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="fu">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
       numVertices <span class="fu">=</span> length vertices
 
-  arrayBuffer <span class="ot"><-</span> genObjectName
+  arrayBuffer <span class="ot">&lt;-</span> genObjectName
   bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
-  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-></span> <span class="kw">do</span>
+  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
     <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
     bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)
 
@@ -166,15 +166,15 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
     (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
   vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span>
 
-  program <span class="ot"><-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.vert"</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">"triangles.frac"</span>)]
+  program <span class="ot">&lt;-</span> loadShaders [
+     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
+     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
   currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
 
   return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)
 
                     
-<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-></span> <span class="dt">IO</span> ()
+<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 resizeWindow size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="fu">=</span>
     <span class="kw">do</span>
       GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
@@ -187,15 +187,15 @@ resizeWindow size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) 
 main <span class="fu">=</span> <span class="kw">do</span>
   GLFW.initialize
   GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
-  GLFW.windowTitle <span class="fu">$=</span> <span class="st">"GLFW Demo"</span>
+  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
   GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
-  descriptor <span class="ot"><-</span> initResources
+  descriptor <span class="ot">&lt;-</span> initResources
   onDisplay descriptor
   GLFW.closeWindow
   GLFW.terminate
 
 
-<span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-></span> <span class="dt">IO</span> ()
+<span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span> triangles firstIndex numVertices) <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
@@ -203,9 +203,10 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
   drawArrays <span class="dt">Triangles</span> firstIndex numVertices
   GLFW.swapBuffers
 
-  p <span class="ot"><-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
+  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
   unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre>
-<p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on git</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the next tutorial we are going to expand our example with vertex colors.</p>
+<p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on GitHub</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">next tutorial</a> we are going to expand our example with vertex colors.</p>
+<p>next: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">Haskell OpenGL Tutorial: colored triangle.</a><br />previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 </p>
 		    </div>
 		    <!-- /content -->

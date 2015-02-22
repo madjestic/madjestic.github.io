@@ -8,8 +8,27 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2014-07-15T00:00:00Z</updated>
+    <updated>2015-02-22T00:00:00Z</updated>
     <entry>
+    <title>Haskell OpenGL Tutorial: colored triangle.</title>
+    <link href="madjestic.github.io/atom.xml/posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html" />
+    <id>madjestic.github.io/atom.xml/posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html</id>
+    <published>2015-02-22T00:00:00Z</published>
+    <updated>2015-02-22T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on February 22, 2015
+    
+</div>
+
+<h2 id="haskell-opengl-tutorial-colored-triangle.">Haskell OpenGL Tutorial: colored triangle.</h2>
+<p><br /><br />Credits:</p>
+<p>I would like to thank <a href="https://github.com/svenpanne">Sven Panne</a> for providing valuable advice on OpenGL statefulness as well as creating a great set of <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">examples</a>. Without his work, this set of tutorials may not be possible, parts and bits of ios source code is used in various shapes and forms throught these pages.</p>
+<p>Sven has recently uploaded a bare-bones <a href="https://github.com/haskell-opengl/GLUT/tree/master/examples/Misc/ColorTriangle">vertex-color triangle example</a> Somebody may find it more useful to follow, because in this tutorial the code related to vertex colors is coupled with NGL.</p>
+<p><img src="../images/tutorial04.png" /><br /><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial04">tutorial files on GitHub</a><br /><br /> In the next tutorial we are going to draw a textured object.</p>
+<p>previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
+]]></summary>
+</entry>
+<entry>
     <title>A little gem I found on the way.</title>
     <link href="madjestic.github.io/atom.xml/posts/2014-07-15-another-gem-on-the-road.html" />
     <id>madjestic.github.io/atom.xml/posts/2014-07-15-another-gem-on-the-road.html</id>
@@ -129,7 +148,7 @@ isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumb
 ]]></summary>
 </entry>
 <entry>
-    <title>Post-Post Modern OpenGL in Haskell 3</title>
+    <title>Haskell OpenGL Tutorial: drawing 2 triangles.</title>
     <link href="madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html" />
     <id>madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html</id>
     <published>2013-12-30T00:00:00Z</published>
@@ -139,7 +158,7 @@ isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumb
     
 </div>
 
-<h2 id="post-post-modern-opengl-in-haskell-3">Post-Post Modern OpenGL in Haskell 3</h2>
+<h2 id="haskell-opengl-tutorial-drawing-2-triangles.">Haskell OpenGL Tutorial: drawing 2 triangles.</h2>
 <p><br /><br />We continue with introducing basic vertex/fragment shader support, vertex buffer array object.</p>
 <p>In this tutorial we are finally going to draw our first triangles and, as we are going to see, it adds a chunk of complexity to our code - in fact enough to feel that there could be another tutorial in-between tutorial01 and tutorial02 as there’s a noticable spike between the two at the moment. For now - fasten your seat-belts - we are going for a ride!</p>
 <p>Parts of the code and module LoadShaders taken from <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">svenpanne GLUT example files</a></p>
@@ -153,12 +172,12 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
   bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles</code></pre>
 <p><br /><br />2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> vertices <span class="fu">=</span> [
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>) (<span class="fu">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="fu">-</span><span class="fl">0.90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="fu">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre>
 <p><br /><br />3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot">&lt;-</span> genObjectName
   bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
@@ -172,7 +191,7 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
     (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
   vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span></code></pre>
 <p><br />That makes this data accessible in the vertex shader:</p>
-<pre class="glsl"><code>layout(location = 0) in vec4 vPosition;</code></pre>
+<pre class="sourceCode glsl"><code class="sourceCode glsl"><span class="fu">layout</span>(location = <span class="dv">0</span>) <span class="dt">in</span> <span class="dt">vec4</span> vPosition;</code></pre>
 <p><br /><br />5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
 
@@ -210,12 +229,12 @@ initResources <span class="fu">=</span> <span class="kw">do</span>
   bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
 
   <span class="kw">let</span> vertices <span class="fu">=</span> [
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>) (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),  <span class="co">-- Triangle 1</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>),
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">85</span> ,
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>  (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>),  <span class="co">-- Triangle 2</span>
-        <span class="dt">Vertex2</span>   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span>    <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ,
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="dv">0</span><span class="fu">.</span><span class="dv">85</span>)   <span class="dv">0</span><span class="fu">.</span><span class="dv">90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>) (<span class="fu">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="fu">-</span><span class="fl">0.90</span>),
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="fu">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span>
+        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,
+        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
       numVertices <span class="fu">=</span> length vertices
 
   arrayBuffer <span class="ot">&lt;-</span> genObjectName
@@ -269,11 +288,12 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
 
   p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
   unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre>
-<p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on git</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the next tutorial we are going to expand our example with vertex colors.</p>
+<p><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on GitHub</a><br /><br /><img src="../images/tutorial02.png" /><br /><br />In the <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">next tutorial</a> we are going to expand our example with vertex colors.</p>
+<p>next: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">Haskell OpenGL Tutorial: colored triangle.</a><br />previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 ]]></summary>
 </entry>
 <entry>
-    <title>Post-Post Modern OpenGL in Haskell 2</title>
+    <title>Haskell OpenGL Tutorial: Resizing main window, key-events.</title>
     <link href="madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html" />
     <id>madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html</id>
     <published>2013-12-30T00:00:00Z</published>
@@ -283,7 +303,7 @@ onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span>
     
 </div>
 
-<h2 id="post-post-modern-opengl-in-haskell-2">Post-Post Modern OpenGL in Haskell 2</h2>
+<h2 id="haskell-opengl-tutorial-resizing-main-window-key-events.">Haskell OpenGL Tutorial: Resizing main window, key-events.</h2>
 <p><br /><br />We continue with introduction of 2 new functions:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">resizeWindow ::</span> <span class="dt">GLFW.WindowSizeCallback</span>
 resizeWindow win w h <span class="fu">=</span>
@@ -352,9 +372,10 @@ onDisplay win <span class="fu">=</span> <span class="kw">do</span>
      </code></pre>
 <div class="figure">
 <img src="../images/tutorial00.png" />
+
 </div>
 <p>The program opens the same window as in the <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">previous tutorial</a>, but now it reacts to basic events: if the window is resized or Escape key pressed.</p>
-<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on git</a></p>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial01">tutorial files on GitHub</a><br />next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: drawing 2 triangles.</a> 	<br />previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">Post-Post Modern OpenGL in Haskell</a></p>
 ]]></summary>
 </entry>
 <entry>
@@ -393,12 +414,10 @@ onDisplay win <span class="fu">=</span> <span class="kw">do</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
   GLFW.swapBuffers win
   onDisplay win</code></pre>
-<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on git</a></p>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a></p>
 <p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>
-<div class="figure">
-<img src="../images/tutorial00.png" />
-</div>
+<p><img src="../images/tutorial00.png" /><br /><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a><br />next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 ]]></summary>
 </entry>
 <entry>

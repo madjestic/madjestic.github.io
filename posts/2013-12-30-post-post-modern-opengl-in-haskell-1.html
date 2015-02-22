@@ -88,24 +88,22 @@
 main <span class="fu">=</span> <span class="kw">do</span>
   GLFW.init
   GLFW.defaultWindowHints
-  <span class="dt">Just</span> win <span class="ot"><-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">"GLFW Demo"</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
+  <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
   GLFW.makeContextCurrent (<span class="dt">Just</span> win)
   onDisplay win
   GLFW.destroyWindow win
   GLFW.terminate
 
-<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-></span> <span class="dt">IO</span> ()
+<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 onDisplay win <span class="fu">=</span> <span class="kw">do</span>
   GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
   GL.clear [<span class="dt">ColorBuffer</span>]
   GLFW.swapBuffers win
   onDisplay win</code></pre>
-<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on git</a></p>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a></p>
 <p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>
-<div class="figure">
-<img src="../images/tutorial00.png" />
-</div>
+<p><img src="../images/tutorial00.png" /><br /><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a><br />next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 </p>
 		    </div>
 		    <!-- /content -->

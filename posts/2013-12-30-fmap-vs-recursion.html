@@ -77,7 +77,7 @@
 
 <h2 id="fmap-vs.recursion">fmap vs. recursion</h2>
 <p><br /><br />A):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=></span> (a <span class="ot">-></span> b) <span class="ot">-></span> <span class="dt">Tree</span> a <span class="ot">-></span> <span class="dt">Tree</span> b
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
 mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
 mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
 	<span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
@@ -89,7 +89,7 @@ mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</spa
 <pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre>
 <p><br /> The idea was to create a function that would walk through a tree-like data structure and do some stuff to it. First I spent 2 evenings designing (or understanding rather) a recursive patter-matching function. The evening I was able to compile it <em>and</em> produce the expected result – I felt quite content with myself…</p>
 <p>C):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=></span> (a <span class="ot">-></span> b) <span class="ot">-></span> <span class="dt">Tree</span> a <span class="ot">-></span> <span class="dt">Tree</span> b
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
 mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
 mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
     <span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
@@ -107,16 +107,16 @@ mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</spa
 <p>Further example of the same principle:</p>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are roughly equivalent:</span>
 <span class="co">-- A:</span>
-<span class="ot">gamma ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-></span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-></span> <span class="dt">Tree</span> <span class="dt">Int</span>
+<span class="ot">gamma ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
 gamma t k <span class="fu">=</span> <span class="dt">Node</span> a forest 
-           <span class="kw">where</span> a      <span class="fu">=</span> (\[x, y] <span class="ot">-></span> x<span class="fu">*</span>y) <span class="fu">$</span> map read <span class="fu">$</span> map rootLabel [t,k]
+           <span class="kw">where</span> a      <span class="fu">=</span> (\[x, y] <span class="ot">-&gt;</span> x<span class="fu">*</span>y) <span class="fu">$</span> map read <span class="fu">$</span> map rootLabel [t,k]
                  forest <span class="fu">=</span> (multIntForests (subForest t) (subForest k)) 
 
-<span class="ot">multIntTrees ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-></span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-></span> <span class="dt">Tree</span> <span class="dt">Int</span>
+<span class="ot">multIntTrees ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
 multIntTrees <span class="fu">=</span> gamma
  
 
-<span class="ot">multIntForests ::</span> [<span class="dt">Tree</span> <span class="dt">String</span>] <span class="ot">-></span> [<span class="dt">Tree</span> <span class="dt">String</span>]<span class="ot">-></span> [<span class="dt">Tree</span> <span class="dt">Int</span>]
+<span class="ot">multIntForests ::</span> [<span class="dt">Tree</span> <span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">String</span>]<span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">Int</span>]
 multIntForests [] _ <span class="fu">=</span> []
 multIntForests _ [] <span class="fu">=</span> []
 multIntForests (t<span class="fu">:</span>ts) (k<span class="fu">:</span>ks) <span class="fu">=</span> gamma t k <span class="fu">:</span> multIntForests ts ks 
@@ -128,15 +128,15 @@ delta f (<span class="dt">Node</span> a ts) (<span class="dt">Node</span> b ks) 
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are equivalent:</span>
 <span class="co">-- A:</span>
 <span class="co">-- Aquire a tree with the number of sub-nodes as a value of the rootLabel:</span>
-<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-></span> <span class="dt">Tree</span> <span class="dt">String</span>
-members (<span class="dt">Node</span> x [])  <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> <span class="st">"0"</span>, subForest <span class="fu">=</span> []}
+<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
+members (<span class="dt">Node</span> x [])  <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> <span class="st">&quot;0&quot;</span>, subForest <span class="fu">=</span> []}
 members (<span class="dt">Node</span> x ts0) <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> (show <span class="fu">$</span> length ts0), subForest <span class="fu">=</span> subNodes ts0}
      <span class="kw">where</span> subNodes []     <span class="fu">=</span> []
            subNodes [t]    <span class="fu">=</span> members t <span class="fu">:</span> []
            subNodes (t<span class="fu">:</span>ts) <span class="fu">=</span> (members t)<span class="fu">:</span> subNodes ts
 
 <span class="co">-- B:</span>
-<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-></span> <span class="dt">Tree</span> <span class="dt">String</span>
+<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
 members <span class="fu">=</span> fmap length</code></pre>
 </p>
 		    </div>

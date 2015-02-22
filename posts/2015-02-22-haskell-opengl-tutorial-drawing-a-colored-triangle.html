@@ -8,7 +8,7 @@
 	<meta name="author" content>
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - Finding Prime Factorisation</title>
+        <title>My Hakyll Blog - Haskell OpenGL Tutorial: colored triangle.</title>
 
         <link href="../css/default.css" rel="stylesheet" type="text/css">
 
@@ -67,36 +67,20 @@
 
 		    <!-- content -->
 		    <div class="starter-template">
-			<!-- <h1>Finding Prime Factorisation</h1> -->
+			<!-- <h1>Haskell OpenGL Tutorial: colored triangle.</h1> -->
 		    </div>
 		    <div>
 			<p class="small"><div class="info">
-    Posted on February  7, 2014
+    Posted on February 22, 2015
     
 </div>
 
-<h2 id="finding-prime-factorisation">Finding Prime Factorisation</h2>
-<p><br /><br />Here’s a small textbook excercise that I decided to turn into a haskell program:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | factorize1 function is an interface to factorize function</span>
-<span class="ot">factorize1 ::</span> (<span class="dt">Integral</span> b, <span class="dt">RealFrac</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [b]
-factorize1 n <span class="fu">=</span> map round <span class="fu">$</span> factorize n <span class="dv">2</span>
-
-<span class="co">-- | factorize requires an index k (since we can't use variables)</span>
-<span class="ot">factorize ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> [a]
-factorize n k
-          <span class="fu">|</span> k <span class="fu">&gt;=</span> n <span class="fu">=</span> n <span class="fu">:</span> []
-          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k          <span class="fu">=</span> k <span class="fu">:</span> factorize (n<span class="fu">/</span>k) k
-          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k <span class="fu">==</span> <span class="dt">False</span> <span class="fu">=</span> factorize n (k<span class="fu">+</span><span class="dv">1</span>)</code></pre>
-<p><br /><br /> And a small supporting function that returns True if the product is a full number, and False otherwise</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
-isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumber <span class="fu">=</span> fromInteger <span class="fu">$</span> round (n<span class="fu">/</span>m)
-                    <span class="kw">in</span> (n<span class="fu">/</span>m) <span class="fu">==</span> fullNumber</code></pre>
-<p><br /><br />Example output:</p>
-<pre><code>&gt; factorize1 1000645
-[5,29,67,103]
-</code></pre>
-<p><br /><br />Hope you enjoyed it as I did :)</p>
-<p><a href="https://github.com/madjestic/TinyMath">source files on GitHub</a></p>
+<h2 id="haskell-opengl-tutorial-colored-triangle.">Haskell OpenGL Tutorial: colored triangle.</h2>
+<p><br /><br />Credits:</p>
+<p>I would like to thank <a href="https://github.com/svenpanne">Sven Panne</a> for providing valuable advice on OpenGL statefulness as well as creating a great set of <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">examples</a>. Without his work, this set of tutorials may not be possible, parts and bits of ios source code is used in various shapes and forms throught these pages.</p>
+<p>Sven has recently uploaded a bare-bones <a href="https://github.com/haskell-opengl/GLUT/tree/master/examples/Misc/ColorTriangle">vertex-color triangle example</a> Somebody may find it more useful to follow, because in this tutorial the code related to vertex colors is coupled with NGL.</p>
+<p><img src="../images/tutorial04.png" /><br /><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial04">tutorial files on GitHub</a><br /><br /> In the next tutorial we are going to draw a textured object.</p>
+<p>previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 </p>
 		    </div>
 		    <!-- /content -->

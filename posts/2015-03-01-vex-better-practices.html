@@ -94,7 +94,7 @@
 <pre class="sourceCode c"><code class="sourceCode c">	<span class="dt">int</span> sorted_index[] = argsort(product_list);
 	<span class="kw">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)
 		{
-			nbrnum = neighbour(geoself(), ptnum, sorted_index[i]);                             		
+			nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		
 			<span class="kw">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="kw">break</span>;}
 		}
 		<span class="kw">return</span> index;</code></pre>

@@ -78,26 +78,29 @@
 <h2 id="vex-better-practices">VEX: Better practices</h2>
 <p><br /></p>
 <pre class="sourceCode c"><code class="sourceCode c">
-	<span class="dt">int</span> index = -<span class="dv">1</span>;
-	<span class="dt">float</span> tmp = -<span class="fl">1.</span>0f;
-	<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++){
-		nbrnum = neighbour(geoself(), ptnum, i);
+<span class="dt">int</span> index = -<span class="dv">1</span>;
+<span class="dt">float</span> tmp = -<span class="fl">1.</span>0f;
 
-		<span class="kw">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))
-			{
-				index = i;
-				tmp = product_list[i];
-			}
-	};
-	<span class="kw">return</span> index;</code></pre>
+<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++)
+{
+  nbrnum = neighbour(geoself(), ptnum, i);
+ 	<span class="kw">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))
+	{
+		index = i;
+		tmp = product_list[i];
+	}
+};
+	
+<span class="kw">return</span> index;</code></pre>
 <p><br /></p>
-<pre class="sourceCode c"><code class="sourceCode c">	<span class="dt">int</span> sorted_index[] = argsort(product_list);
-	<span class="kw">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)
-		{
-			nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		
-			<span class="kw">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="kw">break</span>;}
-		}
-		<span class="kw">return</span> index;</code></pre>
+<pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> sorted_index[] = argsort(product_list);
+<span class="kw">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)
+{
+ nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		
+ <span class="kw">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="kw">break</span>;}
+}
+		
+<span class="kw">return</span> index;</code></pre>
 <p>The latter is go, the former - no go. (The former is idiomatic to VOPs)</p>
 </p>
 		    </div>

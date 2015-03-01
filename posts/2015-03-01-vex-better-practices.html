@@ -8,7 +8,7 @@
 	<meta name="author" content>
 	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>My Hakyll Blog - Archives</title>
+        <title>My Hakyll Blog - VEX: Better practices</title>
 
         <link href="../css/default.css" rel="stylesheet" type="text/css">
 
@@ -48,7 +48,7 @@
 		</div>
 		<div class="collapse navbar-collapse">
 		    <ul class="nav navbar-nav">
-			<li class="active"><a href="./">Home</a></li>
+			<li class="active"><a href="../">Home</a></li>
 			<li><a href="#about">About</a></li>
 			<li><a href="#contact">Contact</a></li>
 		    </ul>
@@ -62,67 +62,43 @@
 
 		<div class="col-xs-12 col-sm-10">
 		    <head>
-  			<a href="./"><img width="100%" src="./images/turtles_sponge_header.jpg" /></a>
+  			<a href="../"><img width="100%" src="../images/turtles_sponge_header.jpg" /></a>
 		    </head>
 
 		    <!-- content -->
 		    <div class="starter-template">
-			<!-- <h1>Archives</h1> -->
+			<!-- <h1>VEX: Better practices</h1> -->
 		    </div>
 		    <div>
-			<p class="small">Here you can find all my previous posts:
-<ul>
+			<p class="small"><div class="info">
+    Posted on March  1, 2015
     
-        <li>
-            <a href="./posts/2015-03-01-vex-better-practices.html">VEX: Better practices</a> - March  1, 2015
-        </li>
-    
-        <li>
-            <a href="./posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">Haskell OpenGL Tutorial: colored triangle.</a> - February 22, 2015
-        </li>
-    
-        <li>
-            <a href="./posts/2015-02-22-2-plus-2-equals-4.html">2+2=4</a> - February 22, 2015
-        </li>
-    
-        <li>
-            <a href="./posts/2014-07-15-another-gem-on-the-road.html">A little gem I found on the way.</a> - July 15, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2014-05-22-product-rule.html">Product Rule</a> - May 22, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2014-02-09-gems-on-the-road.html">Gems on the road</a> - February  9, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2014-02-07-finding-prime-factorisation.html">Finding Prime Factorisation</a> - February  7, 2014
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: drawing 2 triangles.</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">Post-Post Modern OpenGL in Haskell</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-haskell-gems.html">Haskell Gems</a> - December 30, 2013
-        </li>
-    
-        <li>
-            <a href="./posts/2013-12-30-fmap-vs-recursion.html">fmap versus recursion</a> - December 30, 2013
-        </li>
-    
-</ul>
+</div>
 
+<h2 id="vex-better-practices">VEX: Better practices</h2>
+<p><br /></p>
+<pre class="sourceCode c"><code class="sourceCode c">
+	<span class="dt">int</span> index = -<span class="dv">1</span>;
+	<span class="dt">float</span> tmp = -<span class="fl">1.</span>0f;
+	<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++){
+		nbrnum = neighbour(geoself(), ptnum, i);
+
+		<span class="kw">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))
+			{
+				index = i;
+				tmp = product_list[i];
+			}
+	};
+	<span class="kw">return</span> index;</code></pre>
+<p><br /></p>
+<pre class="sourceCode c"><code class="sourceCode c">	<span class="dt">int</span> sorted_index[] = argsort(product_list);
+	<span class="kw">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)
+		{
+			nbrnum = neighbour(geoself(), ptnum, sorted_index[i]);                             		
+			<span class="kw">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="kw">break</span>;}
+		}
+		<span class="kw">return</span> index;</code></pre>
+<p>The latter is go, the former - no go. (The former is idiomatic to VOPs)</p>
 </p>
 		    </div>
 		    <!-- /content -->

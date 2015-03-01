@@ -8,8 +8,45 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2015-02-22T00:00:00Z</updated>
+    <updated>2015-03-01T00:00:00Z</updated>
     <entry>
+    <title>VEX: Better practices</title>
+    <link href="madjestic.github.io/atom.xml/posts/2015-03-01-vex-better-practices.html" />
+    <id>madjestic.github.io/atom.xml/posts/2015-03-01-vex-better-practices.html</id>
+    <published>2015-03-01T00:00:00Z</published>
+    <updated>2015-03-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on March  1, 2015
+    
+</div>
+
+<h2 id="vex-better-practices">VEX: Better practices</h2>
+<p><br /></p>
+<pre class="sourceCode c"><code class="sourceCode c">
+	<span class="dt">int</span> index = -<span class="dv">1</span>;
+	<span class="dt">float</span> tmp = -<span class="fl">1.</span>0f;
+	<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++){
+		nbrnum = neighbour(geoself(), ptnum, i);
+
+		<span class="kw">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))
+			{
+				index = i;
+				tmp = product_list[i];
+			}
+	};
+	<span class="kw">return</span> index;</code></pre>
+<p><br /></p>
+<pre class="sourceCode c"><code class="sourceCode c">	<span class="dt">int</span> sorted_index[] = argsort(product_list);
+	<span class="kw">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)
+		{
+			nbrnum = neighbour(geoself(), ptnum, sorted_index[i]);                             		
+			<span class="kw">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="kw">break</span>;}
+		}
+		<span class="kw">return</span> index;</code></pre>
+<p>The latter is go, the former - no go. (The former is idiomatic to VOPs)</p>
+]]></summary>
+</entry>
+<entry>
     <title>Haskell OpenGL Tutorial: colored triangle.</title>
     <link href="madjestic.github.io/atom.xml/posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html" />
     <id>madjestic.github.io/atom.xml/posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html</id>
@@ -433,48 +470,6 @@ onDisplay win <span class="fu">=</span> <span class="kw">do</span>
 <p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>
 <p><img src="../images/tutorial00.png" /><br /><br /><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a><br />next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
-]]></summary>
-</entry>
-<entry>
-    <title>Haskell Gems</title>
-    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-haskell-gems.html" />
-    <id>madjestic.github.io/atom.xml/posts/2013-12-30-haskell-gems.html</id>
-    <published>2013-12-30T00:00:00Z</published>
-    <updated>2013-12-30T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on December 30, 2013
-    
-</div>
-
-<h3 id="examples-of-beautiful-haskell-code">Examples of beautiful haskell code</h3>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
-
-<span class="kw">import </span><span class="dt">System.IO</span>
-
-main <span class="fu">=</span> readFile <span class="st">&quot;input.txt&quot;</span> <span class="fu">&gt;&gt;=</span> print<span class="fu">.</span>length<span class="fu">.</span>lines</code></pre>
-<p><br /></p>
-<h3 id="lazy-pattern-matching">[Lazy Pattern Matching]</h3>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE NoMonomorphismRestriction #-}</span>
-<span class="ot">{-# LANGUAGE FlexibleInstances #-}</span>
-<span class="ot">{-# LANGUAGE GADTs #-}</span>
-
-<span class="kw">class</span> <span class="dt">Foo</span> a <span class="kw">where</span> 
-<span class="ot">    foo ::</span> a 
-
-<span class="kw">instance</span> a <span class="fu">~</span> <span class="dt">Int</span> <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="kw">where</span> 
-    foo k <span class="fu">=</span> k
-
-<span class="kw">instance</span> (a <span class="fu">~</span> <span class="dt">Int</span>, b <span class="fu">~</span> <span class="dt">Int</span>) <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="kw">where</span> 
-    foo k l <span class="fu">=</span> k<span class="fu">+</span>l
-
-<span class="kw">instance</span> (a <span class="fu">~</span> <span class="dt">String</span>) <span class="ot">=&gt;</span> <span class="dt">Foo</span> (a <span class="ot">-&gt;</span> <span class="dt">String</span>) <span class="kw">where</span> 
-    foo k <span class="fu">=</span> k
-
-<span class="co">-- | usage: </span>
-<span class="co">-- | foo 1 :: Int</span>
-<span class="co">-- | foo 1 2 :: Int</span>
-<span class="co">-- | foo &quot;bar&quot;:: String</span></code></pre>
 ]]></summary>
 </entry>
 

@@ -76,8 +76,10 @@
 </div>
 
 <h2 id="finding-prime-factorisation">Finding Prime Factorisation</h2>
-<p><br /><br />Here’s a small textbook excercise that I decided to turn into a haskell program:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | factorize1 function is an interface to factorize function</span>
+<p><br />
+<br />
+Here’s a small textbook excercise that I decided to turn into a haskell program:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | factorize1 function is an interface to factorize function</span>
 <span class="ot">factorize1 ::</span> (<span class="dt">Integral</span> b, <span class="dt">RealFrac</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [b]
 factorize1 n <span class="fu">=</span> map round <span class="fu">$</span> factorize n <span class="dv">2</span>
 
@@ -86,16 +88,22 @@ factorize1 n <span class="fu">=</span> map round <span class="fu">$</span> facto
 factorize n k
           <span class="fu">|</span> k <span class="fu">&gt;=</span> n <span class="fu">=</span> n <span class="fu">:</span> []
           <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k          <span class="fu">=</span> k <span class="fu">:</span> factorize (n<span class="fu">/</span>k) k
-          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k <span class="fu">==</span> <span class="dt">False</span> <span class="fu">=</span> factorize n (k<span class="fu">+</span><span class="dv">1</span>)</code></pre>
-<p><br /><br /> And a small supporting function that returns True if the product is a full number, and False otherwise</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k <span class="fu">==</span> <span class="dt">False</span> <span class="fu">=</span> factorize n (k<span class="fu">+</span><span class="dv">1</span>)</code></pre></div>
+<p><br />
+<br />
+ And a small supporting function that returns True if the product is a full number, and False otherwise</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumber <span class="fu">=</span> fromInteger <span class="fu">$</span> round (n<span class="fu">/</span>m)
-                    <span class="kw">in</span> (n<span class="fu">/</span>m) <span class="fu">==</span> fullNumber</code></pre>
-<p><br /><br />Example output:</p>
+                    <span class="kw">in</span> (n<span class="fu">/</span>m) <span class="fu">==</span> fullNumber</code></pre></div>
+<p><br />
+<br />
+Example output:</p>
 <pre><code>&gt; factorize1 1000645
 [5,29,67,103]
 </code></pre>
-<p><br /><br />Hope you enjoyed it as I did :)</p>
+<p><br />
+<br />
+Hope you enjoyed it as I did :)</p>
 <p><a href="https://github.com/madjestic/TinyMath">source files on GitHub</a></p>
 </p>
 		    </div>

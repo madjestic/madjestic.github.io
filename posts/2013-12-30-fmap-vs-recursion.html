@@ -76,36 +76,39 @@
 </div>
 
 <h2 id="fmap-vs.recursion">fmap vs. recursion</h2>
-<p><br /><br />A):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
+<p><br />
+<br />
+A):</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
 mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
 mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
 	<span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
         subLeaves (t<span class="fu">:</span>ts)
             <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts
 			<span class="fu">|</span> otherwise <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts
-                                      </code></pre>
+                                      </code></pre></div>
 <p>B):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre>
-<p><br /> The idea was to create a function that would walk through a tree-like data structure and do some stuff to it. First I spent 2 evenings designing (or understanding rather) a recursive patter-matching function. The evening I was able to compile it <em>and</em> produce the expected result – I felt quite content with myself…</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre></div>
+<p><br />
+ The idea was to create a function that would walk through a tree-like data structure and do some stuff to it. First I spent 2 evenings designing (or understanding rather) a recursive patter-matching function. The evening I was able to compile it <em>and</em> produce the expected result – I felt quite content with myself…</p>
 <p>C):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
 mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
 mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
     <span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
         subLeaves (t<span class="fu">:</span>ts)
             <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts
 			<span class="fu">|</span> otherwise <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts
-                <span class="kw">where</span> label    <span class="fu">=</span> rootLabel t</code></pre>
+                <span class="kw">where</span> label    <span class="fu">=</span> rootLabel t</code></pre></div>
 <p>Just look at the awe-inspiring complexity of it!.. How is it even possible that my humble mind was able to grasp that? Then I revisited some of the related source-code inside Data.Tree module:</p>
 <p>D):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Tree</span> <span class="kw">where</span>
-    fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Tree</span> <span class="kw">where</span>
+    fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre></div>
 <p>… So much for the awesome complexity. It turned out the the solution B) is functionally equivalent to A) and has additional benefit of being so much more concise and easy to re-factor into, say, this:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f ts) (map (fmap f) ts)</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f ts) (map (fmap f) ts)</code></pre></div>
 <p>(This function will recursively operate on ts (pattern-matched to subForest members), rather than on the x (rootLabel), as in the function above, without loosing readability – ain’t that just peachy?):</p>
 <p>Further example of the same principle:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are roughly equivalent:</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are roughly equivalent:</span>
 <span class="co">-- A:</span>
 <span class="ot">gamma ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
 gamma t k <span class="fu">=</span> <span class="dt">Node</span> a forest 
@@ -123,9 +126,9 @@ multIntForests (t<span class="fu">:</span>ts) (k<span class="fu">:</span>ks) <sp
 
 
 <span class="co">-- B:</span>
-delta f (<span class="dt">Node</span> a ts) (<span class="dt">Node</span> b ks) <span class="fu">=</span> (<span class="dt">Node</span> (f a b) (zipWith (delta f) ts ks))</code></pre>
+delta f (<span class="dt">Node</span> a ts) (<span class="dt">Node</span> b ks) <span class="fu">=</span> (<span class="dt">Node</span> (f a b) (zipWith (delta f) ts ks))</code></pre></div>
 <p>… And more examples:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are equivalent:</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are equivalent:</span>
 <span class="co">-- A:</span>
 <span class="co">-- Aquire a tree with the number of sub-nodes as a value of the rootLabel:</span>
 <span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
@@ -137,7 +140,7 @@ members (<span class="dt">Node</span> x ts0) <span class="fu">=</span> <span cla
 
 <span class="co">-- B:</span>
 <span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
-members <span class="fu">=</span> fmap length</code></pre>
+members <span class="fu">=</span> fmap length</code></pre></div>
 </p>
 		    </div>
 		    <!-- /content -->

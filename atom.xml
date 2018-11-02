@@ -8,9 +8,57 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2016-02-28T00:00:00Z</updated>
+    <updated>2018-11-02T00:00:00Z</updated>
     <entry>
-    <title>Haskell OpenGL Tutorial: drawing textured triangles.</title>
+    <title>On Purity vs. Impurity in haskell.</title>
+    <link href="madjestic.github.io/atom.xml/posts/2018-11-02-on-purity-vs-impurity.html" />
+    <id>madjestic.github.io/atom.xml/posts/2018-11-02-on-purity-vs-impurity.html</id>
+    <published>2018-11-02T00:00:00Z</published>
+    <updated>2018-11-02T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on November  2, 2018
+    
+</div>
+
+<h2 id="this-is-some-working-material-for-the-future-post">This is some working material for the future post</h2>
+<p><br />
+<br />
+</p>
+<p>me &gt; I am trying to understand the concept of purity, and though, on the surface, the distinction seems obvious, there seems to be cases, where things are not so blunt as &quot; <code>IO ()</code> means impure“, isn’t it? me &gt; e.g. if pure = ref.transparent + no side effects, then <code>fakeIO        = return () :: IO ()</code> - does not it qualify as pure, even though it’s IO ()? It has no side effects, it always return the same value, it is, presumably, ref.transparent. me &gt; if <code>readLn</code> is obviously impure, is not <code>putStrLn        &quot;Hello&quot;</code>, in a sense, pure? I guess it’s impure, since it can be printed in different ways (via various output devices), is it why it’s impure? me &gt; otherwise it always returns the same value and its side effect seems limited by printing - can impurity of putStrLn lead to rocket launch from a Moon-base somehow? <MarcelineVQ> IO is pure, you’ll be happy to know. The difference between f :: String and f :: IO String is that the first is a value of String and the second is an action that may result in a String when executed, haskell separates evaluation and execution, so both of these things are as pure as any other Haskell value in your code <MarcelineVQ> <span class="citation" data-cites="quote">@quote</span> /ls <lambdabot> shachaf says: getLine :: IO String contains a String in the same way that /bin/ls contains a list of files <MarcelineVQ> You may see IO called impure sometimes, however IO is entirely pure. For example something like putStrLn”foo&quot; :: IO () describes a recipe for writing some output to the outside world, this recipe is pure, any putStrLn “foo” :: IO () are always the same recipe and working with the recipe has no side effects. Haskell separates evaluation and execution, we can combine and modify recipes all we like [evaluation] and it’s <MarcelineVQ> not until we’re baking the cake [execution] that side effects would even be possible. <MarcelineVQ> The story is a little more complicated than that, but does this make sense as an idea? me &gt; does it mean that a function can be pure during evaluation, but when executed it may be impure (have sideefects)? <MarcelineVQ> That’s a great question, I’m not firm enough on the terminology to say for sure now that you’ve asked. <dmwit> madjestic: Everything (okay, almost everything) in Haskell is referentially transparent, even terms of type IO Whatever. <dmwit> Different people mean different things by “pure”, but referentially transparent has a solid, technical definition. me &gt; thanks. I guess now I need to better understand what are sideeffects (SEs) then. Let’s say that SE is some sort of interaction with the world (like reading a file or printing to the screen (that changes the state of the videodriver, which draws something on the screen as a result)) - but where do you draw the line then? I.e.: is not everything an interaction with the world? Say, thunks are being generated - does not it change the me &gt; state of RAM, hence interaction with the world, hence it’s a SE? <ab9rf> madjestic: most of the time, we pretend that “processor state” doesn’t exist me &gt; so every other change of state outside of “processor state” can be considered as a SE? <ab9rf> and so the “side effects” of making the processor do things, allocating memory, and so forth are ignored. we blithely assume that the processor will not malfunctio and that the runtime will not run out of memory <ab9rf> madjestic: consider whatever you want to be a “side effect” :) &lt;jle<code>&gt; side-effect is basically a concept that applies differently in        every context, there's no 'universal' definition; it's pretty much        context    me &gt; I would like to settle on some solid ground here, if possible - I        don't want to think of it as a matter of taste    &lt;ab9rf&gt; i think it's better to approach this abstractly    &lt;jle</code>&gt; basically you get to define the world you are talking about, and in doing that you define what side effects are and what non-side-effects are me &gt; nice, I like that <ab9rf> instead of spending a great deal of energy cataloging and categorizing the microscoping activities of the runtime system me &gt; coz my next question after “what is pure, what is SE” would be “what is world?” :) &lt;jle<code>&gt; it's sort of like picking the primitives of your deontation    &lt;jle</code>&gt; right, the definition of world also depends on the context &lt;jle<code>&gt; think of it like the idea of 'universe' in set theory        left #haskell-beginners: Quit: Konversation terminated!    &lt;jle</code>&gt; there is no absolute idea of universe, just whatever is useful for what theorem or conclusion you are trying to prove or figure out <Cale_> It might all be much clearer if Haskell still had a formally specified denotational semantics (in principle it does, but in practice, nobody’s gone to the trouble since the very early versions) &lt;jle<code>&gt; even if haskell had a formally defined denotational semantics,        you can still talk about your own mini denotative semantics in an        EDSL you write    &lt;jle</code>&gt; so you have a completely different idea of universe, side effects, etc. <Cale_> Sure W. Flint) me &gt; interesting <Cale_> I just mean, what people are usually talking about when they say “side effect” of a program is any behaviour of the program which we care about, but which isn’t captured by discussing values (in the sense of denotations of programs) me &gt; Cale_: “still had a formally specified denotational semantics” - was it specified before? realname) <Cale_> Yeah, I think someone did Haskell 1.0 <Cale_> Or some core language of Haskell 1.0, and then other stuff was handled by translation into that core me &gt; wow, DS seems like yet another world of its own me &gt; I wish I got to that sort of stuff at the uni <Cale_> an interesting thing is that by encoding effects into a type like IO, we turn things which would have been side-effects into values to some extent – though what can be understood denotationally about IO actions is still rather shallow (Conal Elliott has likened it to a syntax-level encoding, and that’s mostly right) <Cale_> It still gives us a language with which to discuss equations between IO actions, but it doesn’t really tell us anything about what nontrivial equations might exist <Cale_> For that, we’d need some machine model still – and so it becomes about the same as any imperative language left #haskell-beginners: Quit: Leaving <Cale_> But still, you can maintain a distinction between evaluation of Haskell expressions, and execution of IO actions, and in ordinary Haskell programs, evaluation has no side effects. W. Flint) <Cale_> (while execution exists to carry out the effects described by the IO actions, so it seems strange to call them side effects at that point) <Cale_> (getting off my train, headed to the airport bound for London for Haskell eXchange)</p>
+<p><img src="../images/my_image.png" /><br />
+<br />
+</p>
+<p><a href="https://ref_link_addres">ref name</a><br />
+My Text<br />
+previous: <a href="../posts/previous_post_name.html">Previous Post</a></p>
+]]></summary>
+</entry>
+<entry>
+    <title>A new revolutionary hybrid gameplay idea.</title>
+    <link href="madjestic.github.io/atom.xml/posts/2018-11-02-on-hybrid-singleplayer.html" />
+    <id>madjestic.github.io/atom.xml/posts/2018-11-02-on-hybrid-singleplayer.html</id>
+    <published>2018-11-02T00:00:00Z</published>
+    <updated>2018-11-02T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on November  2, 2018
+    
+</div>
+
+<h2 id="a-train-of-thought-from-skype">A train of thought from skype</h2>
+<p><br />
+<br />
+</p>
+<p>гибридный мульти / сингл плейер. Короче космосим, у каждого игрока - свое дерево событий в пространстве-времени (4Д дерево, или 3Д дерев плюс рост). Такие деревйя событий (фактически версий реалжности) можно шарить по желанию. Т.е. ты можешь решить, что реальности каких-то игроков могут быть внедрены в твою, это тоже самое, что и мерж набора деревьев, в результате события, генерируемые другими игроками игроками сгенеруруют копии событий. Каждое событие имеет уникальный индентификатор, таким образом оно порождает свое дерево. Если событие становится недоступным в результате вмешательства, то и все порожденное им дерево становится недоступным.Т.е. это такой “непрямой” мультиплеер.Возможен вариант прямого мультиплеера, когда набор игроков “синхронизируются” в пространстве времени (например на основе наиболее старшей вселенной) и порождает свою ветку событий, которые в данном случае легко мержатся с имеющимися текущими деревьями событий участников. Легко можно представить, когда набор друзей шарят ветки между друг другом или напрямую, или непрямо (отложенно).Ну и это, имхо, идеальный мультиплеер для хикканов.Sent on:MonFrom:Skull of Steel ха прикольноSent on:Monтаким образом синглплеер не нужно генерить искусственно, либо генерить можно, но ограниченно и не опасяться, что сингл - слишком искуственен и лишен пристутствия следов разумного вмешательства.Sent on:Monопять же это решает проблему школоты, которая неизбежна в мультиплеере, что эквивалентно школоте в твоей вселенной.</p>
+<p><img src="../images/my_image.png" /><br />
+<br />
+</p>
+<p><a href="https://ref_link_addres">ref name</a><br />
+My Text<br />
+previous: <a href="../posts/previous_post_name.html">Previous Post</a></p>
+]]></summary>
+</entry>
+<entry>
+    <title>Haskell OpenGL Tutorial':'drawing textured triangles.</title>
     <link href="madjestic.github.io/atom.xml/posts/2016-02-28-post-post-modern-opengl-in-haskell-4.html" />
     <id>madjestic.github.io/atom.xml/posts/2016-02-28-post-post-modern-opengl-in-haskell-4.html</id>
     <published>2016-02-28T00:00:00Z</published>
@@ -23,9 +71,11 @@
 <h2 id="haskell-opengl-tutorial-textured-triangles.">Haskell OpenGL Tutorial: textured triangles.</h2>
 <p><br />
 <br />
- <img src="../images/tutorial03.png" alt="" /><br />
+</p>
+<p><img src="../images/tutorial03.png" /><br />
 <br />
- <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial03">tutorial files on GitHub</a><br />
+</p>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial03">tutorial files on GitHub</a><br />
 In the next tutorial we are going to create an animated object, using FRP.<br />
 previous: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">Haskell OpenGL Tutorial: Drawing a colored triangle.</a></p>
 ]]></summary>
@@ -47,7 +97,7 @@ previous: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored
 ]]></summary>
 </entry>
 <entry>
-    <title>VEX: Better practices</title>
+    <title>VEX':'Better practices</title>
     <link href="madjestic.github.io/atom.xml/posts/2015-03-01-vex-better-practices.html" />
     <id>madjestic.github.io/atom.xml/posts/2015-03-01-vex-better-practices.html</id>
     <published>2015-03-01T00:00:00Z</published>
@@ -60,37 +110,37 @@ previous: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored
 <h2 id="vex-better-practices">VEX: Better practices</h2>
 <p><br />
 </p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">
-<span class="dt">int</span> index = -<span class="dv">1</span>;
-<span class="dt">float</span> tmp = -<span class="fl">1.</span>0f;
-
-<span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++)
-{
-  nbrnum = neighbour(geoself(), ptnum, i);
-	<span class="kw">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))
-	{
-		index = i;
-		tmp = product_list[i];
-	}
-};
-	
-<span class="kw">return</span> index;</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="dt">int</span> index = <span class="dv">-1</span>;</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dt">float</span> tmp = <span class="fl">-1.0f</span>;</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++)</a>
+<a class="sourceLine" id="cb1-6" title="6">{</a>
+<a class="sourceLine" id="cb1-7" title="7">  nbrnum = neighbour(geoself(), ptnum, i);</a>
+<a class="sourceLine" id="cb1-8" title="8">	<span class="cf">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))</a>
+<a class="sourceLine" id="cb1-9" title="9">	{</a>
+<a class="sourceLine" id="cb1-10" title="10">		index = i;</a>
+<a class="sourceLine" id="cb1-11" title="11">		tmp = product_list[i];</a>
+<a class="sourceLine" id="cb1-12" title="12">	}</a>
+<a class="sourceLine" id="cb1-13" title="13">};</a>
+<a class="sourceLine" id="cb1-14" title="14">	</a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="cf">return</span> index;</a></code></pre></div>
 <p><br />
 </p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> sorted_index[] = argsort(product_list);
-
-<span class="kw">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)
-{
- nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		
- <span class="kw">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="kw">break</span>;}
-}
-		
-<span class="kw">return</span> index;</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" title="1"><span class="dt">int</span> sorted_index[] = argsort(product_list);</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="cf">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)</a>
+<a class="sourceLine" id="cb2-4" title="4">{</a>
+<a class="sourceLine" id="cb2-5" title="5"> nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		</a>
+<a class="sourceLine" id="cb2-6" title="6"> <span class="cf">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="cf">break</span>;}</a>
+<a class="sourceLine" id="cb2-7" title="7">}</a>
+<a class="sourceLine" id="cb2-8" title="8">		</a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="cf">return</span> index;</a></code></pre></div>
 <p>The latter is go, the former - no go. (The former is idiomatic to VOPs)</p>
 ]]></summary>
 </entry>
 <entry>
-    <title>Haskell OpenGL Tutorial: colored triangle.</title>
+    <title>Haskell OpenGL Tutorial':'colored triangle.</title>
     <link href="madjestic.github.io/atom.xml/posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html" />
     <id>madjestic.github.io/atom.xml/posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html</id>
     <published>2015-02-22T00:00:00Z</published>
@@ -106,11 +156,12 @@ previous: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored
 Credits:</p>
 <p>I would like to thank <a href="https://github.com/svenpanne">Sven Panne</a> for providing valuable advice on OpenGL statefulness as well as creating a great set of <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">examples</a>. Without his work, this set of tutorials may not be possible, parts and bits of ios source code is used in various shapes and forms throught these pages.</p>
 <p>Sven has recently uploaded a bare-bones <a href="https://github.com/haskell-opengl/GLUT/tree/master/examples/Misc/ColorTriangle">vertex-color triangle example</a> Somebody may find it more useful to follow, because in this tutorial the code related to vertex colors is coupled with NGL.</p>
-<p><img src="../images/tutorial04.png" alt="" /><br />
+<p><img src="../images/tutorial04.png" /><br />
 <br />
 <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial04">tutorial files on GitHub</a><br />
 <br />
- next: <a href="../posts/2016-02-28-post-post-modern-opengl-in-haskell-4.html">Haskell OpenGL Tutorial: Drawing textured triangles.</a><br />
+</p>
+<p>next: <a href="../posts/2016-02-28-post-post-modern-opengl-in-haskell-4.html">Haskell OpenGL Tutorial: Drawing textured triangles.</a><br />
 previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a><br />
 </p>
 ]]></summary>
@@ -127,7 +178,7 @@ previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html
 </div>
 
 <h2 id="section">2+2=4</h2>
-<br />
+<p><br />
 “Leibniz’s proof that 2 + 2 = 4 contains a gap. Grassmann’s definition of a + b is faulty”<br />
 from <a href="../files/frege_FOA.pdf">Gottlob Frege: The Foundations of Arithmetic</a><br />
 <br />
@@ -147,7 +198,7 @@ I am not crazy, and it’s a legit question :P<br />
 (from Shroder) “Abstract number, then, is the empty form of difference.”<br />
 <br />
 “Hardly anything more unfortunate can befall a scientific writer than to have one of the foundations of his edifice shaken after the work is finished. This was the position I was placed in by a letter of Mr. Bertrand Russell, just when the printing of this volume was nearing its completion.”<br />
-
+</p>
 ]]></summary>
 </entry>
 <entry>
@@ -168,11 +219,14 @@ I am not crazy, and it’s a legit question :P<br />
 <h3 id="free-game-gives-you-a-world-so-that-you-can-create-games-easily.">“free-game gives you a world so that you can create games easily.”</h3>
 <p><br />
 <br />
- If you, like me, have been looking for a graphics library and you are obsessive-compulsive about minimalism and bloat-ware, than chances are, <a href="/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">like me</a>, you can’t stand the idea of relying on <a href="http://gloss.ouroborus.net/">GLOSS</a> as a graphical backend of your project, than you may be delighted to find out that there’s something out there that is small, fresh, readable, that may be just enough for whatever graphics project you may have in mind: <a href="https://github.com/fumieval/free-game">free-game</a><br />
+</p>
+<p>If you, like me, have been looking for a graphics library and you are obsessive-compulsive about minimalism and bloat-ware, than chances are, <a href="/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">like me</a>, you can’t stand the idea of relying on <a href="http://gloss.ouroborus.net/">GLOSS</a> as a graphical backend of your project, than you may be delighted to find out that there’s something out there that is small, fresh, readable, that may be just enough for whatever graphics project you may have in mind: <a href="https://github.com/fumieval/free-game">free-game</a><br />
 <br />
- <img src="../images/free_game_demo.png" alt="" /><br />
+</p>
+<p><img src="../images/free_game_demo.png" /><br />
 <br />
- It’s minimal, here’s the list of dependencies:</p>
+</p>
+<p>It’s minimal, here’s the list of dependencies:</p>
 <pre><code>    array &gt;= 0.4,
     base == 4.*,
     colors == 0.1.*,
@@ -215,7 +269,8 @@ anti-aliasing and filtering<br />
 font-rendering<br />
 input-handling (user-event system)<br />
 <br />
- All in tight 100Kb of code, brought to you by <a href="https://github.com/fumieval">Fumiaki Kinoshita</a></p>
+</p>
+<p>All in tight 100Kb of code, brought to you by <a href="https://github.com/fumieval">Fumiaki Kinoshita</a></p>
 ]]></summary>
 </entry>
 <entry>
@@ -232,10 +287,11 @@ input-handling (user-event system)<br />
 <h3 id="mst124-playing-with-product-rule.">MST124, playing with Product Rule.</h3>
 <p><br />
 <br />
- Things are becoming obvious.</p>
+</p>
+<p>Things are becoming obvious.</p>
 <p><br />
 <br />
-<img src="../images/product_rule.png" alt="" /></p>
+<img src="../images/product_rule.png" /></p>
 ]]></summary>
 </entry>
 <entry>
@@ -252,217 +308,9 @@ input-handling (user-event system)<br />
 <h3 id="little-things-i-found-on-the-way">Little things I found on the way</h3>
 <p><br />
 <br />
- The English mathematician G.H. Hardy in the middle of delivering a lecture, Hardy arrived at a point in his argument where he said, “It is now obvious that….” Here he stopped, fell silent, and stood motionless with furrowed brow for a few seconds. Then he walked out of the lecture hall. Twenty minutes later he returned, smiling, and began, “Yes, it is obvious that….”</p>
+</p>
+<p>The English mathematician G.H. Hardy in the middle of delivering a lecture, Hardy arrived at a point in his argument where he said, “It is now obvious that….” Here he stopped, fell silent, and stood motionless with furrowed brow for a few seconds. Then he walked out of the lecture hall. Twenty minutes later he returned, smiling, and began, “Yes, it is obvious that….”</p>
 <p><a href="http://www.amazon.co.uk/Prime-Obsession-Bernhard-Greatest-Mathematics/dp/0452285259/ref=sr_1_1?ie=UTF8&amp;qid=1391968788&amp;sr=8-1&amp;keywords=Prime+Obsession">Prime Obsession, p.55</a></p>
-]]></summary>
-</entry>
-<entry>
-    <title>Finding Prime Factorisation</title>
-    <link href="madjestic.github.io/atom.xml/posts/2014-02-07-finding-prime-factorisation.html" />
-    <id>madjestic.github.io/atom.xml/posts/2014-02-07-finding-prime-factorisation.html</id>
-    <published>2014-02-07T00:00:00Z</published>
-    <updated>2014-02-07T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on February  7, 2014
-    
-</div>
-
-<h2 id="finding-prime-factorisation">Finding Prime Factorisation</h2>
-<p><br />
-<br />
-Here’s a small textbook excercise that I decided to turn into a haskell program:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | factorize1 function is an interface to factorize function</span>
-<span class="ot">factorize1 ::</span> (<span class="dt">Integral</span> b, <span class="dt">RealFrac</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [b]
-factorize1 n <span class="fu">=</span> map round <span class="fu">$</span> factorize n <span class="dv">2</span>
-
-<span class="co">-- | factorize requires an index k (since we can&#39;t use variables)</span>
-<span class="ot">factorize ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> [a]
-factorize n k
-          <span class="fu">|</span> k <span class="fu">&gt;=</span> n <span class="fu">=</span> n <span class="fu">:</span> []
-          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k          <span class="fu">=</span> k <span class="fu">:</span> factorize (n<span class="fu">/</span>k) k
-          <span class="fu">|</span> n <span class="ot">`isDivisableBy`</span> k <span class="fu">==</span> <span class="dt">False</span> <span class="fu">=</span> factorize n (k<span class="fu">+</span><span class="dv">1</span>)</code></pre></div>
-<p><br />
-<br />
- And a small supporting function that returns True if the product is a full number, and False otherwise</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isDivisableBy ::</span> <span class="dt">RealFrac</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
-isDivisableBy n m <span class="fu">=</span> <span class="kw">let</span> fullNumber <span class="fu">=</span> fromInteger <span class="fu">$</span> round (n<span class="fu">/</span>m)
-                    <span class="kw">in</span> (n<span class="fu">/</span>m) <span class="fu">==</span> fullNumber</code></pre></div>
-<p><br />
-<br />
-Example output:</p>
-<pre><code>&gt; factorize1 1000645
-[5,29,67,103]
-</code></pre>
-<p><br />
-<br />
-Hope you enjoyed it as I did :)</p>
-<p><a href="https://github.com/madjestic/TinyMath">source files on GitHub</a></p>
-]]></summary>
-</entry>
-<entry>
-    <title>Haskell OpenGL Tutorial: drawing 2 triangles.</title>
-    <link href="madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html" />
-    <id>madjestic.github.io/atom.xml/posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html</id>
-    <published>2013-12-30T00:00:00Z</published>
-    <updated>2013-12-30T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on December 30, 2013
-    
-</div>
-
-<h2 id="haskell-opengl-tutorial-drawing-2-triangles.">Haskell OpenGL Tutorial: drawing 2 triangles.</h2>
-<p><br />
-<br />
-We continue with introducing basic vertex/fragment shader support, vertex buffer array object.</p>
-<p>In this tutorial we are finally going to draw our first triangles and, as we are going to see, it adds a chunk of complexity to our code - in fact enough to feel that there could be another tutorial in-between tutorial01 and tutorial02 as there’s a noticable spike between the two at the moment. For now - fasten your seat-belts - we are going for a ride!</p>
-<p>Parts of the code and module LoadShaders taken from <a href="https://github.com/haskell-opengl/GLUT/blob/master/examples/RedBook8/Chapter01/Triangles.hs">svenpanne GLUT example files</a></p>
-<p>The code was modified in order to exclude GLUT dependencies.<br />
-<br />
-The main addition on top what we have done in previous tutorials is the initRsources function, that is doing the following things:</p>
-<ol style="list-style-type: decimal">
-<li>Generates and binds an object name “triangles” to a VertexArrayObject:</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
-initResources <span class="fu">=</span> <span class="kw">do</span>
-  triangles <span class="ot">&lt;-</span> genObjectName
-  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles</code></pre></div>
-<p><br />
-<br />
-2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> vertices <span class="fu">=</span> [
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>) (<span class="fu">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span>
-        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="fu">-</span><span class="fl">0.90</span>),
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,
-        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="fu">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span>
-        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</code></pre></div>
-<p><br />
-<br />
-3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  arrayBuffer <span class="ot">&lt;-</span> genObjectName
-  bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
-  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
-    <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
-    bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</code></pre></div>
-<p><br />
-<br />
-4) Gives and index and initializes a pointer to the memory address that conains the vertices positions.</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
-      vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
-  vertexAttribPointer vPosition <span class="fu">$=</span>
-    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
-  vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span></code></pre></div>
-<p><br />
-That makes this data accessible in the vertex shader:</p>
-<div class="sourceCode"><pre class="sourceCode glsl"><code class="sourceCode glsl"><span class="fu">layout</span>(location = <span class="dv">0</span>) <span class="dt">in</span> <span class="dt">vec4</span> vPosition;</code></pre></div>
-<p><br />
-<br />
-5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
-
-<span class="fu">...</span>
-
- program <span class="ot">&lt;-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
-  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
-
-  return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)</code></pre></div>
-<p>Phew! That was quite a mouthfull. A similar program in C++ could still run without GLSL shading part. Unfortunately it does not work with this example. If there’s a way - one day this tutorial may be split into two separate ones.</p>
-<p><br />
-<br />
-Here’s the whole program:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
-
-<span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
-<span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
-<span class="kw">import </span><span class="dt">Control.Monad</span>
-<span class="kw">import </span><span class="dt">LoadShaders</span>
-<span class="kw">import </span><span class="dt">Foreign.Marshal.Array</span>
-<span class="kw">import </span><span class="dt">Foreign.Ptr</span>
-<span class="kw">import </span><span class="dt">Foreign.Storable</span>
-
-
-<span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ptr</span> b
-bufferOffset <span class="fu">=</span> plusPtr nullPtr <span class="fu">.</span> fromIntegral
-
-
-<span class="kw">data</span> <span class="dt">Descriptor</span> <span class="fu">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span>
-
-
-<span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span>
-initResources <span class="fu">=</span> <span class="kw">do</span>
-  triangles <span class="ot">&lt;-</span> genObjectName
-  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
-
-  <span class="kw">let</span> vertices <span class="fu">=</span> [
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>) (<span class="fu">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span>
-        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="fu">-</span><span class="fl">0.90</span>),
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,
-        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="fu">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span>
-        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,
-        <span class="dt">Vertex2</span> (<span class="fu">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]
-      numVertices <span class="fu">=</span> length vertices
-
-  arrayBuffer <span class="ot">&lt;-</span> genObjectName
-  bindBuffer <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> <span class="dt">Just</span> arrayBuffer
-  withArray vertices <span class="fu">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span>
-    <span class="kw">let</span> size <span class="fu">=</span> fromIntegral (numVertices <span class="fu">*</span> sizeOf (head vertices))
-    bufferData <span class="dt">ArrayBuffer</span> <span class="fu">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)
-
-  <span class="kw">let</span> firstIndex <span class="fu">=</span> <span class="dv">0</span>
-      vPosition <span class="fu">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span>
-  vertexAttribPointer vPosition <span class="fu">$=</span>
-    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))
-  vertexAttribArray vPosition <span class="fu">$=</span> <span class="dt">Enabled</span>
-
-  program <span class="ot">&lt;-</span> loadShaders [
-     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),
-     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]
-  currentProgram <span class="fu">$=</span> <span class="dt">Just</span> program
-
-  return <span class="fu">$</span> <span class="dt">Descriptor</span> triangles firstIndex (fromIntegral numVertices)
-
-                    
-<span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
-resizeWindow size<span class="fu">@</span>(<span class="dt">GL.Size</span> w h) <span class="fu">=</span>
-    <span class="kw">do</span>
-      GL.viewport   <span class="fu">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)
-      GL.matrixMode <span class="fu">$=</span> <span class="dt">GL.Projection</span>
-      GL.loadIdentity
-      GL.ortho2D <span class="dv">0</span> (realToFrac w) (realToFrac h) <span class="dv">0</span>
-
-
-<span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> <span class="kw">do</span>
-  GLFW.initialize
-  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span>
-  GLFW.windowTitle <span class="fu">$=</span> <span class="st">&quot;GLFW Demo&quot;</span>
-  GLFW.windowSizeCallback <span class="fu">$=</span> resizeWindow
-  descriptor <span class="ot">&lt;-</span> initResources
-  onDisplay descriptor
-  GLFW.closeWindow
-  GLFW.terminate
-
-
-<span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
-onDisplay descriptor<span class="fu">@</span>(<span class="dt">Descriptor</span> triangles firstIndex numVertices) <span class="fu">=</span> <span class="kw">do</span>
-  GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
-  GL.clear [<span class="dt">ColorBuffer</span>]
-  bindVertexArrayObject <span class="fu">$=</span> <span class="dt">Just</span> triangles
-  drawArrays <span class="dt">Triangles</span> firstIndex numVertices
-  GLFW.swapBuffers
-
-  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span>
-  unless (p <span class="fu">==</span> <span class="dt">GLFW.Press</span>) <span class="fu">$</span> onDisplay descriptor</code></pre></div>
-<p><br />
-<br />
-<img src="../images/tutorial02.png" alt="" /><br />
-<br />
-<a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial02">tutorial files on GitHub</a><br />
-<br />
- next: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">Haskell OpenGL Tutorial: colored triangle.</a><br />
-previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 ]]></summary>
 </entry>
 

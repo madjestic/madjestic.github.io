@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content>
+	<meta name="author" content>
+	<link rel="shortcut icon" href="../../docs-assets/ico/favicon.ico">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>My Hakyll Blog - On Purity vs. Impurity in haskell.</title>
+
+        <link href="../css/default.css" rel="stylesheet" type="text/css">
+
+	<!-- Bootstrap core CSS -->
+	<link href="../css/bootstrap.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="../css/starter-template.css" rel="stylesheet">
+
+	<!-- Code syntax highlighting CSS -->
+	<link href="../css/syntax.css" rel="stylesheet">
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+        ga('create', 'UA-52989677-1', 'auto');
+        ga('send', 'pageview');
+      
+      </script>
+    </head>
+
+    <body>
+	
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	    <div class="container">
+		<div class="navbar-header">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand" href="https://github.com/madjestic/madjestic.github.io">GitHub</a>
+		</div>
+		<div class="collapse navbar-collapse">
+		    <ul class="nav navbar-nav">
+			<li class="active"><a href="../">Home</a></li>
+			<li><a href="#about">About</a></li>
+			<li><a href="#contact">Contact</a></li>
+		    </ul>
+		</div><!--/.nav-collapse -->
+	    </div>
+	</div>
+
+	<div class="container">
+
+	    <div class="row row-offcanvas row-offcanvas-right">
+
+		<div class="col-xs-12 col-sm-10">
+		    <head>
+  			<a href="../"><img width="100%" src="../images/turtles_sponge_header.jpg" /></a>
+		    </head>
+
+		    <!-- content -->
+		    <div class="starter-template">
+			<!-- <h1>On Purity vs. Impurity in haskell.</h1> -->
+		    </div>
+		    <div>
+			<p class="small"><div class="info">
+    Posted on November  2, 2018
+    
+</div>
+
+<h2 id="this-is-some-working-material-for-the-future-post">This is some working material for the future post</h2>
+<p><br />
+<br />
+</p>
+<p>me &gt; I am trying to understand the concept of purity, and though, on the surface, the distinction seems obvious, there seems to be cases, where things are not so blunt as &quot; <code>IO ()</code> means impure“, isn’t it? me &gt; e.g. if pure = ref.transparent + no side effects, then <code>fakeIO        = return () :: IO ()</code> - does not it qualify as pure, even though it’s IO ()? It has no side effects, it always return the same value, it is, presumably, ref.transparent. me &gt; if <code>readLn</code> is obviously impure, is not <code>putStrLn        &quot;Hello&quot;</code>, in a sense, pure? I guess it’s impure, since it can be printed in different ways (via various output devices), is it why it’s impure? me &gt; otherwise it always returns the same value and its side effect seems limited by printing - can impurity of putStrLn lead to rocket launch from a Moon-base somehow? <MarcelineVQ> IO is pure, you’ll be happy to know. The difference between f :: String and f :: IO String is that the first is a value of String and the second is an action that may result in a String when executed, haskell separates evaluation and execution, so both of these things are as pure as any other Haskell value in your code <MarcelineVQ> <span class="citation" data-cites="quote">@quote</span> /ls <lambdabot> shachaf says: getLine :: IO String contains a String in the same way that /bin/ls contains a list of files <MarcelineVQ> You may see IO called impure sometimes, however IO is entirely pure. For example something like putStrLn”foo&quot; :: IO () describes a recipe for writing some output to the outside world, this recipe is pure, any putStrLn “foo” :: IO () are always the same recipe and working with the recipe has no side effects. Haskell separates evaluation and execution, we can combine and modify recipes all we like [evaluation] and it’s <MarcelineVQ> not until we’re baking the cake [execution] that side effects would even be possible. <MarcelineVQ> The story is a little more complicated than that, but does this make sense as an idea? me &gt; does it mean that a function can be pure during evaluation, but when executed it may be impure (have sideefects)? <MarcelineVQ> That’s a great question, I’m not firm enough on the terminology to say for sure now that you’ve asked. <dmwit> madjestic: Everything (okay, almost everything) in Haskell is referentially transparent, even terms of type IO Whatever. <dmwit> Different people mean different things by “pure”, but referentially transparent has a solid, technical definition. me &gt; thanks. I guess now I need to better understand what are sideeffects (SEs) then. Let’s say that SE is some sort of interaction with the world (like reading a file or printing to the screen (that changes the state of the videodriver, which draws something on the screen as a result)) - but where do you draw the line then? I.e.: is not everything an interaction with the world? Say, thunks are being generated - does not it change the me &gt; state of RAM, hence interaction with the world, hence it’s a SE? <ab9rf> madjestic: most of the time, we pretend that “processor state” doesn’t exist me &gt; so every other change of state outside of “processor state” can be considered as a SE? <ab9rf> and so the “side effects” of making the processor do things, allocating memory, and so forth are ignored. we blithely assume that the processor will not malfunctio and that the runtime will not run out of memory <ab9rf> madjestic: consider whatever you want to be a “side effect” :) &lt;jle<code>&gt; side-effect is basically a concept that applies differently in        every context, there's no 'universal' definition; it's pretty much        context    me &gt; I would like to settle on some solid ground here, if possible - I        don't want to think of it as a matter of taste    &lt;ab9rf&gt; i think it's better to approach this abstractly    &lt;jle</code>&gt; basically you get to define the world you are talking about, and in doing that you define what side effects are and what non-side-effects are me &gt; nice, I like that <ab9rf> instead of spending a great deal of energy cataloging and categorizing the microscoping activities of the runtime system me &gt; coz my next question after “what is pure, what is SE” would be “what is world?” :) &lt;jle<code>&gt; it's sort of like picking the primitives of your deontation    &lt;jle</code>&gt; right, the definition of world also depends on the context &lt;jle<code>&gt; think of it like the idea of 'universe' in set theory        left #haskell-beginners: Quit: Konversation terminated!    &lt;jle</code>&gt; there is no absolute idea of universe, just whatever is useful for what theorem or conclusion you are trying to prove or figure out <Cale_> It might all be much clearer if Haskell still had a formally specified denotational semantics (in principle it does, but in practice, nobody’s gone to the trouble since the very early versions) &lt;jle<code>&gt; even if haskell had a formally defined denotational semantics,        you can still talk about your own mini denotative semantics in an        EDSL you write    &lt;jle</code>&gt; so you have a completely different idea of universe, side effects, etc. <Cale_> Sure W. Flint) me &gt; interesting <Cale_> I just mean, what people are usually talking about when they say “side effect” of a program is any behaviour of the program which we care about, but which isn’t captured by discussing values (in the sense of denotations of programs) me &gt; Cale_: “still had a formally specified denotational semantics” - was it specified before? realname) <Cale_> Yeah, I think someone did Haskell 1.0 <Cale_> Or some core language of Haskell 1.0, and then other stuff was handled by translation into that core me &gt; wow, DS seems like yet another world of its own me &gt; I wish I got to that sort of stuff at the uni <Cale_> an interesting thing is that by encoding effects into a type like IO, we turn things which would have been side-effects into values to some extent – though what can be understood denotationally about IO actions is still rather shallow (Conal Elliott has likened it to a syntax-level encoding, and that’s mostly right) <Cale_> It still gives us a language with which to discuss equations between IO actions, but it doesn’t really tell us anything about what nontrivial equations might exist <Cale_> For that, we’d need some machine model still – and so it becomes about the same as any imperative language left #haskell-beginners: Quit: Leaving <Cale_> But still, you can maintain a distinction between evaluation of Haskell expressions, and execution of IO actions, and in ordinary Haskell programs, evaluation has no side effects. W. Flint) <Cale_> (while execution exists to carry out the effects described by the IO actions, so it seems strange to call them side effects at that point) <Cale_> (getting off my train, headed to the airport bound for London for Haskell eXchange)</p>
+<p><img src="../images/my_image.png" /><br />
+<br />
+</p>
+<p><a href="https://ref_link_addres">ref name</a><br />
+My Text<br />
+previous: <a href="../posts/previous_post_name.html">Previous Post</a></p>
+</p>
+		    </div>
+		    <!-- /content -->
+		    
+		    <div class="row">
+			<div id="footer">
+		            Site proudly generated by
+			    <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+			</div>
+		    </div>
+		    <!-- /.container -->
+
+		</div>
+		
+		<div class="col-xs-12 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
+		    <div class="list-group">
+			<a href="http://www.apileofgrains.nl/" class="list-group-item">A Pile of Grains</a>
+			<a href="https://sites.google.com/site/77neuronsprojectperelman/" class="list-group-item">Project Perelman</a>
+		    </div>
+		</div>
+	    </div>
+
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+		/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+		var disqus_shortname = 'turtlesturtlesturtles'; // required: replace example with your forum shortname
+
+		/* * * DON'T EDIT BELOW THIS LINE * * */
+		(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	    </script>
+	    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	    
+
+	</div><!-- /.container -->
+
+	<!-- Bootstrap core JavaScript
+        ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+
+    </body>
+</html>

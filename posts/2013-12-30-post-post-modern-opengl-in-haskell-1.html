@@ -83,29 +83,29 @@ For a while my goal was to learn the basics of OpenGL, sufficient for following 
 <p>On the way towards this goal, I managed to get through first steps, thanks to <a href="http://www.arcadianvisions.com/blog/?p=388">Postmodern Haskell and OpenGL: Introducing vinyl-gl</a>, but there are a few problems with it: 1) Anthony’s code is relying on <a href="http://hackage.haskell.org/package/GLUT">GLUT</a>. The general consensus at the moment is that <a href="http://en.wikipedia.org/wiki/OpenGL_Utility_Toolkit">GLUT is a legacy package</a>, which contradicts my goal of keeping the code base fresh. 2) Anthony’s latest tutorial goals further digress from my goals by putting an accent on using Anthony’s personal <a href="http://hackage.haskell.org/package/vinyl-gl">vynil-gl</a> utility library. My goal is to learn OpenGL, not to use any personal utility libraries, unless it is necessary. 3) The tutorial is failing at the most crucial aspect of a tutorial: gradual increase of complexity – developing more complex examples, based on simpler examples. Instead, <a href="http://www.arcadianvisions.com/blog/?p=388">the second tutorial</a> seems to be disconnected from <a href="http://www.arcadianvisions.com/blog/?p=224">the first</a>. 4) Most important: due to outdated dependencies that Anthony is using in his code, none of his examples compile out of the box and require poking around, which is very frustrating when you hardly know what you are doing and don’t really know if it is your graphics card, or your code, or something else is broken.</p>
 <p>Hopefully that explains my decision to come up with my own set of examples and, possibly, turn in into a set of mini-tutorials, that some other adventurous soul may find useful in the future:</p>
 <p>Here’s the very first OpenGL Hello World in Haskell. It is using <a href="http://hackage.haskell.org/package/GLFW-b">GLFW-b</a> library as a odependency, instead of GLUT, for the reasons, mentioned above:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span>
-<span class="kw">import </span><span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span>
-
-<span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> <span class="kw">do</span>
-  GLFW.init
-  GLFW.defaultWindowHints
-  <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span>
-  GLFW.makeContextCurrent (<span class="dt">Just</span> win)
-  onDisplay win
-  GLFW.destroyWindow win
-  GLFW.terminate
-
-<span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
-onDisplay win <span class="fu">=</span> <span class="kw">do</span>
-  GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span>
-  GL.clear [<span class="dt">ColorBuffer</span>]
-  GLFW.swapBuffers win
-  onDisplay win</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">import</span> <span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">import</span> <span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span></a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb1-5" title="5">main <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb1-6" title="6">  GLFW.init</a>
+<a class="sourceLine" id="cb1-7" title="7">  GLFW.defaultWindowHints</a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb1-9" title="9">  GLFW.makeContextCurrent (<span class="dt">Just</span> win)</a>
+<a class="sourceLine" id="cb1-10" title="10">  onDisplay win</a>
+<a class="sourceLine" id="cb1-11" title="11">  GLFW.destroyWindow win</a>
+<a class="sourceLine" id="cb1-12" title="12">  GLFW.terminate</a>
+<a class="sourceLine" id="cb1-13" title="13"></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb1-15" title="15">onDisplay win <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb1-16" title="16">  GL.clearColor <span class="fu">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-17" title="17">  GL.clear [<span class="dt">ColorBuffer</span>]</a>
+<a class="sourceLine" id="cb1-18" title="18">  GLFW.swapBuffers win</a>
+<a class="sourceLine" id="cb1-19" title="19">  onDisplay win</a></code></pre></div>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a></p>
 <p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>
-<p><img src="../images/tutorial00.png" alt /><br />
+<p><img src="../images/tutorial00.png" /><br />
 <br />
 <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a><br />
 next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>

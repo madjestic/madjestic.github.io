@@ -79,68 +79,69 @@
 <p><br />
 <br />
 A):</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
-mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
-mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
-	<span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
-        subLeaves (t<span class="fu">:</span>ts)
-            <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts
-			<span class="fu">|</span> otherwise <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts
-                                      </code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b</a>
+<a class="sourceLine" id="cb1-2" title="2">mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []</a>
+<a class="sourceLine" id="cb1-3" title="3">mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))</a>
+<a class="sourceLine" id="cb1-4" title="4">	<span class="kw">where</span> subLeaves [] <span class="fu">=</span> []</a>
+<a class="sourceLine" id="cb1-5" title="5">        subLeaves (t<span class="fu">:</span>ts)</a>
+<a class="sourceLine" id="cb1-6" title="6">            <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts</a>
+<a class="sourceLine" id="cb1-7" title="7">			<span class="fu">|</span> <span class="fu">otherwise</span> <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts</a>
+<a class="sourceLine" id="cb1-8" title="8">                                      </a></code></pre></div>
 <p>B):</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="fu">fmap</span> f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (<span class="fu">map</span> (<span class="fu">fmap</span> f) ts)</a></code></pre></div>
 <p><br />
- The idea was to create a function that would walk through a tree-like data structure and do some stuff to it. First I spent 2 evenings designing (or understanding rather) a recursive patter-matching function. The evening I was able to compile it <em>and</em> produce the expected result – I felt quite content with myself…</p>
+</p>
+<p>The idea was to create a function that would walk through a tree-like data structure and do some stuff to it. First I spent 2 evenings designing (or understanding rather) a recursive patter-matching function. The evening I was able to compile it <em>and</em> produce the expected result – I felt quite content with myself…</p>
 <p>C):</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b
-mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []
-mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))
-    <span class="kw">where</span> subLeaves [] <span class="fu">=</span> []
-        subLeaves (t<span class="fu">:</span>ts)
-            <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts
-			<span class="fu">|</span> otherwise <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts
-                <span class="kw">where</span> label    <span class="fu">=</span> rootLabel t</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="ot">mapLabel ::</span>  <span class="dt">Eq</span> a <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Tree</span> a <span class="ot">-&gt;</span> <span class="dt">Tree</span> b</a>
+<a class="sourceLine" id="cb3-2" title="2">mapLabel f (<span class="dt">Node</span> label []) <span class="fu">=</span> <span class="dt">Node</span> (f label) []</a>
+<a class="sourceLine" id="cb3-3" title="3">mapLabel f (<span class="dt">Node</span> label subTrees) <span class="fu">=</span> (<span class="dt">Node</span> (f label) (subLeaves subTrees))</a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="kw">where</span> subLeaves [] <span class="fu">=</span> []</a>
+<a class="sourceLine" id="cb3-5" title="5">        subLeaves (t<span class="fu">:</span>ts)</a>
+<a class="sourceLine" id="cb3-6" title="6">            <span class="fu">|</span> leaf t    <span class="fu">=</span>  <span class="dt">Node</span> (f label) [] <span class="fu">:</span> subLeaves ts</a>
+<a class="sourceLine" id="cb3-7" title="7">			<span class="fu">|</span> <span class="fu">otherwise</span> <span class="fu">=</span>  <span class="dt">Node</span> (f label) (subLeaves subTrees) <span class="fu">:</span> subLeaves ts</a>
+<a class="sourceLine" id="cb3-8" title="8">                <span class="kw">where</span> label    <span class="fu">=</span> rootLabel t</a></code></pre></div>
 <p>Just look at the awe-inspiring complexity of it!.. How is it even possible that my humble mind was able to grasp that? Then I revisited some of the related source-code inside Data.Tree module:</p>
 <p>D):</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Tree</span> <span class="kw">where</span>
-    fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (map (fmap f) ts)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Tree</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="fu">fmap</span> f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f x) (<span class="fu">map</span> (<span class="fu">fmap</span> f) ts)</a></code></pre></div>
 <p>… So much for the awesome complexity. It turned out the the solution B) is functionally equivalent to A) and has additional benefit of being so much more concise and easy to re-factor into, say, this:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f ts) (map (fmap f) ts)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="fu">fmap</span> f (<span class="dt">Node</span> x ts) <span class="fu">=</span> <span class="dt">Node</span> (f ts) (<span class="fu">map</span> (<span class="fu">fmap</span> f) ts)</a></code></pre></div>
 <p>(This function will recursively operate on ts (pattern-matched to subForest members), rather than on the x (rootLabel), as in the function above, without loosing readability – ain’t that just peachy?):</p>
 <p>Further example of the same principle:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are roughly equivalent:</span>
-<span class="co">-- A:</span>
-<span class="ot">gamma ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
-gamma t k <span class="fu">=</span> <span class="dt">Node</span> a forest 
-           <span class="kw">where</span> a      <span class="fu">=</span> (\[x, y] <span class="ot">-&gt;</span> x<span class="fu">*</span>y) <span class="fu">$</span> map read <span class="fu">$</span> map rootLabel [t,k]
-                 forest <span class="fu">=</span> (multIntForests (subForest t) (subForest k)) 
-
-<span class="ot">multIntTrees ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span>
-multIntTrees <span class="fu">=</span> gamma
- 
-
-<span class="ot">multIntForests ::</span> [<span class="dt">Tree</span> <span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">String</span>]<span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">Int</span>]
-multIntForests [] _ <span class="fu">=</span> []
-multIntForests _ [] <span class="fu">=</span> []
-multIntForests (t<span class="fu">:</span>ts) (k<span class="fu">:</span>ks) <span class="fu">=</span> gamma t k <span class="fu">:</span> multIntForests ts ks 
-
-
-<span class="co">-- B:</span>
-delta f (<span class="dt">Node</span> a ts) (<span class="dt">Node</span> b ks) <span class="fu">=</span> (<span class="dt">Node</span> (f a b) (zipWith (delta f) ts ks))</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="co">-- A and B are roughly equivalent:</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">-- A:</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="ot">gamma ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb6-4" title="4">gamma t k <span class="fu">=</span> <span class="dt">Node</span> a forest </a>
+<a class="sourceLine" id="cb6-5" title="5">           <span class="kw">where</span> a      <span class="fu">=</span> (\[x, y] <span class="ot">-&gt;</span> x<span class="fu">*</span>y) <span class="fu">$</span> <span class="fu">map</span> <span class="fu">read</span> <span class="fu">$</span> <span class="fu">map</span> rootLabel [t,k]</a>
+<a class="sourceLine" id="cb6-6" title="6">                 forest <span class="fu">=</span> (multIntForests (subForest t) (subForest k)) </a>
+<a class="sourceLine" id="cb6-7" title="7"></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="ot">multIntTrees ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb6-9" title="9">multIntTrees <span class="fu">=</span> gamma</a>
+<a class="sourceLine" id="cb6-10" title="10"> </a>
+<a class="sourceLine" id="cb6-11" title="11"></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="ot">multIntForests ::</span> [<span class="dt">Tree</span> <span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">String</span>]<span class="ot">-&gt;</span> [<span class="dt">Tree</span> <span class="dt">Int</span>]</a>
+<a class="sourceLine" id="cb6-13" title="13">multIntForests [] _ <span class="fu">=</span> []</a>
+<a class="sourceLine" id="cb6-14" title="14">multIntForests _ [] <span class="fu">=</span> []</a>
+<a class="sourceLine" id="cb6-15" title="15">multIntForests (t<span class="fu">:</span>ts) (k<span class="fu">:</span>ks) <span class="fu">=</span> gamma t k <span class="fu">:</span> multIntForests ts ks </a>
+<a class="sourceLine" id="cb6-16" title="16"></a>
+<a class="sourceLine" id="cb6-17" title="17"></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">-- B:</span></a>
+<a class="sourceLine" id="cb6-19" title="19">delta f (<span class="dt">Node</span> a ts) (<span class="dt">Node</span> b ks) <span class="fu">=</span> (<span class="dt">Node</span> (f a b) (<span class="fu">zipWith</span> (delta f) ts ks))</a></code></pre></div>
 <p>… And more examples:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- A and B are equivalent:</span>
-<span class="co">-- A:</span>
-<span class="co">-- Aquire a tree with the number of sub-nodes as a value of the rootLabel:</span>
-<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
-members (<span class="dt">Node</span> x [])  <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> <span class="st">&quot;0&quot;</span>, subForest <span class="fu">=</span> []}
-members (<span class="dt">Node</span> x ts0) <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> (show <span class="fu">$</span> length ts0), subForest <span class="fu">=</span> subNodes ts0}
-     <span class="kw">where</span> subNodes []     <span class="fu">=</span> []
-           subNodes [t]    <span class="fu">=</span> members t <span class="fu">:</span> []
-           subNodes (t<span class="fu">:</span>ts) <span class="fu">=</span> (members t)<span class="fu">:</span> subNodes ts
-
-<span class="co">-- B:</span>
-<span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span>
-members <span class="fu">=</span> fmap length</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="co">-- A and B are equivalent:</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">-- A:</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">-- Aquire a tree with the number of sub-nodes as a value of the rootLabel:</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb7-5" title="5">members (<span class="dt">Node</span> x [])  <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> <span class="st">&quot;0&quot;</span>, subForest <span class="fu">=</span> []}</a>
+<a class="sourceLine" id="cb7-6" title="6">members (<span class="dt">Node</span> x ts0) <span class="fu">=</span> <span class="dt">Node</span> {rootLabel <span class="fu">=</span> (<span class="fu">show</span> <span class="fu">$</span> <span class="fu">length</span> ts0), subForest <span class="fu">=</span> subNodes ts0}</a>
+<a class="sourceLine" id="cb7-7" title="7">     <span class="kw">where</span> subNodes []     <span class="fu">=</span> []</a>
+<a class="sourceLine" id="cb7-8" title="8">           subNodes [t]    <span class="fu">=</span> members t <span class="fu">:</span> []</a>
+<a class="sourceLine" id="cb7-9" title="9">           subNodes (t<span class="fu">:</span>ts) <span class="fu">=</span> (members t)<span class="fu">:</span> subNodes ts</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">-- B:</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="ot">members ::</span> <span class="dt">Tree</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Tree</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb7-13" title="13">members <span class="fu">=</span> <span class="fu">fmap</span> <span class="fu">length</span></a></code></pre></div>
 </p>
 		    </div>
 		    <!-- /content -->

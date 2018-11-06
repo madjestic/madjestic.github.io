@@ -8,8 +8,61 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2018-11-02T00:00:00Z</updated>
+    <updated>2018-11-05T00:00:00Z</updated>
     <entry>
+    <title>Keystaion Mini 32 setup with JACK and qsynth check-list</title>
+    <link href="madjestic.github.io/atom.xml/posts/2018-11-05-keystation_midi_32_qjack_quick_start.html" />
+    <id>madjestic.github.io/atom.xml/posts/2018-11-05-keystation_midi_32_qjack_quick_start.html</id>
+    <published>2018-11-05T00:00:00Z</published>
+    <updated>2018-11-05T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div class="info">
+    Posted on November  5, 2018
+    
+</div>
+
+<h2 id="some-notes-primarily-to-myself-and-others-stuck-with-jack-keystation-mini-32-midi-keyborad-under-linux">Some notes primarily to myself and others stuck with JACK, keystation mini 32 midi keyborad under Linux</h2>
+<p><br />
+<br />
+</p>
+<p><a href="https://wiki.archlinux.org/index.php/USB_MIDI_keyboards">stolen from here:</a><br />
+This guide assumes a kernel that has been setup to support MIDI devices, such as Keystation Mini 32, for example <a href="https://raw.githubusercontent.com/madjestic/nu/master/usr/src/linux/.config-linux-4.14.78-gentoo">this kernel config:</a><br />
+Plug in the keyboard into the USB port and check if your dmesg is showing something similar:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">$ <span class="fu">dmesg</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="ex">...</span></a>
+<a class="sourceLine" id="cb1-3" title="3">[<span class="ex">30937.290895</span>] usb 3-1: USB disconnect, device number 5</a>
+<a class="sourceLine" id="cb1-4" title="4">[<span class="ex">30942.383408</span>] usb 3-1: new full-speed USB device number 11 using xhci_hcd</a>
+<a class="sourceLine" id="cb1-5" title="5">[<span class="ex">30942.511908</span>] usb 3-1: New USB device found, idVendor=0a4d, idProduct=129d</a>
+<a class="sourceLine" id="cb1-6" title="6">[<span class="ex">30942.511913</span>] usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0</a>
+<a class="sourceLine" id="cb1-7" title="7">[<span class="ex">30942.511916</span>] usb 3-1: Product: Keystation Mini 32</a>
+<a class="sourceLine" id="cb1-8" title="8">[<span class="ex">30942.511919</span>] usb 3-1: Manufacturer: Keystation Mini 32</a></code></pre></div>
+<p><br />
+Assuming that you do, let’s do the following checks:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1">$ <span class="fu">aconnect</span> -l</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="ex">client</span> 0: <span class="st">&#39;System&#39;</span> [type=kernel]</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="ex">0</span> <span class="st">&#39;Timer           &#39;</span></a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="ex">1</span> <span class="st">&#39;Announce        &#39;</span></a>
+<a class="sourceLine" id="cb2-5" title="5">	<span class="ex">Connecting</span> To: 15:0, 128:0</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="ex">client</span> 14: <span class="st">&#39;Midi Through&#39;</span> [type=kernel]</a>
+<a class="sourceLine" id="cb2-7" title="7">    <span class="ex">0</span> <span class="st">&#39;Midi Through Port-0&#39;</span></a>
+<a class="sourceLine" id="cb2-8" title="8">	<span class="ex">Connected</span> From: 20:0</a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="ex">client</span> 15: <span class="st">&#39;OSS sequencer&#39;</span> [type=kernel]</a>
+<a class="sourceLine" id="cb2-10" title="10">    <span class="ex">0</span> <span class="st">&#39;Receiver        &#39;</span></a>
+<a class="sourceLine" id="cb2-11" title="11">	<span class="ex">Connected</span> From: 0:1</a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="ex">client</span> 20: <span class="st">&#39;Keystation Mini 32&#39;</span> [type=kernel,card=1]</a>
+<a class="sourceLine" id="cb2-13" title="13">    <span class="ex">0</span> <span class="st">&#39;Keystation Mini 32 MIDI 1&#39;</span></a>
+<a class="sourceLine" id="cb2-14" title="14">	<span class="ex">Connecting</span> To: 14:0, 129:0</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1">$ <span class="ex">aseqdump</span> -p 20</a></code></pre></div>
+<p>where <code>20</code> is the client number from the previous command - this can help you see if your midi device is producing any output. Then start qjackctrl and qsynth:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1">$ <span class="ex">qjackctl</span></a>
+<a class="sourceLine" id="cb4-2" title="2">$ <span class="ex">qsynth</span></a></code></pre></div>
+<p>If qsynth does not show up among ALSA devices, make sure that MIDI driver is set to <code>alsa_seq</code>, you should see a picture similar to the one below:<br />
+<br />
+<img src="../images/jack_midi_900.png" /><br />
+If all went fine, connect your Keystation to Qsynth inside ALSA devices window and play some music!</p>
+<p>References <a href="https://wiki.archlinux.org/index.php/USB_MIDI_keyboards">arch-linux wiki</a></p>
+]]></summary>
+</entry>
+<entry>
     <title>On Purity vs. Impurity in haskell.</title>
     <link href="madjestic.github.io/atom.xml/posts/2018-11-02-on-purity-vs-impurity.html" />
     <id>madjestic.github.io/atom.xml/posts/2018-11-02-on-purity-vs-impurity.html</id>
@@ -292,25 +345,6 @@ input-handling (user-event system)<br />
 <p><br />
 <br />
 <img src="../images/product_rule.png" /></p>
-]]></summary>
-</entry>
-<entry>
-    <title>Gems on the road</title>
-    <link href="madjestic.github.io/atom.xml/posts/2014-02-09-gems-on-the-road.html" />
-    <id>madjestic.github.io/atom.xml/posts/2014-02-09-gems-on-the-road.html</id>
-    <published>2014-02-09T00:00:00Z</published>
-    <updated>2014-02-09T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div class="info">
-    Posted on February  9, 2014
-    
-</div>
-
-<h3 id="little-things-i-found-on-the-way">Little things I found on the way</h3>
-<p><br />
-<br />
-</p>
-<p>The English mathematician G.H. Hardy in the middle of delivering a lecture, Hardy arrived at a point in his argument where he said, “It is now obvious that….” Here he stopped, fell silent, and stood motionless with furrowed brow for a few seconds. Then he walked out of the lecture hall. Twenty minutes later he returned, smiling, and began, “Yes, it is obvious that….”</p>
-<p><a href="http://www.amazon.co.uk/Prime-Obsession-Bernhard-Greatest-Mathematics/dp/0452285259/ref=sr_1_1?ie=UTF8&amp;qid=1391968788&amp;sr=8-1&amp;keywords=Prime+Obsession">Prime Obsession, p.55</a></p>
 ]]></summary>
 </entry>
 

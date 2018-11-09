@@ -95,7 +95,18 @@ img {
 
 <!-- BODY -->
 <h2 id="on-purity-vs-impurity-in-haskell">On Purity vs Impurity in Haskell</h2>
-<p><strong>Me:</strong>: I am trying to understand the concept of purity, and though, on the surface, the distinction seems obvious, there seems to be cases, where things are not so blunt as &quot; <code>IO ()</code> means <em>impure</em>&quot;, isn’t it?</p>
+<p><br />
+</p>
+<em>“<code>IO ()</code> type signature is like a ”Danger: Minefield!&quot; sign - it does not mean that everywhere you step there’s going to be a mine, but there can be a mine somewhere&quot;.</em>
+<p style="text-align:right;">
+(c) hoknamahn, a XXII century philosopher.
+</p>
+<p><br />
+<br />
+That’s in short. The whole story, however, is a little bit more complicated and goes somewhere along the lines the conversation I had on #haskell-beginners@freenode some time ago:<br />
+<br />
+</p>
+<p><strong>Me:</strong> I am trying to understand the concept of purity, and though, on the surface, the distinction seems obvious, there seems to be cases, where things are not so blunt as &quot; <code>IO ()</code> means <em>impure</em>&quot;, isn’t it?</p>
 <p>For example, if pure = ref.transparent + no side effects (a definition from the wiki), then <code>fakeIO = return () :: IO ()</code> - does not it qualify as pure, even though its type is <code>IO ()</code>? It has no side effects, it always return the same value, it is, presumably, ref.transparent.</p>
 <p>If <code>readLn</code> is obviously <em>impure</em>, is not <code>putStrLn &quot;Hello&quot;</code>, in a sense, pure? I guess it’s <em>impure</em>, since it can be printed in different ways (via various output devices), is it why it’s <em>impure</em>? It always returns the same value and its side effect seems limited by printing - can impurity of putStrLn lead to rocket launch from a Moon-base somehow?</p>
 <p><strong>MarcelineVQ</strong>: IO is pure, you’ll be happy to know. The difference between <code>f :: String</code> and <code>f :: IO String</code> is that the first is a value of String and the second is an action that may result in a <code>String</code> when executed, haskell separates evaluation and execution, so both of these things are as pure as any other Haskell value in your code. <code>getLine :: IO String</code> contains a <code>String</code> in the same way that <code>/bin/ls</code> contains a list of files.</p>

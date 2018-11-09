@@ -111,15 +111,11 @@ That’s in short. The whole story, however, is a little bit more complicated an
 <p><strong>Me:</strong>: So, every other change of state outside of “processor state” can be considered as a SE?</p>
 <p><strong>ab9rf</strong>: And so the “side effects” of making the processor do things, allocating memory, and so forth are ignored. we blithely assume that the processor will not malfunctio and that the runtime will not run out of memory.</p>
 <p>Consider whatever you want to be a “side effect” :)</p>
-<p><strong>jle</strong>: side-effect is basically a concept that applies differently in every context, there’s no ‘universal’ definition; it’s pretty much context</p>
+<p>I think it’s better to approach this abstractly. Instead of spending a great deal of energy cataloging and categorizing the microscoping activities of the runtime system.</p>
 <p><strong>Me:</strong>: I would like to settle on some solid ground here, if possible - I don’t want to think of it as a matter of taste</p>
-<p><strong>ab9rf</strong>: I think it’s better to approach this abstractly.</p>
-<p><strong>jle</strong>: Basically, you get to define the world you are talking about, and in doing that you define what side effects are and what non-side-effects are</p>
-<p><strong>Me</strong>: Nice, I like that!</p>
-<p><strong>ab9rf</strong>: Instead of spending a great deal of energy cataloging and categorizing the microscoping activities of the runtime system.</p>
-<p><strong>Me:</strong>: My next question after “what is <em>pure</em>, what is SE” would be: “what is <strong>world</strong>?” :)</p>
-<p><strong>jle</strong>: right, the definition of world also depends on the context</p>
-<p><strong>jle</strong>: it’s sort of like picking the primitives of your deontation, think of it like the idea of ‘universe’ in set theory, there is no absolute idea of universe, just whatever is useful for what theorem or conclusion you are trying to prove or figure out.</p>
+<p><strong>jle</strong>: side-effect is basically a concept that applies differently in every context, there’s no ‘universal’ definition; it’s pretty much context. Basically, you get to define the world you are talking about, and in doing that you define what side effects are and what non-side-effects are</p>
+<p><strong>Me</strong>: Nice, I like that! My next question after “what is <em>pure</em>, what is SE” would be: “what is <strong>world</strong>?” :)</p>
+<p><strong>jle</strong>: right, the definition of world also depends on the context. It’s sort of like picking the primitives of your deontation, think of it like the idea of ‘universe’ in set theory, there is no absolute idea of universe, just whatever is useful for what theorem or conclusion you are trying to prove or figure out.</p>
 <p><strong>Cale_:</strong>: It might all be much clearer if Haskell still had a formally specified <a href="https://en.wikipedia.org/wiki/Denotational_semantics">denotational semantics</a> (in principle it does, but in practice, nobody’s gone to the trouble since the very early versions)</p>
 <p><strong>jle</strong>: even if haskell had a formally defined <a href="https://en.wikipedia.org/wiki/Denotational_semantics">denotational semantics</a>, you can still talk about your own mini denotative semantics in an EDSL you write, so you have a completely different idea of universe, sideeffects, etc.</p>
 <p><strong>Cale_:</strong> Sure.</p>

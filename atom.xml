@@ -11,8 +11,8 @@
     <updated>2018-11-11T00:00:00Z</updated>
     <entry>
     <title>Creating a custom ebuild from a cabal package</title>
-    <link href="madjestic.github.io/atom.xml/posts/2018-11-11-crearing-a-custom-haskell-ebuild.html" />
-    <id>madjestic.github.io/atom.xml/posts/2018-11-11-crearing-a-custom-haskell-ebuild.html</id>
+    <link href="madjestic.github.io/atom.xml/posts/2018-11-11-creating-a-custom-haskell-ebuild.html" />
+    <id>madjestic.github.io/atom.xml/posts/2018-11-11-creating-a-custom-haskell-ebuild.html</id>
     <published>2018-11-11T00:00:00Z</published>
     <updated>2018-11-11T00:00:00Z</updated>
     <summary type="html"><![CDATA[<!-- STYLESHEETS -->
@@ -65,10 +65,9 @@ img {
 <br />
 </p>
 <p>Happy hacking!</p>
-<p><img src="../images/null.png" 
-style="width:10px;height:10px;"></p>
-<!-- ![](../images/null.png) -->
-<!-- [linkname](ref) -->
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -92,7 +91,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="some-notes-primarily-to-myself-and-others-stuck-with-jack-keystation-mini-32-midi-keyborad-under-linux">Some notes primarily to myself and others stuck with JACK, keystation mini 32 midi keyborad under Linux</h2>
+<h4 id="some-notes-primarily-to-myself-and-others-stuck-with-jack-keystation-mini-32-midi-keyborad-under-linux">Some notes primarily to myself and others stuck with JACK, keystation mini 32 midi keyborad under Linux</h4>
 <p><br />
 <br />
 </p>
@@ -133,6 +132,9 @@ Assuming that you do, let’s do the following checks:</p>
 <br />
 If all went fine, connect your Keystation to Qsynth inside ALSA devices window and play some music!</p>
 <p>References <a href="https://wiki.archlinux.org/index.php/USB_MIDI_keyboards">arch-linux wiki</a></p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -156,7 +158,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="on-purity-vs-impurity-in-haskell">On Purity vs Impurity in Haskell</h2>
+<h4 id="on-purity-vs-impurity-in-haskell">On Purity vs Impurity in Haskell</h4>
 <p><br />
 </p>
 <em>“<code>IO ()</code> type signature is like a ”Danger: Minefield!&quot; sign - it does not mean that everywhere you step there’s going to be a mine, but there can be a mine somewhere&quot;.</em>
@@ -198,22 +200,9 @@ That’s in short. The whole story, however, is a little bit more complicated an
 <em>(getting off my train, headed to the airport bound for London for Haskell eXchange)</em><br />
 <br />
 <em>The communication ends here.</em></p>
-<!-- <style> -->
-<!-- img {  -->
-<!--     width: 10%;  -->
-<!-- } -->
-<!-- </style> -->
-<p><img src="../images/null.png" 
-style="width:10px;height:10px;"></p>
-<!-- ![](../images/null.png) -->
-<p><br />
-<br />
-</p>
-<!-- [ref name](https://ref_link_addres) -->
-<!-- \ -->
-<!-- My Text -->
-<!-- \ -->
-<!-- previous: [Previous Post](../posts/previous_post_name.html) -->
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -237,11 +226,11 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="an-idea-about-a-hybrid-singlemultiplayer-gameplay-system.">An idea about a hybrid single/multiplayer gameplay system.</h2>
+<h4 id="an-idea-about-a-hybrid-singlemultiplayer-gameplay-system.">An idea about a hybrid single/multiplayer gameplay system.</h4>
 <p><br />
 <br />
 </p>
-<h3 id="гибридный-мульти-сингл-плейер.">гибридный мульти / сингл плейер.</h3>
+<p><strong>гибридный мульти / сингл плейер.</strong></p>
 <p>Короче, космосим: у каждого игрока - свое дерево событий в пространстве-времени (4Д дерево, или 3Д деревo + рост). Такие деревйя событий (фактически версий реалжности) можно шарить по желанию.</p>
 <p>Т.е. ты можешь решить, что реальности каких-то игроков могут быть внедрены в твою, это тоже самое, что и мерж набора деревьев, в результате события, генерируемые другими игроками игроками сгенеруруют копии событий. Каждое событие имеет уникальный индентификатор, таким образом оно порождает свое дерево. Если событие становится недоступным в результате вмешательства, то и все порожденное им дерево становится недоступным.Т.е. это такой “непрямой” мультиплеер.</p>
 <p>Возможен вариант прямого мультиплеера, когда набор игроков “синхронизируются” в пространстве времени (например на основе наиболее старшей вселенной) и порождает свою ветку событий, которые в данном случае легко мержатся с имеющимися текущими деревьями событий участников.</p>
@@ -254,6 +243,9 @@ img {
 <p><a href="https://ref_link_addres">ref name</a><br />
 My Text<br />
 previous: <a href="../posts/previous_post_name.html">Previous Post</a></p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -277,7 +269,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="haskell-opengl-tutorial-textured-triangles.">Haskell OpenGL Tutorial: textured triangles.</h2>
+<h4 id="haskell-opengl-tutorial-textured-triangles.">Haskell OpenGL Tutorial: textured triangles.</h4>
 <p><br />
 <br />
 </p>
@@ -287,6 +279,9 @@ img {
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial03">tutorial files on GitHub</a><br />
 In the next tutorial we are going to create an animated object, using FRP.<br />
 previous: <a href="../posts/2015-02-22-haskell-opengl-tutorial-drawing-a-colored-triangle.html">Haskell OpenGL Tutorial: Drawing a colored triangle.</a></p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -310,9 +305,12 @@ img {
 </div>
 
 <!-- BODY -->
-<h3 id="a-haskell-opengl-boilerplate">A Haskell OpenGL Boilerplate</h3>
+<h4 id="a-haskell-opengl-boilerplate">A Haskell OpenGL Boilerplate</h4>
 <p>An attempt to create a concise modern OpenGL Boilerplate.</p>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/Boilerplate">here</a> and <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/minimumBoilerplate">here</a></p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -336,7 +334,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="vex-better-practices">VEX: Better practices</h2>
+<h4 id="vex-better-practices">VEX: Better practices</h4>
 <p><br />
 </p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" title="1"></a>
@@ -366,6 +364,9 @@ img {
 <a class="sourceLine" id="cb2-8" title="8">		</a>
 <a class="sourceLine" id="cb2-9" title="9"><span class="cf">return</span> index;</a></code></pre></div>
 <p>The latter is go, the former - no go. (The former is idiomatic to VOPs)</p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -389,7 +390,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="haskell-opengl-tutorial-colored-triangle.">Haskell OpenGL Tutorial: colored triangle.</h2>
+<h4 id="haskell-opengl-tutorial-colored-triangle.">Haskell OpenGL Tutorial: colored triangle.</h4>
 <p><br />
 <br />
 Credits:</p>
@@ -403,6 +404,9 @@ Credits:</p>
 <p>next: <a href="../posts/2016-02-28-post-post-modern-opengl-in-haskell-4.html">Haskell OpenGL Tutorial: Drawing textured triangles.</a><br />
 previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a><br />
 </p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -426,7 +430,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h2 id="section">2+2=4</h2>
+<h4 id="section">2+2=4</h4>
 <p><br />
 “Leibniz’s proof that 2 + 2 = 4 contains a gap. Grassmann’s definition of a + b is faulty”<br />
 from <a href="../files/frege_FOA.pdf">Gottlob Frege: The Foundations of Arithmetic</a><br />
@@ -448,6 +452,9 @@ I am not crazy, and it’s a legit question :P<br />
 <br />
 “Hardly anything more unfortunate can befall a scientific writer than to have one of the foundations of his edifice shaken after the work is finished. This was the position I was placed in by a letter of Mr. Bertrand Russell, just when the printing of this volume was nearing its completion.”<br />
 </p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 <entry>
@@ -530,6 +537,9 @@ input-handling (user-event system)<br />
 <br />
 </p>
 <p>All in tight 100Kb of code, brought to you by <a href="https://github.com/fumieval">Fumiaki Kinoshita</a></p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
 ]]></summary>
 </entry>
 

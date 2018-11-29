@@ -8,8 +8,80 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2018-11-11T00:00:00Z</updated>
+    <updated>2018-11-29T00:00:00Z</updated>
     <entry>
+    <title>A quick-start with Euterpea</title>
+    <link href="madjestic.github.io/atom.xml/posts/2018-11-29-a-quick-start-with-Euterpea.html" />
+    <id>madjestic.github.io/atom.xml/posts/2018-11-29-a-quick-start-with-Euterpea.html</id>
+    <published>2018-11-29T00:00:00Z</published>
+    <updated>2018-11-29T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<!-- STYLESHEETS -->
+
+<style>
+img { 
+    width: 100%; 
+}
+</style>
+
+<!-- HEADER -->
+<div class="info">
+    Posted on November 29, 2018
+    
+</div>
+
+<!-- BODY -->
+<h4 id="a-guide-how-to-set-up-euterpea-and-make-some-noise.">A guide how to set up Euterpea and make some noise.</h4>
+<p><br />
+</p>
+<p>We assume that you’ve got Euterpea installed either via cabal or a package manager, such as <a href="https://wiki.gentoo.org/wiki/Portage">portage</a>, if not:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">     $ <span class="ex">cabal</span> install euterpea</a></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1">     $ <span class="ex">emerge</span> euterpea                                                  </a></code></pre></div>
+<p>Let’s see if it gets picked up by ghci:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1">     $ <span class="ex">ghci</span></a>
+<a class="sourceLine" id="cb3-2" title="2">     <span class="ex">GHCi</span>, version 8.4.4: http://www.haskell.org/ghc/  :? for help</a>
+<a class="sourceLine" id="cb3-3" title="3">     <span class="ex">Loaded</span> GHCi configuration from /home/madjestic/.ghci</a>
+<a class="sourceLine" id="cb3-4" title="4">     <span class="ex">Prelude</span> Text.Show.Unicode<span class="op">&gt;</span> import Euterpea</a>
+<a class="sourceLine" id="cb3-5" title="5">     <span class="ex">Prelude</span> Text.Show.Unicode Euterpea<span class="op">&gt;</span></a></code></pre></div>
+<p>Now we will use JACK to create a playback device for Euterpea to use to play musice:</p>
+<ul>
+<li><p>start qjackctl</p></li>
+<li><p>start qsynth</p></li>
+<li><p>start server</p></li>
+<li>run <code>devices</code> to see of Euterpea see the qsynth</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">devices</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="dt">Input</span> devices<span class="fu">:</span> </a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="dt">InputDeviceID</span> <span class="dv">1</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="fu">-</span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb4-5" title="5"></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="dt">Output</span> devices<span class="fu">:</span> </a>
+<a class="sourceLine" id="cb4-7" title="7">  <span class="dt">OutputDeviceID</span> <span class="dv">0</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="fu">-</span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb4-8" title="8">  <span class="dt">OutputDeviceID</span> <span class="dv">2</span>	qjackctl</a>
+<a class="sourceLine" id="cb4-9" title="9">  <span class="dt">OutputDeviceID</span> <span class="dv">3</span>	<span class="dt">Synth</span> input port (qsynth<span class="fu">:</span><span class="dv">0</span>)</a></code></pre></div>
+<p>Let’s ask Euterpea about instruments that it can play:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="fu">:</span>i <span class="dt">InstrumentName</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">data</span> <span class="dt">Message</span> <span class="fu">=</span> <span class="fu">...</span> <span class="fu">|</span> <span class="dt">InstrumentName</span> <span class="fu">!</span><span class="dt">String</span> <span class="fu">|</span> <span class="fu">...</span></a>
+<a class="sourceLine" id="cb5-3" title="3">   <span class="co">-- Defined in ‘Codec.Midi’</span></a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5">   <span class="kw">data</span> <span class="dt">InstrumentName</span></a>
+<a class="sourceLine" id="cb5-6" title="6">   <span class="fu">=</span> <span class="dt">AcousticGrandPiano</span></a>
+<a class="sourceLine" id="cb5-7" title="7">   <span class="fu">|</span> <span class="dt">BrightAcousticPiano</span></a>
+<a class="sourceLine" id="cb5-8" title="8">   <span class="fu">|</span> <span class="dt">ElectricGrandPiano</span></a>
+<a class="sourceLine" id="cb5-9" title="9">   <span class="fu">|</span> <span class="dt">HonkyTonkPiano</span></a>
+<a class="sourceLine" id="cb5-10" title="10">   <span class="fu">|</span> <span class="dt">RhodesPiano</span></a>
+<a class="sourceLine" id="cb5-11" title="11">   <span class="fu">...</span></a></code></pre></div>
+<p>Finally, let’s tell Euterpea to send a note to JACK to play it via a soft-synth, such as qsynth:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">playDev <span class="dv">3</span> <span class="fu">$</span> instrument <span class="dt">Clavinet</span> <span class="fu">$</span> c <span class="dv">4</span> qn</a></code></pre></div>
+<p>If all went fine, you should hear a sound being played.<br />
+</p>
+<p>Happy hacking!</p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
+]]></summary>
+</entry>
+<entry>
     <title>Creating a custom ebuild from a cabal package.</title>
     <link href="madjestic.github.io/atom.xml/posts/2018-11-11-creating-a-custom-haskell-ebuild.html" />
     <id>madjestic.github.io/atom.xml/posts/2018-11-11-creating-a-custom-haskell-ebuild.html</id>
@@ -461,91 +533,6 @@ I am not crazy, and it’s a legit question :P<br />
 <br />
 “Hardly anything more unfortunate can befall a scientific writer than to have one of the foundations of his edifice shaken after the work is finished. This was the position I was placed in by a letter of Mr. Bertrand Russell, just when the printing of this volume was nearing its completion.”<br />
 </p>
-
-<img src="../images/null.png" 
-style="width:10px;height:10px;">
-]]></summary>
-</entry>
-<entry>
-    <title>An awesome free-game!</title>
-    <link href="madjestic.github.io/atom.xml/posts/2014-07-15-another-gem-on-the-road.html" />
-    <id>madjestic.github.io/atom.xml/posts/2014-07-15-another-gem-on-the-road.html</id>
-    <published>2014-07-15T00:00:00Z</published>
-    <updated>2014-07-15T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<!-- STYLESHEETS -->
-
-<style>
-img { 
-    width: 100%; 
-}
-</style>
-
-<!-- HEADER -->
-<div class="info">
-    Posted on July 15, 2014
-    
-</div>
-
-<!-- BODY -->
-<h2 id="free-game"><a href="https://github.com/fumieval/free-game">free-game</a></h2>
-<p>A little gem I found on the way and wish to share with everybody who is in a similar situation.<br />
-<br />
-</p>
-<h3 id="free-game-gives-you-a-world-so-that-you-can-create-games-easily.">“free-game gives you a world so that you can create games easily.”</h3>
-<p><br />
-<br />
-</p>
-<p>If you, like me, have been looking for a graphics library and you are obsessive-compulsive about minimalism and bloat-ware, than chances are, <a href="/posts/2013-12-30-post-post-modern-opengl-in-haskell-1.html">like me</a>, you can’t stand the idea of relying on <a href="http://gloss.ouroborus.net/">GLOSS</a> as a graphical backend of your project, than you may be delighted to find out that there’s something out there that is small, fresh, readable, that may be just enough for whatever graphics project you may have in mind: <a href="https://github.com/fumieval/free-game">free-game</a><br />
-<br />
-</p>
-<p><img src="../images/free_game_demo.png" /><br />
-<br />
-</p>
-<p>It’s minimal, here’s the list of dependencies:</p>
-<pre><code>    array &gt;= 0.4,
-    base == 4.*,
-    colors == 0.1.*,
-    containers &gt;= 0.4,
-    control-bool,
-    directory &gt;= 1.0,
-    filepath &gt;= 1.3,
-    free &gt;= 4.6.1 &amp;&amp; &lt; 5,
-    freetype2 &gt;= 0.1,
-    GLFW-b &gt;= 1.3 &amp;&amp; &lt;2,
-    hashable &gt;= 1.2,
-    JuicyPixels,
-    JuicyPixels-util == 0.1.*,
-    linear &gt;= 1.0 &amp;&amp; &lt; 2,
-    mtl &gt;= 2.1,
-    OpenGL == 2.9.*,
-    OpenGLRaw == 1.4.*,
-    random == 1.*,
-    reflection == 1.*,
-    template-haskell,
-    transformers &gt;= 0.3,
-    vector &gt;= 0.9 &amp;&amp; &lt;0.12,
-    void &gt;= 0.5,
-    boundingboxes &gt;= 0.2 &amp;&amp; &lt; 0.4,
-    lens &gt;= 3.8 &amp;&amp; &lt; 5</code></pre>
-<p><br />
-</p>
-<p>Here’s, for comparison sake, the list of dependencies for <a href="https://github.com/madjestic/NGL">NGL</a>:</p>
-<pre><code>	base == 4.*,
-	GLFW-b &gt;= 1.3 &amp;&amp; &lt;2,	
-	OpenGL == 2.9.*,
-	OpenGLRaw == 1.4.*,
-	bytestring &gt;= 0.10.0.2</code></pre>
-<p>(yes it’s less, but <a href="https://github.com/madjestic/NGL">NGL</a> is not doing anything besides drawing <a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial06">colorful triangles</a>, yet )</p>
-<p>The total amount of lines of code of Free-Game is 1727 lines (including white-space). Pretty impressive tight code base that supports:</p>
-<p>drawing primitives (lines and shapes)<br />
-textures<br />
-animation<br />
-anti-aliasing and filtering<br />
-font-rendering<br />
-input-handling (user-event system)<br />
-<br />
-</p>
-<p>All in tight 100Kb of code, brought to you by <a href="https://github.com/fumieval">Fumiaki Kinoshita</a></p>
 
 <img src="../images/null.png" 
 style="width:10px;height:10px;">

@@ -92,20 +92,22 @@ img {
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">     $ <span class="ex">cabal</span> install euterpea</a></code></pre></div>
 <p>or</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1">     $ <span class="ex">emerge</span> euterpea                                                  </a></code></pre></div>
-<p>Let’s see if it gets picked up by ghci:</p>
+<p><br />
+Let’s see if it gets picked up by ghci:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1">     $ <span class="ex">ghci</span></a>
 <a class="sourceLine" id="cb3-2" title="2">     <span class="ex">GHCi</span>, version 8.4.4: http://www.haskell.org/ghc/  :? for help</a>
 <a class="sourceLine" id="cb3-3" title="3">     <span class="ex">Loaded</span> GHCi configuration from /home/madjestic/.ghci</a>
 <a class="sourceLine" id="cb3-4" title="4">     <span class="ex">Prelude</span> Text.Show.Unicode<span class="op">&gt;</span> import Euterpea</a>
 <a class="sourceLine" id="cb3-5" title="5">     <span class="ex">Prelude</span> Text.Show.Unicode Euterpea<span class="op">&gt;</span></a></code></pre></div>
-<p>Now we will use JACK to create a playback device for Euterpea to use to play musice:</p>
+<p><br />
+Now we will use JACK to create a playback device for Euterpea to use to play musice:</p>
 <ul>
 <li><p>start qjackctl</p></li>
 <li><p>start qsynth</p></li>
-<li><p>start server</p></li>
-<li>run <code>devices</code> to see of Euterpea see the qsynth</li>
+<li><p>run the JACK server via qjackctl interface</p></li>
+<li>run <code>devices</code> to see of Euterpea see the qsynth:</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">devices</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="dt">Prelude</span> <span class="dt">Text.Show.Unicode</span> <span class="dt">Euterpea</span><span class="fu">&gt;</span> devices</a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="dt">Input</span> devices<span class="fu">:</span> </a>
 <a class="sourceLine" id="cb4-4" title="4">  <span class="dt">InputDeviceID</span> <span class="dv">1</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="fu">-</span><span class="dv">0</span></a>
@@ -114,8 +116,10 @@ img {
 <a class="sourceLine" id="cb4-7" title="7">  <span class="dt">OutputDeviceID</span> <span class="dv">0</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="fu">-</span><span class="dv">0</span></a>
 <a class="sourceLine" id="cb4-8" title="8">  <span class="dt">OutputDeviceID</span> <span class="dv">2</span>	qjackctl</a>
 <a class="sourceLine" id="cb4-9" title="9">  <span class="dt">OutputDeviceID</span> <span class="dv">3</span>	<span class="dt">Synth</span> input port (qsynth<span class="fu">:</span><span class="dv">0</span>)</a></code></pre></div>
-<p>Let’s ask Euterpea about instruments that it can play:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="fu">:</span>i <span class="dt">InstrumentName</span></a>
+<p>We can see here that qsynth is seen by Euterpea as a device number 3.</p>
+<p><br />
+Let’s ask Euterpea about instruments that it can play:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="dt">Prelude</span> <span class="dt">Text.Show.Unicode</span> <span class="dt">Euterpea</span><span class="fu">&gt;</span> <span class="fu">:</span>i <span class="dt">InstrumentName</span></a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw">data</span> <span class="dt">Message</span> <span class="fu">=</span> <span class="fu">...</span> <span class="fu">|</span> <span class="dt">InstrumentName</span> <span class="fu">!</span><span class="dt">String</span> <span class="fu">|</span> <span class="fu">...</span></a>
 <a class="sourceLine" id="cb5-3" title="3">   <span class="co">-- Defined in ‘Codec.Midi’</span></a>
 <a class="sourceLine" id="cb5-4" title="4"></a>
@@ -126,9 +130,11 @@ img {
 <a class="sourceLine" id="cb5-9" title="9">   <span class="fu">|</span> <span class="dt">HonkyTonkPiano</span></a>
 <a class="sourceLine" id="cb5-10" title="10">   <span class="fu">|</span> <span class="dt">RhodesPiano</span></a>
 <a class="sourceLine" id="cb5-11" title="11">   <span class="fu">...</span></a></code></pre></div>
-<p>Finally, let’s tell Euterpea to send a note to JACK to play it via a soft-synth, such as qsynth:</p>
+<p><br />
+Finally, let’s tell Euterpea to send a note to qsynth (device number 3) via JACK to play:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">playDev <span class="dv">3</span> <span class="fu">$</span> instrument <span class="dt">Clavinet</span> <span class="fu">$</span> c <span class="dv">4</span> qn</a></code></pre></div>
 <p>If all went fine, you should hear a sound being played.<br />
+<br />
 </p>
 <p>Happy hacking!</p>
 

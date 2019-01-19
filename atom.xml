@@ -8,8 +8,87 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2018-11-29T00:00:00Z</updated>
+    <updated>2019-01-19T00:00:00Z</updated>
     <entry>
+    <title>A Monad Tutorial</title>
+    <link href="madjestic.github.io/atom.xml/posts/2019-01-19-a-monad-tutorial.html" />
+    <id>madjestic.github.io/atom.xml/posts/2019-01-19-a-monad-tutorial.html</id>
+    <published>2019-01-19T00:00:00Z</published>
+    <updated>2019-01-19T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<!-- STYLESHEETS -->
+
+<style>
+img { 
+    width: 100%; 
+}
+</style>
+
+<!-- HEADER -->
+<div class="info">
+    Posted on January 19, 2019
+    
+</div>
+
+<!-- BODY -->
+<h4 id="lets-face-it-all-monad-tutorials-suck.-so-heres-another-one">Let’s face it: all monad tutorials suck. So here’s another one:</h4>
+<p><br />
+The term “Monad” come from mathematics, which exact meaning is irrelevant to programming in haskell.</p>
+<div class="small">
+<p><em>Here’s the synopsis, but you really don’t need to read it:</em></p>
+<p><em>A monad is a special case of a monoid.<br />
+A monoid is a mathematical structure: (set of values + some operator + identity element).<br />
+Thus, (idea of) monad is related (loosely) to the (idea of a) function, defined over a set of elements, while identity element is required for mathematical consistency.</em></p>
+<p><em>Why bother giving such a fancy explanation for something which looks awefully like an ordinary function then?</em></p>
+<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad ifinitum. If you think that you need to know more - look up Set Theory and Category Theory.</em></p>
+</div>
+<p>Here’s what it means in practice: The ifamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In the case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad gives as a practical way to compose functions which does not make you want to pull your hair out.</p>
+<p>In other words we sequence functional transofrmations of values in an intuitive form. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
+<p><em>It’s really a very basic idea, there’s not much to it, but it’s a fleeting simplicity</em>:<br />
+It’s a powerful building-block to write programs. It’s just a monoid in the category of endofunctors. It’s a burrito.<br />
+<br />
+</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">regularBurrito ::</span> ()</a>
+<a class="sourceLine" id="cb1-2" title="2">regularBurrito <span class="fu">=</span> ()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb2-2" title="2">monadicBurrito <span class="fu">=</span></a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="kw">do</span></a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="fu">...</span>stuff<span class="fu">...</span></a>
+<a class="sourceLine" id="cb2-5" title="5">    <span class="fu">return</span> ()</a></code></pre></div>
+<p>and then, instead of</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1">stomack <span class="fu">=</span> regularBurrito</a></code></pre></div>
+<p>you can write</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">stomack <span class="ot">&lt;-</span> monadicBurrito</a></code></pre></div>
+<p>which is much more appropriate, is not it? It becomes much more obvious if we need to compose multiple functions over a value.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">-- | let x = foo in x + 3          corresponds to      (\x -&gt; x + 3) foo</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">-- | x &lt;- foo; return (x + 3)      to     foo &gt;&gt;= (\x -&gt; return (x + 3))</span></a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="ot">displayResult ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb5-6" title="6">displayResult mx <span class="fu">=</span> <span class="fu">maybe</span> <span class="st">&quot;There was no result&quot;</span> ((<span class="st">&quot;The result was &quot;</span> <span class="fu">++</span>) <span class="fu">.</span> <span class="fu">show</span>) mx   </a>
+<a class="sourceLine" id="cb5-7" title="7">              </a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">-- | fromMaybe 0 (Just 1) - interesting example of Maybe and extracting</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">-- | values from Just   </span></a>
+<a class="sourceLine" id="cb5-10" title="10"></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="ot">add ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb5-12" title="12">add mx my <span class="fu">=</span></a>
+<a class="sourceLine" id="cb5-13" title="13">  mx <span class="fu">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> my <span class="fu">&gt;&gt;=</span> (\y <span class="ot">-&gt;</span> <span class="fu">return</span> (x <span class="fu">+</span> y)))</a>
+<a class="sourceLine" id="cb5-14" title="14"></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">-- | is equivalent to the following:</span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="ot">add&#39; ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb5-17" title="17">add&#39; mx my <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb5-18" title="18">  x <span class="ot">&lt;-</span> mx</a>
+<a class="sourceLine" id="cb5-19" title="19">  y <span class="ot">&lt;-</span> my</a>
+<a class="sourceLine" id="cb5-20" title="20">  <span class="fu">return</span> (x <span class="fu">+</span> y)</a>
+<a class="sourceLine" id="cb5-21" title="21">  </a>
+<a class="sourceLine" id="cb5-22" title="22"></a>
+<a class="sourceLine" id="cb5-23" title="23">main <span class="fu">=</span> <span class="fu">undefined</span></a></code></pre></div>
+<p>P.S. I probably stole bits and pieces from somebody, so if you need a credit or think that I lied somewhere and think that there should be a correction, please, feel free to ping me.</p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
+]]></summary>
+</entry>
+<entry>
     <title>A quick-start with Euterpea</title>
     <link href="madjestic.github.io/atom.xml/posts/2018-11-29-a-quick-start-with-Euterpea.html" />
     <id>madjestic.github.io/atom.xml/posts/2018-11-29-a-quick-start-with-Euterpea.html</id>
@@ -490,54 +569,6 @@ Credits:</p>
 </p>
 <p>next: <a href="../posts/2016-02-28-post-post-modern-opengl-in-haskell-4.html">Haskell OpenGL Tutorial: Drawing textured triangles.</a><br />
 previous: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-3.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a><br />
-</p>
-
-<img src="../images/null.png" 
-style="width:10px;height:10px;">
-]]></summary>
-</entry>
-<entry>
-    <title>2+2=4</title>
-    <link href="madjestic.github.io/atom.xml/posts/2015-02-22-2-plus-2-equals-4.html" />
-    <id>madjestic.github.io/atom.xml/posts/2015-02-22-2-plus-2-equals-4.html</id>
-    <published>2015-02-22T00:00:00Z</published>
-    <updated>2015-02-22T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<!-- STYLESHEETS -->
-
-<style>
-img { 
-    width: 100%; 
-}
-</style>
-
-<!-- HEADER -->
-<div class="info">
-    Posted on February 22, 2015
-    
-</div>
-
-<!-- BODY -->
-<h4 id="section">2+2=4</h4>
-<p><br />
-“Leibniz’s proof that 2 + 2 = 4 contains a gap. Grassmann’s definition of a + b is faulty”<br />
-from <a href="../files/frege_FOA.pdf">Gottlob Frege: The Foundations of Arithmetic</a><br />
-<br />
-I am not crazy, and it’s a legit question :P<br />
-<br />
-“A typical crudity confronts me, when I find calculation described as ‘aggregative mechanical thought’. I doubt whether there exists any though whatsoever answering to this description.”<br />
-<br />
-“A proposition can be though, and again it may be true; let us never confuse the two things.”<br />
-<br />
-“Est modus in rebus, sunt certi denique fines” - “There is a measure in all things”<br />
-<br />
-3 laws of enquiry:<br />
-1. Always to separate sharply the psychological from logical, the subjective from the objective;<br />
-2. Never to ask for the meaning of the word in isolation, but only in the context of a propositon;<br />
-3. Never to loose sight of the distinciton between concept and object.<br />
-<br />
-(from Shroder) “Abstract number, then, is the empty form of difference.”<br />
-<br />
-“Hardly anything more unfortunate can befall a scientific writer than to have one of the foundations of his edifice shaken after the work is finished. This was the position I was placed in by a letter of Mr. Bertrand Russell, just when the printing of this volume was nearing its completion.”<br />
 </p>
 
 <img src="../images/null.png" 

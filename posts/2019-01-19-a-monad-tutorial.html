@@ -91,10 +91,10 @@ The term “Monad” come from mathematics, which exact meaning is irrelevant to
 <div class="small">
 <p><em>Here’s the synopsis, but you really don’t need to read it:</em></p>
 <p><em>A monad is a special case of a monoid.<br />
-A monoid is a mathematical structure: (set of values + some operator + identity element).<br />
-Thus, (idea of) monad is related (loosely) to the (idea of a) function, defined over a set of elements, while identity element is required for mathematical consistency.</em></p>
+A monoid is a mathematical structure: Set Theory describes it as a (set of values + some operator + identity element).<br />
+While Category Theory describes how it composes with other structures. Thus, (idea of) monad is related (loosely) to the (idea of a) function, defined over a set of elements, while identity element is required for mathematical consistency, which can be composed with other functions in a certain way.</em></p>
 <p><em>Why bother giving such a fancy explanation for something which looks awefully like an ordinary function then?</em></p>
-<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad ifinitum. If you think that you need to know more - look up Set Theory and Category Theory.</em></p>
+<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad ifinitum, while lambda calculus + syntactic sugar exposes it in haskell in the form of a Monad. For further reference: Set Theory and Category Theory.</em></p>
 </div>
 <p>Here’s what it means in practice: The ifamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In the case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad gives as a practical way to compose functions which does not make you want to pull your hair out.</p>
 <p>In other words we sequence functional transofrmations of values in an intuitive form. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>

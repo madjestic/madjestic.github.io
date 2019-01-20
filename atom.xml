@@ -40,10 +40,10 @@ The term “Monad” comes from mathematics or philosophy, which exact meaning i
 <p><em>A monad is a special case of a monoid.<br />
 A monoid is a mathematical structure: Set Theory describes it as a (set of values + some operator + identity element).<br />
 While Category Theory describes how it composes with other structures. Thus, (idea of) monad is related (loosely) to the (idea of a) function, defined over a set of elements, while identity element is required for mathematical consistency, which can be composed with other functions in a certain way.</em></p>
-<p><em>Why bother giving such a fancy explanation for something which looks awefully like an ordinary function then?</em></p>
-<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad infinitum, while lambda calculus + syntactic sugar exposes it in haskell in the form of a Monad. For further reference: Set Theory and Category Theory.</em></p>
+<p><em>Why bother giving such a fancy explanation for something which looks awfully like an ordinary function then?</em></p>
+<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code guarantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘‘mathematically correct’… ad infinitum, while lambda calculus + syntactic sugar exposes it in haskell in the form of a Monad. For further reference: Set Theory and Category Theory.</em></p>
 </div>
-<p><em>It’s really a very basic and general idea, there’s not much to it, but its fleeing simplicity may feel like it’s hard to put a finger on</em>:<br />
+<p><em>It’s really a very basic and general idea, there’s not much to it, but it’s fleeing simplicity may feel like it’s hard to put a finger on</em>:<br />
 It’s a value + sideffect.<br />
 It’s a way to sequence things together.<br />
 It’s a powerful building-block to write programs.<br />
@@ -53,7 +53,7 @@ It’s a burrito.<br />
 </p>
 <h3 id="why-monad">Why Monad?</h3>
 <p>Here’s what it means in practice: The infamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad and do-notations gives as an elegant way to compose functions which arguably makes haskell the best language to write imperative programs.</p>
-<p>In other words we sequence functional transofrmations of values in an intuitive way. It allows us to write complex functions in such a way, that instead of a hard to read mess of nested functions, we express it as a simple set of actions. We are syntactically chaining functions together.</p>
+<p>In other words we sequence functional transformations of values in an intuitive way. It allows us to write complex functions in such a way, that instead of a hard to read mess of nested functions, we express it as a simple set of actions. We are syntactically chaining functions together.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">regularBurrito ::</span> ()</a>
 <a class="sourceLine" id="cb1-2" title="2">regularBurrito <span class="fu">=</span> ()</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</a>
@@ -110,11 +110,11 @@ It’s a burrito.<br />
 </div>
 <p><br />
 </p>
-<p>Once we’ve done that, i.e. once we’ve guranteed that our new type is monadic, we can use all the monadic goodies, e.g. <code>&gt;&gt;=</code>, <code>do</code>, <code>&lt;-</code>, <a href="http://book.realworldhaskell.org/read/monad-transformers.html">Monad Transformers</a>, etc.<br />
+<p>Once we’ve done that, i.e. once we’ve guaranteed that our new type is monadic, we can use all the monadic goodies, e.g. <code>&gt;&gt;=</code>, <code>do</code>, <code>&lt;-</code>, <a href="http://book.realworldhaskell.org/read/monad-transformers.html">Monad Transformers</a>, etc.<br />
 <br />
 </p>
 <hr />
-<p>* it’s not a monad tutorial<br />
+<p>* this is not a monad tutorial<br />
 <br />
 <br />
 </p>

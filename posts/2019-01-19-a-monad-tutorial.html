@@ -86,8 +86,9 @@ img {
 
 <!-- BODY -->
 <h4 id="lets-face-it-all-monad-tutorials-suck.-so-heres-another-one">Let’s face it: all monad tutorials suck. So here’s another one:</h4>
+<h3 id="what-is-monad">What is Monad?</h3>
 <p><br />
-The term “Monad” come from mathematics, which exact meaning is irrelevant to programming in haskell.</p>
+The term “Monad” comes from mathematics or philosophy, which exact meaning is irrelevant to programming in haskell.</p>
 <div class="small">
 <p><em>Here’s the synopsis, but you really don’t need to read it:</em></p>
 <p><em>A monad is a special case of a monoid.<br />
@@ -96,12 +97,15 @@ While Category Theory describes how it composes with other structures. Thus, (id
 <p><em>Why bother giving such a fancy explanation for something which looks awefully like an ordinary function then?</em></p>
 <p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad ifinitum, while lambda calculus + syntactic sugar exposes it in haskell in the form of a Monad. For further reference: Set Theory and Category Theory.</em></p>
 </div>
-<p>Here’s what it means in practice: The ifamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In the case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad gives as a practical way to compose functions which does not make you want to pull your hair out.</p>
-<p>In other words we sequence functional transofrmations of values in an intuitive form. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
-<p><em>It’s really a very basic idea, there’s not much to it, but it’s a feeing simplicity</em>:<br />
-It’s a powerful building-block to write programs. It’s just a monoid in the category of endofunctors. It’s a burrito.<br />
-<br />
+<p><em>It’s really a very basic idea, there’s not much to it, but it’s a fleeing simplicity</em>:<br />
+It’s a powerful building-block to write programs.<br />
+It’s the biggest haskell PR fail.<br />
+It’s just a monoid in the category of endofunctors.<br />
+It’s a burrito.<br />
 </p>
+<h3 id="why-monad">Why Monad?</h3>
+<p>Here’s what it means in practice: The infamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In the case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad gives as a practical way to compose functions which does not make you want to pull your hair out.</p>
+<p>In other words we sequence functional transofrmations of values in an intuitive form. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">regularBurrito ::</span> ()</a>
 <a class="sourceLine" id="cb1-2" title="2">regularBurrito <span class="fu">=</span> ()</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</a>
@@ -114,6 +118,7 @@ It’s a powerful building-block to write programs. It’s just a monoid in the 
 <p>you can write</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">stomack <span class="ot">&lt;-</span> monadicBurrito</a></code></pre></div>
 <p>which is much more appropriate, is not it? It becomes much more obvious if we need to compose multiple functions over a value.</p>
+<p>More examples of using Maybe monad with with and without sugar</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"></a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="co">-- | let x = foo in x + 3          corresponds to      (\x -&gt; x + 3) foo</span></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="co">-- | x &lt;- foo; return (x + 3)      to     foo &gt;&gt;= (\x -&gt; return (x + 3))</span></a>
@@ -128,7 +133,7 @@ It’s a powerful building-block to write programs. It’s just a monoid in the 
 <a class="sourceLine" id="cb5-12" title="12">add mx my <span class="fu">=</span></a>
 <a class="sourceLine" id="cb5-13" title="13">  mx <span class="fu">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> my <span class="fu">&gt;&gt;=</span> (\y <span class="ot">-&gt;</span> <span class="fu">return</span> (x <span class="fu">+</span> y)))</a>
 <a class="sourceLine" id="cb5-14" title="14"></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="co">-- | is equivalent to the following:</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">-- | is equivalent to the following, using syntactic sugar:</span></a>
 <a class="sourceLine" id="cb5-16" title="16"><span class="ot">add' ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></a>
 <a class="sourceLine" id="cb5-17" title="17">add' mx my <span class="fu">=</span> <span class="kw">do</span></a>
 <a class="sourceLine" id="cb5-18" title="18">  x <span class="ot">&lt;-</span> mx</a>
@@ -137,7 +142,27 @@ It’s a powerful building-block to write programs. It’s just a monoid in the 
 <a class="sourceLine" id="cb5-21" title="21">  </a>
 <a class="sourceLine" id="cb5-22" title="22"></a>
 <a class="sourceLine" id="cb5-23" title="23">main <span class="fu">=</span> <span class="fu">undefined</span></a></code></pre></div>
-<p>P.S. I probably stole bits and pieces from somebody, so if you need a credit or think that I lied somewhere and think that there should be a correction, please, feel free to ping me.</p>
+<p>Standard programming interface allows us defining ‘our own monads’ (monadic types):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="ot">  (&gt;&gt;=)  ::</span> m a <span class="ot">-&gt;</span> (  a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="ot">  (&gt;&gt;)   ::</span> m a <span class="ot">-&gt;</span>  m b         <span class="ot">-&gt;</span> m b</a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="ot">  return ::</span>   a                 <span class="ot">-&gt;</span> m a</a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="ot">  fail   ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> m a</a></code></pre></div>
+<p>Basically our custom type needs to implement this interface. In addition, it needs to satisfy the following laws, in order to be consistent with monadic algebra:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="fu">return</span> a <span class="fu">&gt;&gt;=</span> k                  <span class="fu">=</span>  k a</a>
+<a class="sourceLine" id="cb7-2" title="2">m        <span class="fu">&gt;&gt;=</span> <span class="fu">return</span>             <span class="fu">=</span>  m</a>
+<a class="sourceLine" id="cb7-3" title="3">m        <span class="fu">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> k x <span class="fu">&gt;&gt;=</span> h)  <span class="fu">=</span>  (m <span class="fu">&gt;&gt;=</span> k) <span class="fu">&gt;&gt;=</span> h</a></code></pre></div>
+<p><a href="https://wiki.haskell.org/Monad">source</a></p>
+<div class="small">
+<em>TODO : add a concrete example of a custom type, which is not Maybe or IO</em>
+</div>
+<p><br />
+</p>
+<p>Once we’ve done that, i.e. once we’ve guranteed that our new type is monadic, we can use all the monadic goodies, e.g. <code>&gt;&gt;=</code>, <code>&lt;-</code>, <a href="http://book.realworldhaskell.org/read/monad-transformers.html">Monad Transformers</a>, etc.<br />
+<br />
+</p>
+<div class="small">
+<p>P.S. I probably stole bits and pieces from somebody, so if you need a credit or think that I lied somewhere and there should be a correction, please, feel free to ping me.&lt;&gt;</p>
 
 <img src="../images/null.png" style="width:10px;height:10px;">
 </p>

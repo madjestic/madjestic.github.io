@@ -44,6 +44,7 @@ While Category Theory describes how it composes with other structures. Thus, (id
 </div>
 <p><em>It’s really a very basic idea, there’s not much to it, but it’s a fleeing simplicity</em>:<br />
 It’s a value + sideffect.<br />
+It’s a way to sequence things together.<br />
 It’s a powerful building-block to write programs.<br />
 It’s the biggest haskell PR fail.<br />
 It’s just a monoid in the category of endofunctors.<br />

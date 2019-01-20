@@ -108,7 +108,7 @@ It’s a burrito.<br />
 </p>
 <h3 id="why-monad">Why Monad?</h3>
 <p>Here’s what it means in practice: The infamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad and do-notations gives as an elegant way to compose functions which arguably makes haskell the best language to write imperative programs.</p>
-<p>In other words we sequence functional transofrmations of values in an intuitive way. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
+<p>In other words we sequence functional transofrmations of values in an intuitive way. It allows us to write complex functions in such a way, that instead of a hard to read mess of nested functions, we express it as a simple set of actions. We are syntactically chaining functions together.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">regularBurrito ::</span> ()</a>
 <a class="sourceLine" id="cb1-2" title="2">regularBurrito <span class="fu">=</span> ()</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</a>
@@ -120,7 +120,7 @@ It’s a burrito.<br />
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1">stomack <span class="fu">=</span> regularBurrito</a></code></pre></div>
 <p>you can write</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">stomack <span class="ot">&lt;-</span> monadicBurrito</a></code></pre></div>
-<p>which is much more appropriate, is not it? It becomes much more obvious if we need to compose multiple functions over a value.</p>
+<p>which is much more appropriate, is not it? The benefit becomes more obvious when we need to chain multiple functions over a value.</p>
 <p>More examples of using Maybe monad with with and without sugar</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"></a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="co">-- | let x = foo in x + 3          corresponds to      (\x -&gt; x + 3) foo</span></a>

@@ -85,6 +85,7 @@ img {
 </div>
 
 <!-- BODY -->
+<p><img src="../images/Monad_and_the_blind.png" /></p>
 <h4 id="lets-face-it-all-monad-tutorials-suck.-so-heres-another-one">Let’s face it: all monad tutorials suck. So here’s another one:</h4>
 <h3 id="what-is-monad">What is Monad?</h3>
 <p><br />
@@ -106,8 +107,8 @@ It’s just a monoid in the category of endofunctors.<br />
 It’s a burrito.<br />
 </p>
 <h3 id="why-monad">Why Monad?</h3>
-<p>Here’s what it means in practice: The infamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In the case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad gives as a practical way to compose functions which does not make you want to pull your hair out.</p>
-<p>In other words we sequence functional transofrmations of values in an intuitive form. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
+<p>Here’s what it means in practice: The infamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad and do-notations gives as an elegant way to compose functions which arguably makes haskell the best language to write imperative programs.</p>
+<p>In other words we sequence functional transofrmations of values in an intuitive way. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">regularBurrito ::</span> ()</a>
 <a class="sourceLine" id="cb1-2" title="2">regularBurrito <span class="fu">=</span> ()</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</a>

@@ -95,9 +95,10 @@ The term “Monad” comes from mathematics or philosophy, which exact meaning i
 A monoid is a mathematical structure: Set Theory describes it as a (set of values + some operator + identity element).<br />
 While Category Theory describes how it composes with other structures. Thus, (idea of) monad is related (loosely) to the (idea of a) function, defined over a set of elements, while identity element is required for mathematical consistency, which can be composed with other functions in a certain way.</em></p>
 <p><em>Why bother giving such a fancy explanation for something which looks awefully like an ordinary function then?</em></p>
-<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad ifinitum, while lambda calculus + syntactic sugar exposes it in haskell in the form of a Monad. For further reference: Set Theory and Category Theory.</em></p>
+<p><em>Such interpretation of (the idea of) a function comes with a bonus from mathematics, as an algebra, allowing various code gurantees as well as ‘mathematically correct’ composability with other abstractions, which come with their own algebras and guarantees as well as ‘mathematematically correct’… ad infinitum, while lambda calculus + syntactic sugar exposes it in haskell in the form of a Monad. For further reference: Set Theory and Category Theory.</em></p>
 </div>
 <p><em>It’s really a very basic idea, there’s not much to it, but it’s a fleeing simplicity</em>:<br />
+It’s a value + sideffect.<br />
 It’s a powerful building-block to write programs.<br />
 It’s the biggest haskell PR fail.<br />
 It’s just a monoid in the category of endofunctors.<br />
@@ -142,6 +143,10 @@ It’s a burrito.<br />
 <a class="sourceLine" id="cb5-21" title="21">  </a>
 <a class="sourceLine" id="cb5-22" title="22"></a>
 <a class="sourceLine" id="cb5-23" title="23">main <span class="fu">=</span> <span class="fu">undefined</span></a></code></pre></div>
+<p><br />
+</p>
+<h3 id="custom-monads-how">Custom Monads, how?</h3>
+<p>(creating bespoke monadic types)</p>
 <p>Standard programming interface allows us defining ‘our own monads’ (monadic types):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="ot">  (&gt;&gt;=)  ::</span> m a <span class="ot">-&gt;</span> (  a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</a>
@@ -162,7 +167,8 @@ It’s a burrito.<br />
 <br />
 </p>
 <div class="small">
-<p>P.S. I probably stole bits and pieces from somebody, so if you need a credit or think that I lied somewhere and there should be a correction, please, feel free to ping me.&lt;&gt;</p>
+P.S. I probably stole bits and pieces from somebody, so if you need a credit or think that I lied somewhere and there should be a correction, please, feel free to ping me.
+</div>
 
 <img src="../images/null.png" style="width:10px;height:10px;">
 </p>

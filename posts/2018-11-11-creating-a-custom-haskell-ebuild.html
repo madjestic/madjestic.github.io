@@ -11,16 +11,21 @@
         <title>TurtlesTurtlesTurtles - Creating a custom ebuild from a cabal package.</title>
 
         <link href="../css/default.css" rel="stylesheet" type="text/css">
-
 	<!-- Bootstrap core CSS -->
 	<link href="../css/bootstrap.css" rel="stylesheet">
-
 	<!-- Custom styles for this template -->
 	<link href="../css/starter-template.css" rel="stylesheet">
-
 	<!-- Code syntax highlighting CSS -->
 	<link href="../css/syntax.css" rel="stylesheet">
 
+        <!-- <script src="/css/jquery.js"></script> -->
+        <!-- <link rel="stylesheet" type="text/css" title="hakyll_theme" href="/css/default.css" /> -->
+        <!-- <link rel="stylesheet" type="text/css" href="/css/syntax.css" /> -->
+
+        <script src="../css/jquery-3.2.0.min.js"></script>
+        <script src="../css/selectfile.js"></script>
+        <link rel="stylesheet" type="text/css" title="hakyll_theme" href="../css/bootstrap.css" />
+	
       <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -34,7 +39,19 @@
     </head>
 
     <body>
-	
+
+      <div class="topnav">
+            <div class="box">
+              <select id="themes">
+		<option value="default">light/dark</option>
+                <option value="bootstrap">light</option>
+                <option value="bootstrap_dark">dark</option>
+              </select>
+            </div>
+            <div class="styleInfo"></div>
+      </div>
+      </br>
+
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <div class="container">
 		<div class="navbar-header">
@@ -62,7 +79,7 @@
 
 		<div class="col-xs-12 col-sm-10">
 		    <head>
-  			<a href="../"><img width="100%" src="../images/turtles_header_gosper.png" /></a>
+  			<a href="../"><img width="100%" src="../images/turtles_header_gosper_bw.png" /></a>
 		    </head>
 
 		    <!-- content -->

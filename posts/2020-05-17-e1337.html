@@ -113,6 +113,7 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <p><img src="../images/output_03.png" /> <a href="https://www.youtube.com/watch?v=h6v8J7UkGFk">video</a></p>
 <p><img src="../images/output_04.png" /> <a href="https://www.youtube.com/watch?v=qNefvisENXI">video</a></p>
 <p><img src="../images/output_05.png" /> <a href="https://www.youtube.com/watch?v=jpZ_gdws-Nk">video</a></p>
+<h3 id="loading-models.">02: Loading models.</h3>
 <p>Loading anything more complex than a few triangles is begging for a model description and supporting authoring tools. There are many 3d modelling tools out there, I am most familiar with <a href="http://sidefx.com/">SideFX Houdini</a>, so let’s try to use the <a href="https://www.sidefx.com/products/houdini-apprentice/">free non-commercial version</a> and Houdini’s native <a href="https://www.sidefx.com/docs/houdini/io/formats/geo.html"><code>geo</code></a> format as a model description that our application can read and fix the gaps in-between with python plumbing.</p>
 <p>Let’s start with ~40K triangles:</p>
 <p><img src="../images/output_06.png" /> <a href="https://www.youtube.com/watch?v=lJfOzcvqTJ0">video</a></p>
@@ -120,6 +121,7 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <p><img src="../images/output_07.png" /> <a href="https://www.youtube.com/watch?v=7QpUubK6ADc">video</a></p>
 <p>loading ~250K took a few hours.</p>
 <p><img src="../images/output_08.png" /> <a href="https://www.youtube.com/watch?v=oiajlYck-50">video</a></p>
+<h3 id="project-files-binary-file-format.">03: Project files, binary file format.</h3>
 <p>At this point it became clear that:</p>
 <ul>
 <li>ascii json file format is impractical for reading models of more than 100K tris. We need a quick binary serialization.<br />
@@ -146,9 +148,12 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <span id="cb1-11"><a href="#cb1-11"></a>    <span class="fu">}</span></span>
 <span id="cb1-12"><a href="#cb1-12"></a><span class="fu">}</span></span></code></pre></div>
 <p><img src="../images/output_09.png" /> <a href="https://www.youtube.com/watch?v=DApECcZsKfc">video</a></p>
+<h3 id="debug-shaders-vertex-attributes.">04: Debug Shaders, vertex attributes.</h3>
 <p>Basic model loading is working, let’s expand supported attributes: Color, Alpha, Normal, UVW: <img src="../images/output_10.png" /> <a href="https://www.youtube.com/watch?v=KVFu1DjKTCE">video</a></p>
 <p>Add more test materials: <img src="../images/output_11.png" /> <a href="https://www.youtube.com/watch?v=IrTWsGjq6hc">video</a></p>
+<h3 id="multiple-materials.">05: Multiple Materials.</h3>
 <p>It is obvious that a single object may need more than one material: <img src="../images/output_12.png" /> <a href="https://www.youtube.com/watch?v=EYwBZOm5GNE">video</a></p>
+<h3 id="multiple-objects.">06: Multiple Objects.</h3>
 <p>Where’s many materials - there’s many objects. Expand the project description to support multiple objects:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="fu">{</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
@@ -183,11 +188,15 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <p><img src="../images/output_14.png" /> <a href="https://www.youtube.com/watch?v=S2WPuo63r5g">video</a></p>
 <p>More testing: <img src="../images/output_15.png" /> <a href="https://www.youtube.com/watch?v=rnkZqXXqWYA">video</a></p>
 <p>And more: <img src="../images/output_16.png" /> <a href="https://www.youtube.com/watch?v=Oqiyv4zhxWE">video</a></p>
+<h3 id="setting-up-a-space-scene.">07: Setting up a space scene.</h3>
 <p>Time to move beyond simple test scenes: <img src="../images/output_17.png" /> <a href="https://www.youtube.com/watch?v=oE2jpa8ojOk">video</a></p>
+<h3 id="realistic-space-distances-and-proportions.">08: Realistic space distances and proportions.</h3>
 <p>After initial composition is done, set the scene to realistic proportions and distances:</p>
 <p><img src="../images/output_18.png" /> <a href="https://www.youtube.com/watch?v=W4Ry082HYCA">video</a></p>
+<h3 id="loagarithmic-space.">09: Loagarithmic space.</h3>
 <p>Realistic proportions reveal floating point precision issues, as seen in the video. Logarithmic scales seem to fix it:</p>
 <p><img src="../images/output_19.png" /> <a href="https://www.youtube.com/watch?v=pHV2LUEQ-Dw">video</a></p>
+<h3 id="saving-camera-position-and-more-fixes.">10: Saving camera position and more fixes.</h3>
 <p>Rainbow colors of the vertices reveal errors in attribute values. Let’s fix that. Logarithmic scales cause clipping artifacts. Also let’s further expand project format to support initial camera position:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="fu">{</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>

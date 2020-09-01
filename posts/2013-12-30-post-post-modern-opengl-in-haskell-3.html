@@ -114,139 +114,139 @@ The main addition on top what we have done in previous tutorials is the initRsou
 <ol type="1">
 <li>Generates and binds an object name “triangles” to a VertexArrayObject:</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>initResources <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>  triangles <span class="ot">&lt;-</span> genObjectName</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  bindVertexArrayObject <span class="op">$=</span> <span class="dt">Just</span> triangles</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>initResources <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  triangles <span class="ot">&lt;-</span> genObjectName</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  bindVertexArrayObject <span class="op">$=</span> <span class="dt">Just</span> triangles</span></code></pre></div>
 <p><br />
 <br />
 2) Creates a list of values of type Vertex2 (to store vertex positions):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">let</span> vertices <span class="ot">=</span> [</span>
-<span id="cb2-2"><a href="#cb2-2"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>) (<span class="op">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="op">-</span><span class="fl">0.90</span>),</span>
-<span id="cb2-4"><a href="#cb2-4"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="op">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,</span>
-<span id="cb2-7"><a href="#cb2-7"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">let</span> vertices <span class="ot">=</span> [</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>) (<span class="op">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="op">-</span><span class="fl">0.90</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="op">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</span></code></pre></div>
 <p><br />
 <br />
 3) Generates, binds an object name arrayBuffer to an ArrayBuffer and writes the vertices list to memory:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>  arrayBuffer <span class="ot">&lt;-</span> genObjectName</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  bindBuffer <span class="dt">ArrayBuffer</span> <span class="op">$=</span> <span class="dt">Just</span> arrayBuffer</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  withArray vertices <span class="op">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>    <span class="kw">let</span> size <span class="ot">=</span> <span class="fu">fromIntegral</span> (numVertices <span class="op">*</span> sizeOf (<span class="fu">head</span> vertices))</span>
-<span id="cb3-5"><a href="#cb3-5"></a>    bufferData <span class="dt">ArrayBuffer</span> <span class="op">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>  arrayBuffer <span class="ot">&lt;-</span> genObjectName</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  bindBuffer <span class="dt">ArrayBuffer</span> <span class="op">$=</span> <span class="dt">Just</span> arrayBuffer</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  withArray vertices <span class="op">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="kw">let</span> size <span class="ot">=</span> <span class="fu">fromIntegral</span> (numVertices <span class="op">*</span> sizeOf (<span class="fu">head</span> vertices))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    bufferData <span class="dt">ArrayBuffer</span> <span class="op">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</span></code></pre></div>
 <p><br />
 <br />
 4) Gives and index and initializes a pointer to the memory address that conains the vertices positions.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="kw">let</span> firstIndex <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>      vPosition <span class="ot">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  vertexAttribPointer vPosition <span class="op">$=</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  vertexAttribArray vPosition <span class="op">$=</span> <span class="dt">Enabled</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>  <span class="kw">let</span> firstIndex <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>      vPosition <span class="ot">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  vertexAttribPointer vPosition <span class="op">$=</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  vertexAttribArray vPosition <span class="op">$=</span> <span class="dt">Enabled</span></span></code></pre></div>
 <p><br />
 That makes this data accessible in the vertex shader:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">layout</span>(<span class="dt">location</span> = <span class="dv">0</span>) <span class="dt">in</span> <span class="dt">vec4</span> vPosition;</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">layout</span>(<span class="dt">location</span> = <span class="dv">0</span>) <span class="dt">in</span> <span class="dt">vec4</span> vPosition;</span></code></pre></div>
 <p><br />
 <br />
 5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="ot">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="op">...</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a> program <span class="ot">&lt;-</span> loadShaders [</span>
-<span id="cb6-6"><a href="#cb6-6"></a>     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),</span>
-<span id="cb6-7"><a href="#cb6-7"></a>     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]</span>
-<span id="cb6-8"><a href="#cb6-8"></a>  currentProgram <span class="op">$=</span> <span class="dt">Just</span> program</span>
-<span id="cb6-9"><a href="#cb6-9"></a></span>
-<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">return</span> <span class="op">$</span> <span class="dt">Descriptor</span> triangles firstIndex (<span class="fu">fromIntegral</span> numVertices)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="ot">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="op">...</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a> program <span class="ot">&lt;-</span> loadShaders [</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>  currentProgram <span class="op">$=</span> <span class="dt">Just</span> program</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>  <span class="fu">return</span> <span class="op">$</span> <span class="dt">Descriptor</span> triangles firstIndex (<span class="fu">fromIntegral</span> numVertices)</span></code></pre></div>
 <p>Phew! That was quite a mouthfull. A similar program in C++ could still run without GLSL shading part. Unfortunately it does not work with this example. If there’s a way - one day this tutorial may be split into two separate ones.</p>
 <p><br />
 <br />
 Here’s the whole program:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">import</span> <span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">import</span> <span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">import</span> <span class="dt">LoadShaders</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="kw">import</span> <span class="dt">Foreign.Marshal.Array</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">import</span> <span class="dt">Foreign.Ptr</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="kw">import</span> <span class="dt">Foreign.Storable</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ptr</span> b</span>
-<span id="cb7-13"><a href="#cb7-13"></a>bufferOffset <span class="ot">=</span> plusPtr nullPtr <span class="op">.</span> <span class="fu">fromIntegral</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a></span>
-<span id="cb7-15"><a href="#cb7-15"></a></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="ot">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a></span>
-<span id="cb7-18"><a href="#cb7-18"></a></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a>initResources <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a>  triangles <span class="ot">&lt;-</span> genObjectName</span>
-<span id="cb7-22"><a href="#cb7-22"></a>  bindVertexArrayObject <span class="op">$=</span> <span class="dt">Just</span> triangles</span>
-<span id="cb7-23"><a href="#cb7-23"></a></span>
-<span id="cb7-24"><a href="#cb7-24"></a>  <span class="kw">let</span> vertices <span class="ot">=</span> [</span>
-<span id="cb7-25"><a href="#cb7-25"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>) (<span class="op">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span></span>
-<span id="cb7-26"><a href="#cb7-26"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="op">-</span><span class="fl">0.90</span>),</span>
-<span id="cb7-27"><a href="#cb7-27"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,</span>
-<span id="cb7-28"><a href="#cb7-28"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="op">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span></span>
-<span id="cb7-29"><a href="#cb7-29"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,</span>
-<span id="cb7-30"><a href="#cb7-30"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</span>
-<span id="cb7-31"><a href="#cb7-31"></a>      numVertices <span class="ot">=</span> <span class="fu">length</span> vertices</span>
-<span id="cb7-32"><a href="#cb7-32"></a></span>
-<span id="cb7-33"><a href="#cb7-33"></a>  arrayBuffer <span class="ot">&lt;-</span> genObjectName</span>
-<span id="cb7-34"><a href="#cb7-34"></a>  bindBuffer <span class="dt">ArrayBuffer</span> <span class="op">$=</span> <span class="dt">Just</span> arrayBuffer</span>
-<span id="cb7-35"><a href="#cb7-35"></a>  withArray vertices <span class="op">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb7-36"><a href="#cb7-36"></a>    <span class="kw">let</span> size <span class="ot">=</span> <span class="fu">fromIntegral</span> (numVertices <span class="op">*</span> sizeOf (<span class="fu">head</span> vertices))</span>
-<span id="cb7-37"><a href="#cb7-37"></a>    bufferData <span class="dt">ArrayBuffer</span> <span class="op">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</span>
-<span id="cb7-38"><a href="#cb7-38"></a></span>
-<span id="cb7-39"><a href="#cb7-39"></a>  <span class="kw">let</span> firstIndex <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb7-40"><a href="#cb7-40"></a>      vPosition <span class="ot">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span></span>
-<span id="cb7-41"><a href="#cb7-41"></a>  vertexAttribPointer vPosition <span class="op">$=</span></span>
-<span id="cb7-42"><a href="#cb7-42"></a>    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))</span>
-<span id="cb7-43"><a href="#cb7-43"></a>  vertexAttribArray vPosition <span class="op">$=</span> <span class="dt">Enabled</span></span>
-<span id="cb7-44"><a href="#cb7-44"></a></span>
-<span id="cb7-45"><a href="#cb7-45"></a>  program <span class="ot">&lt;-</span> loadShaders [</span>
-<span id="cb7-46"><a href="#cb7-46"></a>     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),</span>
-<span id="cb7-47"><a href="#cb7-47"></a>     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]</span>
-<span id="cb7-48"><a href="#cb7-48"></a>  currentProgram <span class="op">$=</span> <span class="dt">Just</span> program</span>
-<span id="cb7-49"><a href="#cb7-49"></a></span>
-<span id="cb7-50"><a href="#cb7-50"></a>  <span class="fu">return</span> <span class="op">$</span> <span class="dt">Descriptor</span> triangles firstIndex (<span class="fu">fromIntegral</span> numVertices)</span>
-<span id="cb7-51"><a href="#cb7-51"></a></span>
-<span id="cb7-52"><a href="#cb7-52"></a>                    </span>
-<span id="cb7-53"><a href="#cb7-53"></a><span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb7-54"><a href="#cb7-54"></a>resizeWindow size<span class="op">@</span>(<span class="dt">GL.Size</span> w h) <span class="ot">=</span></span>
-<span id="cb7-55"><a href="#cb7-55"></a>    <span class="kw">do</span></span>
-<span id="cb7-56"><a href="#cb7-56"></a>      GL.viewport   <span class="op">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)</span>
-<span id="cb7-57"><a href="#cb7-57"></a>      GL.matrixMode <span class="op">$=</span> <span class="dt">GL.Projection</span></span>
-<span id="cb7-58"><a href="#cb7-58"></a>      GL.loadIdentity</span>
-<span id="cb7-59"><a href="#cb7-59"></a>      GL.ortho2D <span class="dv">0</span> (<span class="fu">realToFrac</span> w) (<span class="fu">realToFrac</span> h) <span class="dv">0</span></span>
-<span id="cb7-60"><a href="#cb7-60"></a></span>
-<span id="cb7-61"><a href="#cb7-61"></a></span>
-<span id="cb7-62"><a href="#cb7-62"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb7-63"><a href="#cb7-63"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb7-64"><a href="#cb7-64"></a>  GLFW.initialize</span>
-<span id="cb7-65"><a href="#cb7-65"></a>  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span></span>
-<span id="cb7-66"><a href="#cb7-66"></a>  GLFW.windowTitle <span class="op">$=</span> <span class="st">&quot;GLFW Demo&quot;</span></span>
-<span id="cb7-67"><a href="#cb7-67"></a>  GLFW.windowSizeCallback <span class="op">$=</span> resizeWindow</span>
-<span id="cb7-68"><a href="#cb7-68"></a>  descriptor <span class="ot">&lt;-</span> initResources</span>
-<span id="cb7-69"><a href="#cb7-69"></a>  onDisplay descriptor</span>
-<span id="cb7-70"><a href="#cb7-70"></a>  GLFW.closeWindow</span>
-<span id="cb7-71"><a href="#cb7-71"></a>  GLFW.terminate</span>
-<span id="cb7-72"><a href="#cb7-72"></a></span>
-<span id="cb7-73"><a href="#cb7-73"></a></span>
-<span id="cb7-74"><a href="#cb7-74"></a><span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb7-75"><a href="#cb7-75"></a>onDisplay descriptor<span class="op">@</span>(<span class="dt">Descriptor</span> triangles firstIndex numVertices) <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb7-76"><a href="#cb7-76"></a>  GL.clearColor <span class="op">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span></span>
-<span id="cb7-77"><a href="#cb7-77"></a>  GL.clear [<span class="dt">ColorBuffer</span>]</span>
-<span id="cb7-78"><a href="#cb7-78"></a>  bindVertexArrayObject <span class="op">$=</span> <span class="dt">Just</span> triangles</span>
-<span id="cb7-79"><a href="#cb7-79"></a>  drawArrays <span class="dt">Triangles</span> firstIndex numVertices</span>
-<span id="cb7-80"><a href="#cb7-80"></a>  GLFW.swapBuffers</span>
-<span id="cb7-81"><a href="#cb7-81"></a></span>
-<span id="cb7-82"><a href="#cb7-82"></a>  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span></span>
-<span id="cb7-83"><a href="#cb7-83"></a>  unless (p <span class="op">==</span> <span class="dt">GLFW.Press</span>) <span class="op">$</span> onDisplay descriptor</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Monad</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">LoadShaders</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Foreign.Marshal.Array</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Foreign.Ptr</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Foreign.Storable</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a><span class="ot">bufferOffset ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ptr</span> b</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>bufferOffset <span class="ot">=</span> plusPtr nullPtr <span class="op">.</span> <span class="fu">fromIntegral</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Descriptor</span> <span class="ot">=</span> <span class="dt">Descriptor</span> <span class="dt">VertexArrayObject</span> <span class="dt">ArrayIndex</span> <span class="dt">NumArrayIndices</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a><span class="ot">initResources ::</span> <span class="dt">IO</span> <span class="dt">Descriptor</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>initResources <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>  triangles <span class="ot">&lt;-</span> genObjectName</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>  bindVertexArrayObject <span class="op">$=</span> <span class="dt">Just</span> triangles</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>  <span class="kw">let</span> vertices <span class="ot">=</span> [</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>) (<span class="op">-</span><span class="fl">0.90</span>),  <span class="co">-- Triangle 1</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.85</span>  (<span class="op">-</span><span class="fl">0.90</span>),</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.90</span>)   <span class="fl">0.85</span> ,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>  (<span class="op">-</span><span class="fl">0.85</span>),  <span class="co">-- Triangle 2</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>        <span class="dt">Vertex2</span>   <span class="fl">0.90</span>    <span class="fl">0.90</span> ,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a>        <span class="dt">Vertex2</span> (<span class="op">-</span><span class="fl">0.85</span>)   <span class="fl">0.90</span> ]<span class="ot"> ::</span> [<span class="dt">Vertex2</span> <span class="dt">GLfloat</span>]</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a>      numVertices <span class="ot">=</span> <span class="fu">length</span> vertices</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a>  arrayBuffer <span class="ot">&lt;-</span> genObjectName</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a>  bindBuffer <span class="dt">ArrayBuffer</span> <span class="op">$=</span> <span class="dt">Just</span> arrayBuffer</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a>  withArray vertices <span class="op">$</span> \ptr <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a>    <span class="kw">let</span> size <span class="ot">=</span> <span class="fu">fromIntegral</span> (numVertices <span class="op">*</span> sizeOf (<span class="fu">head</span> vertices))</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a>    bufferData <span class="dt">ArrayBuffer</span> <span class="op">$=</span> (size, ptr, <span class="dt">StaticDraw</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a>  <span class="kw">let</span> firstIndex <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a>      vPosition <span class="ot">=</span> <span class="dt">AttribLocation</span> <span class="dv">0</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a>  vertexAttribPointer vPosition <span class="op">$=</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a>    (<span class="dt">ToFloat</span>, <span class="dt">VertexArrayDescriptor</span> <span class="dv">2</span> <span class="dt">Float</span> <span class="dv">0</span> (bufferOffset firstIndex))</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a>  vertexAttribArray vPosition <span class="op">$=</span> <span class="dt">Enabled</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true"></a>  program <span class="ot">&lt;-</span> loadShaders [</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true"></a>     <span class="dt">ShaderInfo</span> <span class="dt">VertexShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.vert&quot;</span>),</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true"></a>     <span class="dt">ShaderInfo</span> <span class="dt">FragmentShader</span> (<span class="dt">FileSource</span> <span class="st">&quot;triangles.frac&quot;</span>)]</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true"></a>  currentProgram <span class="op">$=</span> <span class="dt">Just</span> program</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true"></a>  <span class="fu">return</span> <span class="op">$</span> <span class="dt">Descriptor</span> triangles firstIndex (<span class="fu">fromIntegral</span> numVertices)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true"></a>                    </span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true"></a><span class="ot">resizeWindow ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true"></a>resizeWindow size<span class="op">@</span>(<span class="dt">GL.Size</span> w h) <span class="ot">=</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true"></a>    <span class="kw">do</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true"></a>      GL.viewport   <span class="op">$=</span> (<span class="dt">GL.Position</span> <span class="dv">0</span> <span class="dv">0</span>, size)</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true"></a>      GL.matrixMode <span class="op">$=</span> <span class="dt">GL.Projection</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true"></a>      GL.loadIdentity</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true"></a>      GL.ortho2D <span class="dv">0</span> (<span class="fu">realToFrac</span> w) (<span class="fu">realToFrac</span> h) <span class="dv">0</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true"></a></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true"></a>  GLFW.initialize</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true"></a>  GLFW.openWindow (<span class="dt">GL.Size</span> <span class="dv">640</span> <span class="dv">480</span>) [] <span class="dt">GLFW.Window</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true"></a>  GLFW.windowTitle <span class="op">$=</span> <span class="st">&quot;GLFW Demo&quot;</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true"></a>  GLFW.windowSizeCallback <span class="op">$=</span> resizeWindow</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true"></a>  descriptor <span class="ot">&lt;-</span> initResources</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true"></a>  onDisplay descriptor</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true"></a>  GLFW.closeWindow</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true"></a>  GLFW.terminate</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true"></a></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true"></a><span class="ot">onDisplay ::</span> <span class="dt">Descriptor</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true"></a>onDisplay descriptor<span class="op">@</span>(<span class="dt">Descriptor</span> triangles firstIndex numVertices) <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true"></a>  GL.clearColor <span class="op">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true"></a>  GL.clear [<span class="dt">ColorBuffer</span>]</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true"></a>  bindVertexArrayObject <span class="op">$=</span> <span class="dt">Just</span> triangles</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true"></a>  drawArrays <span class="dt">Triangles</span> firstIndex numVertices</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true"></a>  GLFW.swapBuffers</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true"></a></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true"></a>  p <span class="ot">&lt;-</span> GLFW.getKey <span class="dt">GLFW.ESC</span></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true"></a>  unless (p <span class="op">==</span> <span class="dt">GLFW.Press</span>) <span class="op">$</span> onDisplay descriptor</span></code></pre></div>
 <p><br />
 <br />
 <img src="../images/tutorial02.png" /><br />

@@ -126,56 +126,56 @@ It’s a burrito.<br />
 <h3 id="why-monad">Why Monad?</h3>
 <p>Here’s what it means in practice: The infamous <code>&gt;&gt;=</code> helps us pass non-monadic values to functions without leaving a monad. In case of the Maybe monad, the monadic aspect is the qualifier that we don’t know with certainty whether the value will be… IO monad and do-notations gives as an elegant way to compose functions which arguably makes haskell the best language to write imperative programs.</p>
 <p>In other words we sequence functional transofrmations of values in an intuitive way. It allows us to write complex functions in such a way, that instead of a horrible nested mess, we get a simple set of imperative statements. We are syntactically chaining functions together.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="ot">regularBurrito ::</span> ()</span>
-<span id="cb1-2"><a href="#cb1-2"></a>regularBurrito <span class="ot">=</span> ()</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb2-2"><a href="#cb2-2"></a>monadicBurrito <span class="ot">=</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="kw">do</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="op">...</span>stuff<span class="op">...</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>    <span class="fu">return</span> ()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">regularBurrito ::</span> ()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>regularBurrito <span class="ot">=</span> ()</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">monadicBurrito ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>monadicBurrito <span class="ot">=</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  <span class="kw">do</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>  <span class="op">...</span>stuff<span class="op">...</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    <span class="fu">return</span> ()</span></code></pre></div>
 <p>and then, instead of</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>stomack <span class="ot">=</span> regularBurrito</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>stomack <span class="ot">=</span> regularBurrito</span></code></pre></div>
 <p>you can write</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>stomack <span class="ot">&lt;-</span> monadicBurrito</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>stomack <span class="ot">&lt;-</span> monadicBurrito</span></code></pre></div>
 <p>which is much more appropriate, is not it? It becomes much more obvious if we need to compose multiple functions over a value.</p>
 <p>More examples of using Maybe monad with with and without sugar</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">-- | let x = foo in x + 3          corresponds to      (\x -&gt; x + 3) foo</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">-- | x &lt;- foo; return (x + 3)      to     foo &gt;&gt;= (\x -&gt; return (x + 3))</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="ot">displayResult ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>displayResult mx <span class="ot">=</span> <span class="fu">maybe</span> <span class="st">&quot;There was no result&quot;</span> ((<span class="st">&quot;The result was &quot;</span> <span class="op">++</span>) <span class="op">.</span> <span class="fu">show</span>) mx   </span>
-<span id="cb5-7"><a href="#cb5-7"></a>              </span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">-- | fromMaybe 0 (Just 1) - interesting example of Maybe and extracting</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">-- | values from Just   </span></span>
-<span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="ot">add ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>add mx my <span class="ot">=</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a>  mx <span class="op">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> my <span class="op">&gt;&gt;=</span> (\y <span class="ot">-&gt;</span> <span class="fu">return</span> (x <span class="op">+</span> y)))</span>
-<span id="cb5-14"><a href="#cb5-14"></a></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">-- | is equivalent to the following, using syntactic sugar:</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="ot">add' ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a>add' mx my <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a>  x <span class="ot">&lt;-</span> mx</span>
-<span id="cb5-19"><a href="#cb5-19"></a>  y <span class="ot">&lt;-</span> my</span>
-<span id="cb5-20"><a href="#cb5-20"></a>  <span class="fu">return</span> (x <span class="op">+</span> y)</span>
-<span id="cb5-21"><a href="#cb5-21"></a>  </span>
-<span id="cb5-22"><a href="#cb5-22"></a></span>
-<span id="cb5-23"><a href="#cb5-23"></a>main <span class="ot">=</span> <span class="fu">undefined</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="co">-- | let x = foo in x + 3          corresponds to      (\x -&gt; x + 3) foo</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="co">-- | x &lt;- foo; return (x + 3)      to     foo &gt;&gt;= (\x -&gt; return (x + 3))</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a><span class="ot">displayResult ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>displayResult mx <span class="ot">=</span> <span class="fu">maybe</span> <span class="st">&quot;There was no result&quot;</span> ((<span class="st">&quot;The result was &quot;</span> <span class="op">++</span>) <span class="op">.</span> <span class="fu">show</span>) mx   </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>              </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a><span class="co">-- | fromMaybe 0 (Just 1) - interesting example of Maybe and extracting</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a><span class="co">-- | values from Just   </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a><span class="ot">add ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>add mx my <span class="ot">=</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>  mx <span class="op">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> my <span class="op">&gt;&gt;=</span> (\y <span class="ot">-&gt;</span> <span class="fu">return</span> (x <span class="op">+</span> y)))</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a><span class="co">-- | is equivalent to the following, using syntactic sugar:</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a><span class="ot">add' ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>add' mx my <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>  x <span class="ot">&lt;-</span> mx</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a>  y <span class="ot">&lt;-</span> my</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>  <span class="fu">return</span> (x <span class="op">+</span> y)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a>  </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">undefined</span></span></code></pre></div>
 <p><br />
 </p>
 <h3 id="custom-monads-how">Custom Monads, how?</h3>
 <p>(creating bespoke monadic types)</p>
 <p>Standard programming interface allows us defining ‘our own monads’ (monadic types):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="ot">  (&gt;&gt;=)  ::</span> m a <span class="ot">-&gt;</span> (  a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="ot">  (&gt;&gt;)   ::</span> m a <span class="ot">-&gt;</span>  m b         <span class="ot">-&gt;</span> m b</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="ot">  return ::</span>   a                 <span class="ot">-&gt;</span> m a</span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="ot">  fail   ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> m a</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="ot">  (&gt;&gt;=)  ::</span> m a <span class="ot">-&gt;</span> (  a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="ot">  (&gt;&gt;)   ::</span> m a <span class="ot">-&gt;</span>  m b         <span class="ot">-&gt;</span> m b</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="ot">  return ::</span>   a                 <span class="ot">-&gt;</span> m a</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="ot">  fail   ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> m a</span></code></pre></div>
 <p>Basically our custom type needs to implement this interface. In addition, it needs to satisfy the following laws, in order to be consistent with monadic algebra:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">return</span> a <span class="op">&gt;&gt;=</span> k                  <span class="ot">=</span>  k a</span>
-<span id="cb7-2"><a href="#cb7-2"></a>m        <span class="op">&gt;&gt;=</span> <span class="fu">return</span>             <span class="ot">=</span>  m</span>
-<span id="cb7-3"><a href="#cb7-3"></a>m        <span class="op">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> k x <span class="op">&gt;&gt;=</span> h)  <span class="ot">=</span>  (m <span class="op">&gt;&gt;=</span> k) <span class="op">&gt;&gt;=</span> h</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="fu">return</span> a <span class="op">&gt;&gt;=</span> k                  <span class="ot">=</span>  k a</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>m        <span class="op">&gt;&gt;=</span> <span class="fu">return</span>             <span class="ot">=</span>  m</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>m        <span class="op">&gt;&gt;=</span> (\x <span class="ot">-&gt;</span> k x <span class="op">&gt;&gt;=</span> h)  <span class="ot">=</span>  (m <span class="op">&gt;&gt;=</span> k) <span class="op">&gt;&gt;=</span> h</span></code></pre></div>
 <p><a href="https://wiki.haskell.org/Monad">source</a></p>
 <div class="small">
 <em>TODO : add a concrete example of a custom type, which is not Maybe or IO</em>

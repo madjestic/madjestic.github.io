@@ -105,32 +105,32 @@ img {
 <h4 id="vex-better-practices">VEX: Better practices</h4>
 <p><br />
 </p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="dt">int</span> index = -<span class="dv">1</span>;</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="dt">float</span> tmp = -<span class="fl">1.0</span><span class="bu">f</span>;</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>{</span>
-<span id="cb1-7"><a href="#cb1-7"></a>  nbrnum = neighbour(geoself(), ptnum, i);</span>
-<span id="cb1-8"><a href="#cb1-8"></a>	<span class="cf">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))</span>
-<span id="cb1-9"><a href="#cb1-9"></a>	{</span>
-<span id="cb1-10"><a href="#cb1-10"></a>		index = i;</span>
-<span id="cb1-11"><a href="#cb1-11"></a>		tmp = product_list[i];</span>
-<span id="cb1-12"><a href="#cb1-12"></a>	}</span>
-<span id="cb1-13"><a href="#cb1-13"></a>};</span>
-<span id="cb1-14"><a href="#cb1-14"></a>	</span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="cf">return</span> index;</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="dt">int</span> index = -<span class="dv">1</span>;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="dt">float</span> tmp = -<span class="fl">1.0</span><span class="bu">f</span>;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; ncount; i++)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>{</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  nbrnum = neighbour(geoself(), ptnum, i);</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>	<span class="cf">if</span> ( product_list[i] &gt; tmp &amp;&amp; not_element_of(visited, nbrnum))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>	{</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>		index = i;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>		tmp = product_list[i];</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>	}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>};</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>	</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="cf">return</span> index;</span></code></pre></div>
 <p><br />
 </p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a><span class="dt">int</span> sorted_index[] = argsort(product_list);</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="cf">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)</span>
-<span id="cb2-4"><a href="#cb2-4"></a>{</span>
-<span id="cb2-5"><a href="#cb2-5"></a> nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		</span>
-<span id="cb2-6"><a href="#cb2-6"></a> <span class="cf">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="cf">break</span>;}</span>
-<span id="cb2-7"><a href="#cb2-7"></a>}</span>
-<span id="cb2-8"><a href="#cb2-8"></a>		</span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="cf">return</span> index;</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="dt">int</span> sorted_index[] = argsort(product_list);</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="cf">for</span>(<span class="dt">int</span> i = len(sorted_index)-<span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>{</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a> nbrnum = neighbour(geoself(), ptnum, pop(sorted_index));                             		</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> <span class="cf">if</span> (not_element_of(visited, nbrnum)){index = nbrnum; <span class="cf">break</span>;}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>		</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="cf">return</span> index;</span></code></pre></div>
 <p>The latter is go, the former - no go. (The former is idiomatic to VOPs)</p>
 
 <img src="../images/null.png" style="width:10px;height:10px;">

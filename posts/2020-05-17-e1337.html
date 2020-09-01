@@ -152,18 +152,18 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <li>Add attribute indexing.</li>
 <li>Use json for describing project files like so:</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1"></a>  <span class="fu">{</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>    <span class="fu">{</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Mandelbrot&quot;</span><span class="fu">,</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>	<span class="ot">[</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/test.bgeo&quot;</span> <span class="fu">}</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>	<span class="ot">]</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>    <span class="fu">}</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>  <span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="fu">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Mandelbrot&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>	<span class="ot">[</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/test.bgeo&quot;</span> <span class="fu">}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>	<span class="ot">]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>    <span class="fu">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="fu">}</span></span></code></pre></div>
 <p><img src="../images/output_09.png" /> <a href="https://www.youtube.com/watch?v=DApECcZsKfc">video</a></p>
 <h3 id="debug-shaders-vertex-attributes.">04: Debug Shaders, vertex attributes.</h3>
 <p>Basic model loading is working, let’s expand supported attributes: Color, Alpha, Normal, UVW: <img src="../images/output_10.png" /> <a href="https://www.youtube.com/watch?v=KVFu1DjKTCE">video</a></p>
@@ -172,36 +172,36 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <p>It is obvious that a single object may need more than one material: <img src="../images/output_12.png" /> <a href="https://www.youtube.com/watch?v=EYwBZOm5GNE">video</a></p>
 <h3 id="multiple-objects.">06: Multiple Objects.</h3>
 <p>Where’s many materials - there’s many objects. Expand the project description to support multiple objects:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="fu">{</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="fu">{</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Eath, ISS&quot;</span><span class="fu">,</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>	<span class="ot">[</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/earth.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/moon.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/iss_L1.bgeo&quot;</span> <span class="fu">}</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>	<span class="ot">]</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>    <span class="fu">}</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>  <span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Eath, ISS&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>	<span class="ot">[</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/earth.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/moon.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/iss_L1.bgeo&quot;</span> <span class="fu">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>	<span class="ot">]</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>    <span class="fu">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a><span class="fu">}</span></span></code></pre></div>
 <p><img src="../images/output_13.png" /> <a href="https://www.youtube.com/watch?v=CSedgiMpKzg">video</a></p>
 <p>Many objects with individual update loops, expand project description:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="fu">{</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>    <span class="fu">{</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Eath, ISS&quot;</span><span class="fu">,</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>	<span class="ot">[</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/earth.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/moon.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/iss_L1.bgeo&quot;</span> <span class="fu">}</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>	<span class="ot">]</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>    <span class="fu">}</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>  <span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="fu">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Eath, ISS&quot;</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>	<span class="ot">[</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/earth.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/moon.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/iss_L1.bgeo&quot;</span> <span class="fu">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>	<span class="ot">]</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>    <span class="fu">}</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="fu">}</span></span></code></pre></div>
 <p><img src="../images/output_14.png" /> <a href="https://www.youtube.com/watch?v=S2WPuo63r5g">video</a></p>
 <p>More testing: <img src="../images/output_15.png" /> <a href="https://www.youtube.com/watch?v=rnkZqXXqWYA">video</a></p>
 <p>And more: <img src="../images/output_16.png" /> <a href="https://www.youtube.com/watch?v=Oqiyv4zhxWE">video</a></p>
@@ -215,24 +215,24 @@ No mouse input support yet. It feels like playing Doom with keyboard alone.</p>
 <p><img src="../images/output_19.png" /> <a href="https://www.youtube.com/watch?v=pHV2LUEQ-Dw">video</a></p>
 <h3 id="saving-camera-position-and-more-fixes.">10: Saving camera position and more fixes.</h3>
 <p>Rainbow colors of the vertices reveal errors in attribute values. Let’s fix that. Logarithmic scales cause clipping artifacts. Also let’s further expand project format to support initial camera position:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="fu">{</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="fu">{</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Eath, ISS&quot;</span><span class="fu">,</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>	<span class="ot">[</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/earth.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/moon.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/iss_L1.bgeo&quot;</span> <span class="fu">}</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a>	<span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a>	<span class="dt">&quot;camera&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">1</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a>		   <span class="dv">0</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a>		   <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">,</span><span class="dv">-60</span><span class="ot">,</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>		   <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">]</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a>    <span class="fu">}</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>  <span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>    <span class="dt">&quot;project&quot;</span><span class="fu">:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    <span class="fu">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>	<span class="dt">&quot;name&quot;</span>  <span class="fu">:</span> <span class="st">&quot;Eath, ISS&quot;</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>	<span class="dt">&quot;resx&quot;</span>  <span class="fu">:</span> <span class="dv">800</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>	<span class="dt">&quot;resy&quot;</span>  <span class="fu">:</span> <span class="dv">600</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>	<span class="dt">&quot;models&quot;</span><span class="fu">:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>	<span class="ot">[</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/earth.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/moon.bgeo&quot;</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>	    <span class="fu">{</span> <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;models/iss_L1.bgeo&quot;</span> <span class="fu">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a>	<span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a>	<span class="dt">&quot;camera&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">1</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a>		   <span class="dv">0</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true"></a>		   <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">,</span><span class="dv">-60</span><span class="ot">,</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true"></a>		   <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">0</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">]</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true"></a>    <span class="fu">}</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true"></a><span class="fu">}</span></span></code></pre></div>
 <p><img src="../images/output.png" /> <a href="https://www.youtube.com/watch?v=A5U13pmyawI">video</a></p>
 <h4 id="references">References:</h4>
 <p>https://learnopengl.com/ http://learnyouahaskell.com/</p>

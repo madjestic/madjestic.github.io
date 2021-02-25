@@ -40,17 +40,13 @@
 
     <body>
 
-      <div class="topnav">
-            <div class="box">
-              <select id="themes">
-		<option value="default">light/dark</option>
-                <option value="bootstrap">light</option>
-                <option value="bootstrap_dark">dark</option>
-              </select>
-            </div>
-            <div class="styleInfo"></div>
+      <div>
+        <select id="themes">
+	  <option value="default">theme</option>
+          <option value="bootstrap">light</option>
+          <option value="bootstrap_dark">dark</option>
+        </select>
       </div>
-      </br>
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <div class="container">
@@ -106,16 +102,16 @@ img {
 <p><br />
 </p>
 <p>We assume that you’ve got Euterpea installed either via cabal or a package manager, such as <a href="https://wiki.gentoo.org/wiki/Portage">portage</a>, if not:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>     $ <span class="ex">cabal</span> install euterpea</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> cabal install euterpea</span></code></pre></div>
 <p>or</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>     $ <span class="ex">emerge</span> euterpea                                                  </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> emerge euterpea                                                  </span></code></pre></div>
 <p><br />
 Let’s see if it gets picked up by ghci:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>     $ <span class="ex">ghci</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>     <span class="ex">GHCi</span>, version 8.4.4: http://www.haskell.org/ghc/  :? for help</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>     <span class="ex">Loaded</span> GHCi configuration from /home/madjestic/.ghci</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>     <span class="ex">Prelude</span> Text.Show.Unicode<span class="op">&gt;</span> import Euterpea</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>     <span class="ex">Prelude</span> Text.Show.Unicode Euterpea<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> ghci</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>     <span class="ex">GHCi,</span> version 8.4.4: http://www.haskell.org/ghc/  :<span class="pp">?</span> for help</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="ex">Loaded</span> GHCi configuration from /home/madjestic/.ghci</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     <span class="ex">Prelude</span> Text.Show.Unicode<span class="op">&gt;</span> import Euterpea</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>     <span class="ex">Prelude</span> Text.Show.Unicode Euterpea<span class="op">&gt;</span></span></code></pre></div>
 <p><br />
 Now we will use JACK to create a playback device for Euterpea to use to play musice:</p>
 <ul>
@@ -124,32 +120,32 @@ Now we will use JACK to create a playback device for Euterpea to use to play mus
 <li><p>run the JACK server via qjackctl interface</p></li>
 <li><p>run <code>devices</code> to see of Euterpea see the qsynth:</p></li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Text.Show.Unicode</span> <span class="dt">Euterpea</span><span class="op">&gt;</span> devices</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="dt">Input</span> devices<span class="op">:</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  <span class="dt">InputDeviceID</span> <span class="dv">1</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="op">-</span><span class="dv">0</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="dt">Output</span> devices<span class="op">:</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>  <span class="dt">OutputDeviceID</span> <span class="dv">0</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="op">-</span><span class="dv">0</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>  <span class="dt">OutputDeviceID</span> <span class="dv">2</span>	qjackctl</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>  <span class="dt">OutputDeviceID</span> <span class="dv">3</span>	<span class="dt">Synth</span> input port (qsynth<span class="op">:</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Prelude</span> <span class="dt">Text.Show.Unicode</span> <span class="dt">Euterpea</span><span class="op">&gt;</span> devices</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">Input</span> devices<span class="op">:</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">InputDeviceID</span> <span class="dv">1</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="op">-</span><span class="dv">0</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">Output</span> devices<span class="op">:</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">OutputDeviceID</span> <span class="dv">0</span>	<span class="dt">Midi</span> <span class="dt">Through</span> <span class="dt">Port</span><span class="op">-</span><span class="dv">0</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">OutputDeviceID</span> <span class="dv">2</span>	qjackctl</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">OutputDeviceID</span> <span class="dv">3</span>	<span class="dt">Synth</span> input port (qsynth<span class="op">:</span><span class="dv">0</span>)</span></code></pre></div>
 <p>We can see here that qsynth is seen by Euterpea as a device number 3.</p>
 <p><br />
 Let’s ask Euterpea about instruments that it can play:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Text.Show.Unicode</span> <span class="dt">Euterpea</span><span class="op">&gt;</span> <span class="op">:</span>i <span class="dt">InstrumentName</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Message</span> <span class="ot">=</span> <span class="op">...</span> <span class="op">|</span> <span class="dt">InstrumentName</span> <span class="op">!</span><span class="dt">String</span> <span class="op">|</span> <span class="op">...</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>   <span class="co">-- Defined in ‘Codec.Midi’</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>   <span class="kw">data</span> <span class="dt">InstrumentName</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">AcousticGrandPiano</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">BrightAcousticPiano</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">ElectricGrandPiano</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">HonkyTonkPiano</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">RhodesPiano</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>   <span class="op">...</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Prelude</span> <span class="dt">Text.Show.Unicode</span> <span class="dt">Euterpea</span><span class="op">&gt;</span> <span class="op">:</span>i <span class="dt">InstrumentName</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Message</span> <span class="ot">=</span> <span class="op">...</span> <span class="op">|</span> <span class="dt">InstrumentName</span> <span class="op">!</span><span class="dt">String</span> <span class="op">|</span> <span class="op">...</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>   <span class="co">-- Defined in ‘Codec.Midi’</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>   <span class="kw">data</span> <span class="dt">InstrumentName</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   <span class="ot">=</span> <span class="dt">AcousticGrandPiano</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="op">|</span> <span class="dt">BrightAcousticPiano</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>   <span class="op">|</span> <span class="dt">ElectricGrandPiano</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>   <span class="op">|</span> <span class="dt">HonkyTonkPiano</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>   <span class="op">|</span> <span class="dt">RhodesPiano</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>   <span class="op">...</span></span></code></pre></div>
 <p><br />
 Finally, let’s tell Euterpea to send a note to qsynth (device number 3) via JACK to play:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>playDev <span class="dv">3</span> <span class="op">$</span> instrument <span class="dt">Clavinet</span> <span class="op">$</span> c <span class="dv">4</span> qn</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>playDev <span class="dv">3</span> <span class="op">$</span> instrument <span class="dt">Clavinet</span> <span class="op">$</span> c <span class="dv">4</span> qn</span></code></pre></div>
 <p>If all went fine, you should hear a sound being played.<br />
 <br />
 </p>

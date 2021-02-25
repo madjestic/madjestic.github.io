@@ -40,17 +40,13 @@
 
     <body>
 
-      <div class="topnav">
-            <div class="box">
-              <select id="themes">
-		<option value="default">light/dark</option>
-                <option value="bootstrap">light</option>
-                <option value="bootstrap_dark">dark</option>
-              </select>
-            </div>
-            <div class="styleInfo"></div>
+      <div>
+        <select id="themes">
+	  <option value="default">theme</option>
+          <option value="bootstrap">light</option>
+          <option value="bootstrap_dark">dark</option>
+        </select>
       </div>
-      </br>
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <div class="container">
@@ -110,25 +106,25 @@ For a while my goal was to learn the basics of OpenGL, sufficient for following 
 <p>On the way towards this goal, I managed to get through first steps, thanks to <a href="http://www.arcadianvisions.com/blog/?p=388">Postmodern Haskell and OpenGL: Introducing vinyl-gl</a>, but there are a few problems with it: 1) Anthony’s code is relying on <a href="http://hackage.haskell.org/package/GLUT">GLUT</a>. The general consensus at the moment is that <a href="http://en.wikipedia.org/wiki/OpenGL_Utility_Toolkit">GLUT is a legacy package</a>, which contradicts my goal of keeping the code base fresh. 2) Anthony’s latest tutorial goals further digress from my goals by putting an accent on using Anthony’s personal <a href="http://hackage.haskell.org/package/vinyl-gl">vynil-gl</a> utility library. My goal is to learn OpenGL, not to use any personal utility libraries, unless it is necessary. 3) The tutorial is failing at the most crucial aspect of a tutorial: gradual increase of complexity – developing more complex examples, based on simpler examples. Instead, <a href="http://www.arcadianvisions.com/blog/?p=388">the second tutorial</a> seems to be disconnected from <a href="http://www.arcadianvisions.com/blog/?p=224">the first</a>. 4) Most important: due to outdated dependencies that Anthony is using in his code, none of his examples compile out of the box and require poking around, which is very frustrating when you hardly know what you are doing and don’t really know if it is your graphics card, or your code, or something else is broken.</p>
 <p>Hopefully that explains my decision to come up with my own set of examples and, possibly, turn in into a set of mini-tutorials, that some other adventurous soul may find useful in the future:</p>
 <p>Here’s the very first OpenGL Hello World in Haskell. It is using <a href="http://hackage.haskell.org/package/GLFW-b">GLFW-b</a> library as a odependency, instead of GLUT, for the reasons, mentioned above:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  GLFW.init</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  GLFW.defaultWindowHints</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  GLFW.makeContextCurrent (<span class="dt">Just</span> win)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  onDisplay win</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  GLFW.destroyWindow win</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  GLFW.terminate</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>onDisplay win <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  GL.clearColor <span class="op">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  GL.clear [<span class="dt">ColorBuffer</span>]</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>  GLFW.swapBuffers win</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>  onDisplay win</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  GLFW.init</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  GLFW.defaultWindowHints</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Just</span> win <span class="ot">&lt;-</span> GLFW.createWindow <span class="dv">640</span> <span class="dv">480</span> <span class="st">&quot;GLFW Demo&quot;</span> <span class="dt">Nothing</span> <span class="dt">Nothing</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  GLFW.makeContextCurrent (<span class="dt">Just</span> win)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  onDisplay win</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  GLFW.destroyWindow win</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  GLFW.terminate</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ot">onDisplay ::</span> <span class="dt">Window</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>onDisplay win <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  GL.clearColor <span class="op">$=</span> <span class="dt">Color4</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  GL.clear [<span class="dt">ColorBuffer</span>]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  GLFW.swapBuffers win</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  onDisplay win</span></code></pre></div>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a></p>
 <p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>

@@ -40,17 +40,13 @@
 
     <body>
 
-      <div class="topnav">
-            <div class="box">
-              <select id="themes">
-		<option value="default">light/dark</option>
-                <option value="bootstrap">light</option>
-                <option value="bootstrap_dark">dark</option>
-              </select>
-            </div>
-            <div class="styleInfo"></div>
+      <div>
+        <select id="themes">
+	  <option value="default">theme</option>
+          <option value="bootstrap">light</option>
+          <option value="bootstrap_dark">dark</option>
+        </select>
       </div>
-      </br>
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <div class="container">
@@ -109,34 +105,34 @@ img {
 <p><a href="https://wiki.archlinux.org/index.php/USB_MIDI_keyboards">stolen from here:</a><br />
 This guide assumes a kernel that has been setup to support MIDI devices, such as Keystation Mini 32, for example <a href="https://raw.githubusercontent.com/madjestic/nu/master/usr/src/linux/.config-linux-4.14.78-gentoo">this kernel config:</a><br />
 Plug in the keyboard into the USB port and check if your dmesg is showing something similar:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>$ <span class="fu">dmesg</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="ex">...</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>[<span class="ex">30937.290895</span>] usb 3-1: USB disconnect, device number 5</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>[<span class="ex">30942.383408</span>] usb 3-1: new full-speed USB device number 11 using xhci_hcd</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>[<span class="ex">30942.511908</span>] usb 3-1: New USB device found, idVendor=0a4d, idProduct=129d</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>[<span class="ex">30942.511913</span>] usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>[<span class="ex">30942.511916</span>] usb 3-1: Product: Keystation Mini 32</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>[<span class="ex">30942.511919</span>] usb 3-1: Manufacturer: Keystation Mini 32</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> dmesg</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">[30937.290895]</span> usb 3-1: USB disconnect, device number 5</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[30942.383408]</span> usb 3-1: new full-speed USB device number 11 using xhci_hcd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">[30942.511908]</span> usb 3-1: New USB device found, idVendor=0a4d, idProduct=129d</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">[30942.511913]</span> usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">[30942.511916]</span> usb 3-1: Product: Keystation Mini 32</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[30942.511919]</span> usb 3-1: Manufacturer: Keystation Mini 32</span></code></pre></div>
 <p><br />
 Assuming that you do, let’s do the following checks:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>$ <span class="fu">aconnect</span> -l</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="ex">client</span> 0: <span class="st">'System'</span> [type=kernel]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="ex">0</span> <span class="st">'Timer           '</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    <span class="ex">1</span> <span class="st">'Announce        '</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>	<span class="ex">Connecting</span> To: 15:0, 128:0</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="ex">client</span> 14: <span class="st">'Midi Through'</span> [type=kernel]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    <span class="ex">0</span> <span class="st">'Midi Through Port-0'</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>	<span class="ex">Connected</span> From: 20:0</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="ex">client</span> 15: <span class="st">'OSS sequencer'</span> [type=kernel]</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>    <span class="ex">0</span> <span class="st">'Receiver        '</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>	<span class="ex">Connected</span> From: 0:1</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="ex">client</span> 20: <span class="st">'Keystation Mini 32'</span> [type=kernel,card=1]</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>    <span class="ex">0</span> <span class="st">'Keystation Mini 32 MIDI 1'</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>	<span class="ex">Connecting</span> To: 14:0, 129:0</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>$ <span class="ex">aseqdump</span> -p 20</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> aconnect <span class="at">-l</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">client</span> 0: <span class="st">'System'</span> [type=kernel]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">0</span> <span class="st">'Timer           '</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1</span> <span class="st">'Announce        '</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>	<span class="ex">Connecting</span> To: 15:0, 128:0</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">client</span> 14: <span class="st">'Midi Through'</span> [type=kernel]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">0</span> <span class="st">'Midi Through Port-0'</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>	<span class="ex">Connected</span> From: 20:0</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">client</span> 15: <span class="st">'OSS sequencer'</span> [type=kernel]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">0</span> <span class="st">'Receiver        '</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>	<span class="ex">Connected</span> From: 0:1</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">client</span> 20: <span class="st">'Keystation Mini 32'</span> [type=kernel,card=1]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">0</span> <span class="st">'Keystation Mini 32 MIDI 1'</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>	<span class="ex">Connecting</span> To: 14:0, 129:0</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> aseqdump <span class="at">-p</span> 20</span></code></pre></div>
 <p>where <code>20</code> is the client number from the previous command - this can help you see if your midi device is producing any output. Then start qjackctrl and qsynth:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>$ <span class="ex">qjackctl</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>$ <span class="ex">qsynth</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> qjackctl</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> qsynth</span></code></pre></div>
 <p>If qsynth does not show up among ALSA devices, make sure that MIDI driver is set to <code>alsa_seq</code>, you should see a picture similar to the one below:<br />
 <br />
 <img src="../images/jack_midi_900.png" /><br />

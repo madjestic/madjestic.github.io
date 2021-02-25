@@ -40,17 +40,13 @@
 
     <body>
 
-      <div class="topnav">
-            <div class="box">
-              <select id="themes">
-		<option value="default">light/dark</option>
-                <option value="bootstrap">light</option>
-                <option value="bootstrap_dark">dark</option>
-              </select>
-            </div>
-            <div class="styleInfo"></div>
+      <div>
+        <select id="themes">
+	  <option value="default">theme</option>
+          <option value="bootstrap">light</option>
+          <option value="bootstrap_dark">dark</option>
+        </select>
       </div>
-      </br>
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <div class="container">
@@ -105,57 +101,57 @@ img {
 <h3 id="why-template-haskell">Why Template Haskell?</h3>
 <p>Among other thigs, it can generate boilerplate for you, so that you spend time on more important things.</p>
 <p>Let’s say we have the following datatypes:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Project</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="ot">=</span>  <span class="dt">Project</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>     {</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="ot">       name      ::</span> <span class="dt">String</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>     ,<span class="ot"> resx      ::</span> <span class="dt">Int</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>     ,<span class="ot"> resy      ::</span> <span class="dt">Int</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>     ,<span class="ot"> _models   ::</span> [<span class="dt">Model</span>]</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>     ,<span class="ot"> _textures ::</span> [<span class="dt">Texture</span>]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>     ,<span class="ot"> _cameraP  ::</span> [<span class="dt">Float</span>]</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>     } <span class="kw">deriving</span> <span class="dt">Show</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>	 </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Model</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>  <span class="ot">=</span>  <span class="dt">Model</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>     {</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="ot">       _path ::</span> <span class="dt">String</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>     } <span class="kw">deriving</span> <span class="dt">Show</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Texture</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>  <span class="ot">=</span>  <span class="dt">Texture</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>     {</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="ot">       _path ::</span> <span class="dt">String</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>     } <span class="kw">deriving</span> <span class="dt">Show</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Project</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">=</span>  <span class="dt">Project</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>     {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">       name      ::</span> <span class="dt">String</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>     ,<span class="ot"> resx      ::</span> <span class="dt">Int</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>     ,<span class="ot"> resy      ::</span> <span class="dt">Int</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     ,<span class="ot"> _models   ::</span> [<span class="dt">Model</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     ,<span class="ot"> _textures ::</span> [<span class="dt">Texture</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>     ,<span class="ot"> _cameraP  ::</span> [<span class="dt">Float</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     } <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>	 </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Model</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="ot">=</span>  <span class="dt">Model</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ot">       _path ::</span> <span class="dt">String</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>     } <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Texture</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="ot">=</span>  <span class="dt">Texture</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>     {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ot">       _path ::</span> <span class="dt">String</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>     } <span class="kw">deriving</span> <span class="dt">Show</span></span></code></pre></div>
 <p>If we wanted, we could write JSON interfaces for it like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Project</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  parseJSON (<span class="dt">Object</span> o) <span class="ot">=</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="dt">Project</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>      <span class="op">&lt;$&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;name&quot;</span>)) </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;resx&quot;</span>))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;resy&quot;</span>))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;models&quot;</span>))</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;textures&quot;</span>))</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;camera&quot;</span>))</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  parseJSON _ <span class="ot">=</span> mzero</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Model</span> <span class="kw">where</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  parseJSON (<span class="dt">Object</span> o) <span class="ot">=</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>    <span class="dt">Model</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>      <span class="op">&lt;$&gt;</span> o <span class="op">.:</span> <span class="st">&quot;path&quot;</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>  parseJSON _ <span class="ot">=</span> mzero</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Texture</span> <span class="kw">where</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  parseJSON (<span class="dt">Object</span> o) <span class="ot">=</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>    <span class="dt">Texture</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>      <span class="op">&lt;$&gt;</span> o <span class="op">.:</span> <span class="st">&quot;path&quot;</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>  parseJSON _ <span class="ot">=</span> mzero</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Project</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  parseJSON (<span class="dt">Object</span> o) <span class="ot">=</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Project</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;$&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;name&quot;</span>)) </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;resx&quot;</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;resy&quot;</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;models&quot;</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;textures&quot;</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;*&gt;</span> ((o <span class="op">.:</span> <span class="st">&quot;project&quot;</span>) <span class="op">&gt;&gt;=</span> (<span class="op">.:</span> <span class="st">&quot;camera&quot;</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  parseJSON _ <span class="ot">=</span> mzero</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Model</span> <span class="kw">where</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  parseJSON (<span class="dt">Object</span> o) <span class="ot">=</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Model</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;$&gt;</span> o <span class="op">.:</span> <span class="st">&quot;path&quot;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  parseJSON _ <span class="ot">=</span> mzero</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Texture</span> <span class="kw">where</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  parseJSON (<span class="dt">Object</span> o) <span class="ot">=</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Texture</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;$&gt;</span> o <span class="op">.:</span> <span class="st">&quot;path&quot;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  parseJSON _ <span class="ot">=</span> mzero</span></code></pre></div>
 <p>Thanks to TH, we can write like this instead:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>deriveJSON defaultOptions '<span class="dt">'Project</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>deriveJSON defaultOptions '<span class="dt">'Model</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>deriveJSON defaultOptions '<span class="dt">'Texture</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">''</span><span class="dt">Project</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">''</span><span class="dt">Model</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">''</span><span class="dt">Texture</span></span></code></pre></div>
 <p>Both are equivalent.</p>
 <p>Cheers, Vlad.</p>
 

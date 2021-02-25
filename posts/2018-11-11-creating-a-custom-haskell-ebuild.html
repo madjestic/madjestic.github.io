@@ -40,17 +40,13 @@
 
     <body>
 
-      <div class="topnav">
-            <div class="box">
-              <select id="themes">
-		<option value="default">light/dark</option>
-                <option value="bootstrap">light</option>
-                <option value="bootstrap_dark">dark</option>
-              </select>
-            </div>
-            <div class="styleInfo"></div>
+      <div>
+        <select id="themes">
+	  <option value="default">theme</option>
+          <option value="bootstrap">light</option>
+          <option value="bootstrap_dark">dark</option>
+        </select>
       </div>
-      </br>
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <div class="container">
@@ -106,46 +102,46 @@ img {
 <h5 id="this-guide-does-not-use-a-custom-overlay">This guide does <em>not</em> use a custom overlay:</h5>
 <p><br />
 </p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>     $ <span class="fu">mkdir</span> -p ~/overlays/gentoo-haskell</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>     $ <span class="bu">cd</span> ~/overlays/gentoo-haskell</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>     $ <span class="fu">sudo</span> hackport -p ~/overlays/gentoo-haskell/ update</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>     $ <span class="fu">sudo</span> hackport -p /home/madjestic/overlays/gentoo-haskell/ make-ebuild dev-haskell ~/Projects/Haskell/Euterpea2/Euterpea.cabal</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>     $ <span class="fu">sudo</span> cp -R /home/madjestic/overlays/gentoo-haskell/dev-haskell/euterpea/ /usr/local/portage/dev-haskell/</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>     $ <span class="bu">cd</span> /usr/local/portage/dev-haskell/euterpea/</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> mkdir <span class="at">-p</span> ~/overlays/gentoo-haskell</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> cd ~/overlays/gentoo-haskell</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo hackport <span class="at">-p</span> ~/overlays/gentoo-haskell/ update</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo hackport <span class="at">-p</span> /home/madjestic/overlays/gentoo-haskell/ make-ebuild dev-haskell ~/Projects/Haskell/Euterpea2/Euterpea.cabal</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo cp <span class="at">-R</span> /home/madjestic/overlays/gentoo-haskell/dev-haskell/euterpea/ /usr/local/portage/dev-haskell/</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> cd /usr/local/portage/dev-haskell/euterpea/</span></code></pre></div>
 <p>We are almost ready to generate a file manifest (that’s what allows portage to see the new ebuild). This step is not strictly necessary, but it tells Manifest file to use thin format. Edit and past the following to <code>/usr/local/portage/metadata/layout.conf</code> (copied from gentoo-haskell):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">masters</span> = gentoo</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="ex">cache-formats</span> = md5-dict</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="ex">thin-manifests</span> = true</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="ex">manifest-hashes</span> = BLAKE2B SHA512</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="co"># too many ebuilds are using old EAPIs</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="co">#eapis-deprecated = 0 1 2 3 4</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="co">#let's start from smaller amount:</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="ex">eapis-deprecated</span> = 0 1 2 3</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">masters</span> = gentoo</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">cache-formats</span> = md5-dict</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">thin-manifests</span> = true</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">manifest-hashes</span> = BLAKE2B SHA512</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># too many ebuilds are using old EAPIs</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#eapis-deprecated = 0 1 2 3 4</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#let's start from smaller amount:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">eapis-deprecated</span> = 0 1 2 3</span></code></pre></div>
 <p>Next, we need to generate a manifest file. There are 2 options:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>     $ <span class="fu">sudo</span> ebuild ./euterpea-2.0.6.ebuild manifest</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo ebuild ./euterpea-2.0.6.ebuild manifest</span></code></pre></div>
 <p>or</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>     $ <span class="fu">sudo</span> repoman manifest</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo repoman manifest</span></code></pre></div>
 <p>(for more verbose output, you could run <code>sudo repoman full</code>)</p>
 <p><em>If you plan to submit the package to gentoo-haskell overlay, the previous step can be performed inside the package directory of the cloned github image of the project fork.</em></p>
 <p>Now we need to make the newly added ebuild visible to portage:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>     $ <span class="fu">sudo</span> emerge --sync</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>     $ <span class="fu">sudo</span> emerge --search euterpea                                                  <span class="kw">```</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>     </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="ex">Let</span><span class="st">'s verify the setup:</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a><span class="st">```bash</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a><span class="st">     $ emerge --search euterpea</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a><span class="st">     [ Results for search key : euterpea ]</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a><span class="st">     Searching...</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a><span class="st">      </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a><span class="st">     *  dev-haskell/euterpea [ Masked ]</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a><span class="st">       Latest version available: 2.0.6</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a><span class="st">       Latest version installed: [ Not Installed ]</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a><span class="st">       Size of files: 11,387 KiB</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a><span class="st">       Homepage:      http://www.euterpea.com</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a><span class="st">       Description:   Library for computer music research and education</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a><span class="st">       License:       BSD</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a><span class="st">      </span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a><span class="st">       [ Applications found : 1 ]</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo emerge <span class="at">--sync</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>     <span class="ex">$</span> sudo emerge <span class="at">--search</span> euterpea                                                  <span class="kw">```</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Let</span><span class="st">'s verify the setup:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">```bash</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">     $ emerge --search euterpea</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">     [ Results for search key : euterpea ]</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">     Searching...</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">     *  dev-haskell/euterpea [ Masked ]</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">       Latest version available: 2.0.6</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">       Latest version installed: [ Not Installed ]</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">       Size of files: 11,387 KiB</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">       Homepage:      http://www.euterpea.com</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">       Description:   Library for computer music research and education</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">       License:       BSD</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">       [ Applications found : 1 ]</span></span></code></pre></div>
 <p>If all worked out as expected, now you can do <code>$ emerga euterpea</code> in order to merge the ebuild.<br />
 <br />
 </p>

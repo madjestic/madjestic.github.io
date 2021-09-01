@@ -88,6 +88,8 @@ img {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>          <span class="co">-- instance should be picked here? What should</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          <span class="co">-- the output be?</span></span></code></pre></div>
 <p>I hope that helps in case you ended up in a similar rabbit hole of haskell polymorphism.</p>
+<p><br />
+Special thanks to the contributors, whose questions and comments have provoked this post: Morrow, Xal, Ailrun the Corgi, OlexP</p>
 
 <img src="../images/null.png" 
 style="width:10px;height:10px;">

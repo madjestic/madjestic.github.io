@@ -142,7 +142,7 @@ The main addition on top what we have done in previous tutorials is the initRsou
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  vertexAttribArray vPosition <span class="op">$=</span> <span class="dt">Enabled</span></span></code></pre></div>
 <p><br />
 That makes this data accessible in the vertex shader:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">layout</span>(<span class="dt">location</span> = <span class="dv">0</span>) <span class="dt">in</span> <span class="dt">vec4</span> vPosition;</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">layout</span><span class="op">(</span><span class="dt">location</span> <span class="op">=</span> <span class="dv">0</span><span class="op">)</span> <span class="dt">in</span> <span class="dt">vec4</span> vPosition<span class="op">;</span></span></code></pre></div>
 <p><br />
 <br />
 5) Finally we bind vertex and fragment shaders to the current program, and return the Dexscriptor object to the main loop:</p>

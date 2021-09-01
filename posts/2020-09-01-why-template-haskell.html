@@ -147,11 +147,11 @@ img {
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;$&gt;</span> o <span class="op">.:</span> <span class="st">&quot;path&quot;</span></span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  parseJSON _ <span class="ot">=</span> mzero</span></code></pre></div>
 <p>Thanks to TH, we can write like this instead:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">''</span><span class="dt">Project</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions '<span class="dt">'Project</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">''</span><span class="dt">Model</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions '<span class="dt">'Model</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">''</span><span class="dt">Texture</span></span></code></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions '<span class="dt">'Texture</span></span></code></pre></div>
 <p>Both are equivalent.</p>
 <p>Cheers, Vlad.</p>
 

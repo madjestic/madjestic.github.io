@@ -8,8 +8,92 @@
         <name>Vladimir Lopatin</name>
         <email>madjestic13@gmail.com</email>
     </author>
-    <updated>2021-03-27T00:00:00Z</updated>
+    <updated>2021-08-31T00:00:00Z</updated>
     <entry>
+    <title>Are Polymorphic Output Functions Possible?</title>
+    <link href="madjestic.github.io/atom.xml/posts/2021-08-31-polymorphic.html" />
+    <id>madjestic.github.io/atom.xml/posts/2021-08-31-polymorphic.html</id>
+    <published>2021-08-31T00:00:00Z</published>
+    <updated>2021-08-31T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<!-- STYLESHEETS -->
+
+<style>
+img { 
+    width: 100%; 
+}
+</style>
+
+<!-- HEADER -->
+<div class="info">
+    Posted on August 31, 2021
+    
+</div>
+
+<!-- BODY -->
+<h3 id="are-polymorphic-output-functions-possible">Are Polymorphic Output Functions Possible?</h3>
+<p>Let’s consider the following code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">multi ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>multi <span class="st">&quot;Int&quot;</span>   <span class="ot">=</span> (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>multi <span class="st">&quot;Float&quot;</span> <span class="ot">=</span> (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Float</span>)          </span></code></pre></div>
+<p>Output:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Error</span> occurred</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">ERROR</span> line <span class="dv">5</span> <span class="op">-</span> <span class="dt">Type</span> <span class="fu">error</span> <span class="kw">in</span> explicitly typed binding</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Term</span>           <span class="op">:</span> multi</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Type</span>           <span class="op">:</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Float</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Does</span> <span class="fu">not</span> match <span class="op">:</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code></pre></div>
+<p>Or</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">multi ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>multi _   <span class="ot">=</span> <span class="fl">1.0</span></span></code></pre></div>
+<p>Output:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Error</span> occurred</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">ERROR</span> line <span class="dv">4</span> <span class="op">-</span> <span class="dt">Cannot</span> justify constraints <span class="kw">in</span> explicitly typed binding</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Expression</span>    <span class="op">:</span> multi</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Type</span>          <span class="op">:</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Given</span> context <span class="op">:</span> ()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">***</span> <span class="dt">Constraints</span>   <span class="op">:</span> <span class="dt">Fractional</span> a</span></code></pre></div>
+<p>Or even:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">multi ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>multi _   <span class="ot">=</span> <span class="fl">1.0</span><span class="ot"> ::</span> <span class="dt">Float</span></span></code></pre></div>
+<p>Output:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Error</span> occurred</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">ERROR</span> line <span class="dv">4</span> <span class="op">-</span> <span class="dt">Inferred</span> <span class="kw">type</span> is <span class="fu">not</span> general enough</span></code></pre></div>
+<p>So that does not work. How about faking polymorphism via data type members?</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">X</span> <span class="ot">=</span> <span class="dt">X1</span> <span class="dt">Int</span> <span class="op">|</span> <span class="dt">X2</span> <span class="dt">Float</span> <span class="op">|</span> <span class="dt">X3</span> <span class="dt">String</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Z</span> a <span class="ot">=</span> <span class="dt">Z1</span> <span class="dt">Int</span> <span class="op">|</span> <span class="dt">Z2</span> <span class="dt">Float</span> <span class="op">|</span> <span class="dt">Z3</span> <span class="dt">String</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ot">bar ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Z</span> a</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>bar s <span class="ot">=</span> <span class="kw">case</span> s <span class="kw">of</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>          _       <span class="ot">-&gt;</span> <span class="dt">Z3</span><span class="ot"> undefined ::</span> <span class="dt">Z</span> a</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">--          &quot;Int&quot;   -&gt; Z1 1 :: Z Int</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ot">foo ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">X</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>foo s <span class="ot">=</span> <span class="kw">case</span> s <span class="kw">of</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;Int&quot;</span>   <span class="ot">-&gt;</span> <span class="dt">X1</span> <span class="dv">1</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;Float&quot;</span> <span class="ot">-&gt;</span> <span class="dt">X2</span> <span class="fl">1.0</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>          _       <span class="ot">-&gt;</span> <span class="dt">X3</span> <span class="st">&quot;Vrotebal&quot;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>		  </span></code></pre></div>
+<p>That works, but our functions/types aren’t polymorphic in the original sense… So let’s modify the first example:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">multi ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> (<span class="kw">forall</span> a<span class="op">.</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>multi <span class="st">&quot;Int&quot;</span>   f <span class="ot">=</span> f (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>multi <span class="st">&quot;Float&quot;</span> f <span class="ot">=</span> f (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Float</span>)</span></code></pre></div>
+<p>Now think about what f can be :P…</p>
+<p>To be useful, you’ve got to include information that would let the caller figure out which of the two you’ve returned The easiest is obviously data Foo = FooInt Int | FooFloat Float, like in the second code example above. There’s also Data.Typeable, where the compiler provides some magic to give you a “tag” for every type and an existential wrapper that preserves the tag…</p>
+<p>So, on the one hand the type of <code>... :: String -&gt; a</code> exists and is legit, e.g. <code>abort :: String -&gt; a</code>, <code>error :: String -&gt; a</code>, <code>absurd :: Void -&gt; a</code>, on the other hand they are, practically speaking, all special functions with seemingly no real way to make custom useful functions with the type of <code>... :: String -&gt; a</code>.</p>
+<p>To see why this can’t work, consider</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  str <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="ot">=</span> multi str <span class="co">-- What type does x have?</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span> x <span class="co">-- Instances are chosen at compile time. Which</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>          <span class="co">-- instance should be picked here? What should</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          <span class="co">-- the output be?</span></span></code></pre></div>
+<p>I hope that helps in case you ended up in a similar rabbit hole of haskell polymorphism.</p>
+
+<img src="../images/null.png" 
+style="width:10px;height:10px;">
+]]></summary>
+</entry>
+<entry>
     <title>Haskell Gems</title>
     <link href="madjestic.github.io/atom.xml/posts/2021-03-27-haskell-gems.html" />
     <id>madjestic.github.io/atom.xml/posts/2021-03-27-haskell-gems.html</id>
@@ -139,11 +223,11 @@ img {
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;$&gt;</span> o <span class="op">.:</span> <span class="st">&quot;path&quot;</span></span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  parseJSON _ <span class="ot">=</span> mzero</span></code></pre></div>
 <p>Thanks to TH, we can write like this instead:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">&#39;&#39;</span><span class="dt">Project</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions &#39;<span class="dt">&#39;Project</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">&#39;&#39;</span><span class="dt">Model</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions &#39;<span class="dt">&#39;Model</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions <span class="ch">&#39;&#39;</span><span class="dt">Texture</span></span></code></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>deriveJSON defaultOptions &#39;<span class="dt">&#39;Texture</span></span></code></pre></div>
 <p>Both are equivalent.</p>
 <p>Cheers, Vlad.</p>
 
@@ -783,7 +867,7 @@ img {
 <h4 id="on-purity-vs-impurity-in-haskell">On Purity vs Impurity in Haskell</h4>
 <p><br />
 </p>
-<em>“<code>IO ()</code> type signature is like a ”Danger: Minefield!" sign - it does not mean that everywhere you step there’s going to be a mine, but there can be a mine somewhere".</em>
+<em>“<code>IO ()</code> type signature is like a ”Danger: Minefield!” sign - it does not mean that everywhere you step there’s going to be a mine, but there can be a mine somewhere”.</em>
 <p style="text-align:right;">
 (c) hoknamahn, a XXII century philosopher.
 </p>
@@ -792,7 +876,7 @@ img {
 That’s in short. The whole story, however, is a little bit more complicated and goes somewhere along the lines the conversation I had on #haskell-beginners@freenode some time ago:<br />
 <br />
 </p>
-<p><strong>Me:</strong> I am trying to understand the concept of purity, and though, on the surface, the distinction seems obvious, there seems to be cases, where things are not so blunt as " <code>IO ()</code> means <em>impure</em>", isn’t it?</p>
+<p><strong>Me:</strong> I am trying to understand the concept of purity, and though, on the surface, the distinction seems obvious, there seems to be cases, where things are not so blunt as ” <code>IO ()</code> means <em>impure</em>”, isn’t it?</p>
 <p>For example, if pure = ref.transparent + no side effects <a href="https://en.wikipedia.org/wiki/Pure_function">(a definition from the wiki)</a>, then <code>fakeIO = return () :: IO ()</code> - does not it qualify as pure, even though its type is <code>IO ()</code>? It has no side effects, it always return the same value, it is, presumably, ref.transparent.</p>
 <p>If <code>readLn</code> is obviously <em>impure</em>, is not <code>putStrLn "Hello"</code>, in a sense, pure? I guess it’s <em>impure</em>, since it can be printed in different ways (via various output devices), is it why it’s <em>impure</em>? It always returns the same value and its side effect seems limited by printing - can impurity of putStrLn lead to rocket launch from a Moon-base somehow?</p>
 <p><strong>MarcelineVQ</strong>: IO is pure, you’ll be happy to know. The difference between <code>f :: String</code> and <code>f :: IO String</code> is that the first is a value of String and the second is an action that may result in a <code>String</code> when executed, haskell separates evaluation and execution, so both of these things are as pure as any other Haskell value in your code. <code>getLine :: IO String</code> contains a <code>String</code> in the same way that <code>/bin/ls</code> contains a list of files.</p>
@@ -822,49 +906,6 @@ That’s in short. The whole story, however, is a little bit more complicated an
 <em>(getting off my train, headed to the airport bound for London for Haskell eXchange)</em><br />
 <br />
 <em>The communication ends here.</em></p>
-
-<img src="../images/null.png" 
-style="width:10px;height:10px;">
-]]></summary>
-</entry>
-<entry>
-    <title>A new revolutionary hybrid gameplay idea.</title>
-    <link href="madjestic.github.io/atom.xml/posts/2018-11-02-on-hybrid-singleplayer.html" />
-    <id>madjestic.github.io/atom.xml/posts/2018-11-02-on-hybrid-singleplayer.html</id>
-    <published>2018-11-02T00:00:00Z</published>
-    <updated>2018-11-02T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<!-- STYLESHEETS -->
-
-<style>
-img { 
-    width: 100%; 
-}
-</style>
-
-<!-- HEADER -->
-<div class="info">
-    Posted on November  2, 2018
-    
-</div>
-
-<!-- BODY -->
-<h4 id="an-idea-about-a-hybrid-singlemultiplayer-gameplay-system.">An idea about a hybrid single/multiplayer gameplay system.</h4>
-<p><br />
-<br />
-</p>
-<p><strong>гибридный мульти / сингл плейер.</strong></p>
-<p>Короче, космосим: у каждого игрока - свое дерево событий в пространстве-времени (4Д дерево, или 3Д деревo + рост). Такие деревйя событий (фактически версий реалжности) можно шарить по желанию.</p>
-<p>Т.е. ты можешь решить, что реальности каких-то игроков могут быть внедрены в твою, это тоже самое, что и мерж набора деревьев, в результате события, генерируемые другими игроками игроками сгенеруруют копии событий. Каждое событие имеет уникальный индентификатор, таким образом оно порождает свое дерево. Если событие становится недоступным в результате вмешательства, то и все порожденное им дерево становится недоступным.Т.е. это такой “непрямой” мультиплеер.</p>
-<p>Возможен вариант прямого мультиплеера, когда набор игроков “синхронизируются” в пространстве времени (например на основе наиболее старшей вселенной) и порождает свою ветку событий, которые в данном случае легко мержатся с имеющимися текущими деревьями событий участников.</p>
-<p>Легко можно представить, когда набор друзей шарят ветки между друг другом или напрямую, или непрямо (отложенно).</p>
-<p>Ну и это, имхо, идеальный мультиплеер для хикканов. Tаким образом синглплеер не нужно генерить искусственно, либо генерить можно, но ограниченно и не опасяться, что сингл - слишком искуственен и лишен пристутствия следов разумного вмешательства.</p>
-<p>Oпять же это решает проблему школоты, которая неизбежна в мультиплеере, что эквивалентно школоте в твоей вселенной.</p>
-<p><img src="../images/my_image.png" /><br />
-<br />
-</p>
-<p><a href="https://ref_link_addres">ref name</a><br />
-My Text<br />
-previous: <a href="../posts/previous_post_name.html">Previous Post</a></p>
 
 <img src="../images/null.png" 
 style="width:10px;height:10px;">

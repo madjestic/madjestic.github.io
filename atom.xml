@@ -10,7 +10,7 @@
     </author>
     <updated>2021-08-31T00:00:00Z</updated>
     <entry>
-    <title>Are Polymorphic Output Functions Possible?</title>
+    <title>Are Polymorphic Output Functions, given a concrete type, Possible?</title>
     <link href="madjestic.github.io/atom.xml/posts/2021-08-31-polymorphic.html" />
     <id>madjestic.github.io/atom.xml/posts/2021-08-31-polymorphic.html</id>
     <published>2021-08-31T00:00:00Z</published>
@@ -30,7 +30,7 @@ img {
 </div>
 
 <!-- BODY -->
-<h3 id="are-polymorphic-output-functions-possible">Are Polymorphic Output Functions Possible?</h3>
+<h3 id="are-polymorphic-output-functions-given-a-concrete-type-possible">Are Polymorphic Output Functions, given a concrete type, Possible?</h3>
 <p>Let’s consider the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">multi ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>multi <span class="st">&quot;Int&quot;</span>   <span class="ot">=</span> (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>)</span>
@@ -89,7 +89,7 @@ img {
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          <span class="co">-- the output be?</span></span></code></pre></div>
 <p>I hope that helps in case you ended up in a similar rabbit hole of haskell polymorphism.</p>
 <p><br />
-Special thanks to the contributors, whose questions and comments have provoked this post: Morrow, Xal, Ailrun the Corgi, OlexP</p>
+Special thanks to the contributors, whose questions and comments have provoked this post: OlexP, Morrow, Xal, Ailrun the Corgi</p>
 
 <img src="../images/null.png" 
 style="width:10px;height:10px;">

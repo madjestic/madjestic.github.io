@@ -101,11 +101,42 @@ img {
 <h2 id="post-post-modern-opengl-in-haskell">Post-Post Modern OpenGL in Haskell</h2>
 <p><br />
 <br />
-For a while my goal was to learn the basics of OpenGL, sufficient for following the <a href="http://www.cs.yale.edu/homes/hudak/SOE/">Haskell School of Expression</a> and just enough to cover the humble requirements of my theoretic graphics application. A side goal is to keep the code base as compact and modern as possible, but not avoiding completely the benefitsof using some syntactic sugar, convenience functions and wrappers, provided by some modern graphics frameworks.</p>
-<p>Why not using <a href="http://gloss.ouroborus.net/">GLOSS</a>, some, including myself a while ago, would ask? Though gloss seems to be maturing up and gaining momentum, it has a number of issues: 1) <a href="http://gloss.ouroborus.net/">GLOSS</a> is doing too much for what I need; 2) The code base of gloss was, last time I checked, together with all the dependencies that it is fetching, around 130MB. I feel that 130MB of various dependencies is too much for drawing simple shapes that I need. 3) Gloss is HUGE and has multiple dependencies, not all of which are well maintained and necessarily up to date, which may cause dependency conflicts in your code-base. That happened to me in the past, and I intend not to put myself in the same situation without a good reason any time soon.</p>
-<p>On the way towards this goal, I managed to get through first steps, thanks to <a href="http://www.arcadianvisions.com/blog/?p=388">Postmodern Haskell and OpenGL: Introducing vinyl-gl</a>, but there are a few problems with it: 1) Anthony’s code is relying on <a href="http://hackage.haskell.org/package/GLUT">GLUT</a>. The general consensus at the moment is that <a href="http://en.wikipedia.org/wiki/OpenGL_Utility_Toolkit">GLUT is a legacy package</a>, which contradicts my goal of keeping the code base fresh. 2) Anthony’s latest tutorial goals further digress from my goals by putting an accent on using Anthony’s personal <a href="http://hackage.haskell.org/package/vinyl-gl">vynil-gl</a> utility library. My goal is to learn OpenGL, not to use any personal utility libraries, unless it is necessary. 3) The tutorial is failing at the most crucial aspect of a tutorial: gradual increase of complexity – developing more complex examples, based on simpler examples. Instead, <a href="http://www.arcadianvisions.com/blog/?p=388">the second tutorial</a> seems to be disconnected from <a href="http://www.arcadianvisions.com/blog/?p=224">the first</a>. 4) Most important: due to outdated dependencies that Anthony is using in his code, none of his examples compile out of the box and require poking around, which is very frustrating when you hardly know what you are doing and don’t really know if it is your graphics card, or your code, or something else is broken.</p>
-<p>Hopefully that explains my decision to come up with my own set of examples and, possibly, turn in into a set of mini-tutorials, that some other adventurous soul may find useful in the future:</p>
-<p>Here’s the very first OpenGL Hello World in Haskell. It is using <a href="http://hackage.haskell.org/package/GLFW-b">GLFW-b</a> library as a odependency, instead of GLUT, for the reasons, mentioned above:</p>
+For a while my goal was to learn the basics of OpenGL, sufficient for following
+the <a href="http://www.cs.yale.edu/homes/hudak/SOE/">Haskell School of Expression</a> and just enough to cover the humble requirements
+of my theoretic graphics application. A side goal is to keep the code base
+as compact and modern as possible, but not avoiding completely the benefitsof using
+some syntactic sugar, convenience functions and wrappers, provided by
+some modern graphics frameworks.</p>
+<p>Why not using <a href="http://gloss.ouroborus.net/">GLOSS</a>, some, including myself a while ago, would ask? Though gloss
+seems to be maturing up and gaining momentum, it has a number of issues:
+1) <a href="http://gloss.ouroborus.net/">GLOSS</a> is doing too much for what I need;
+2) The code base of gloss was, last time I checked, together with all
+the dependencies that it is fetching, around 130MB. I feel that 130MB of various
+dependencies is too much for drawing simple shapes that I need.
+3) Gloss is HUGE and has multiple dependencies, not all of which are well
+maintained and necessarily up to date, which may cause dependency conflicts
+in your code-base. That happened to me in the past, and I intend not to put myself
+in the same situation without a good reason any time soon.</p>
+<p>On the way towards this goal, I managed to get through first steps, thanks to
+<a href="https://www.arcadianvisions.com/2013/introducing-vinyl-gl.html?theme=bootstrap_dark">Postmodern Haskell and OpenGL: Introducing vinyl-gl</a>, but there are a few
+problems with it:
+1) Anthony’s code is relying on <a href="http://hackage.haskell.org/package/GLUT">GLUT</a>. The general consensus at the moment is that
+<a href="http://en.wikipedia.org/wiki/OpenGL_Utility_Toolkit">GLUT is a legacy package</a>, which contradicts my goal of keeping the code base fresh.
+2) Anthony’s latest tutorial goals further digress from my goals by putting an
+accent on using Anthony’s personal <a href="http://hackage.haskell.org/package/vinyl-gl">vynil-gl</a> utility library. My goal is to
+learn OpenGL, not to use any personal utility libraries, unless it is necessary.
+3) The tutorial is failing at the most crucial aspect of a tutorial: gradual
+increase of complexity – developing more complex examples, based on simpler
+examples. Instead, <a href="https://www.arcadianvisions.com/2013/introducing-vinyl-gl.html">the second tutorial</a> seems to be disconnected from <a href="https://www.arcadianvisions.com/2011/modern-opengl-with-haskell.html">the first</a>.
+4) Most important: due to outdated dependencies that Anthony is using in his code,
+none of his examples compile out of the box and require poking around,
+which is very frustrating when you hardly know what you are doing and don’t
+really know if it is your graphics card, or your code, or something else is broken.</p>
+<p>Hopefully that explains my decision to come up with my own set of examples and,
+possibly, turn in into a set of mini-tutorials, that some other adventurous soul
+may find useful in the future:</p>
+<p>Here’s the very first OpenGL Hello World in Haskell. It is using <a href="http://hackage.haskell.org/package/GLFW-b">GLFW-b</a> library as a
+odependency, instead of GLUT, for the reasons, mentioned above:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.Rendering.OpenGL</span> <span class="kw">as</span> <span class="dt">GL</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Graphics.UI.GLFW</span> <span class="kw">as</span> <span class="dt">GLFW</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -126,11 +157,14 @@ For a while my goal was to learn the basics of OpenGL, sufficient for following 
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  GLFW.swapBuffers win</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  onDisplay win</span></code></pre></div>
 <p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a></p>
-<p>We will expand this example later with the following funcitonality: 1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized. 2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
+<p>We will expand this example later with the following funcitonality:
+1) A resize-window call back. That will make OpenGL to regenerate the window every time it is resized.
+2) Escape-key call back. That will allow the window to be closed, when Excape key is pressed.</p>
 <p>For now, signing off.</p>
 <p><img src="../images/tutorial00.png" /><br />
 <br />
-<a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a><br />
+<a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00">tutorial files on GitHub</a></p>
+<p><a href="https://github.com/madjestic/Haskell-OpenGL-Tutorial/tree/master/tutorial00-cabalized">cabal project on GitHub</a><br />
 next: <a href="../posts/2013-12-30-post-post-modern-opengl-in-haskell-2.html">Haskell OpenGL Tutorial: Resizing main window, key-events.</a></p>
 
 <img src="../images/null.png" style="width:10px;height:10px;">
